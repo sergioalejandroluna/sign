@@ -1,33 +1,42 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import 'react-table/react-table.css'
-import ReactTable from 'react-table'
 import Button from 'material-ui/Button';
-
+import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 const DocTable=({docs,onNew,onEdit,onDelete})=>{
   const columns=[
-    {Header:'Nombre', accessor:'name'},
-    {Header:'CC', accessor:'cc'},
-    {Header:'Acciones', accessor:'id', 
-      Cell: row=> (
-        <div>
-          <Button  className="edit" variant='raised' onClick={()=> onEdit(row.original) } >
-            Editar
-        </Button>
-        <Button  className="delete" variant='raised' onClick={()=> onDelete(row.original) } >
-          Borrar
-        </Button>
-        </div>)
-    }
+    { name: 'name', title: 'Nombre' },
+    { name: 'cc', title: 'CC' },
   ]
-  
+
+  const commitChanges=({ added, changed, deleted }) =>{ 
+    console.log(deleted)
+  }
+
   return (
-    <div>
-      <ReactTable data={docs} columns={columns} defaultPageSize={ 5 } showPageSizeOptions={false}/>
-      <Button  variant='raised' color='primary' className="add_new" onClick={onNew} >
-        Nuevo
-      </Button>
-    </div>
+    <Table>
+        <TableHead>
+          <TableRow>
+            <TableCell> <Button onClick={onNew} color="primary"> Nuevo </Button> </TableCell>
+            <TableCell numeric>Nombre</TableCell>
+            <TableCell numeric>CC</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {docs.map(d => {
+            return (
+              <TableRow key={d.id}>
+                <TableCell> 
+                  <Button onClick={()=>onEdit(d)} color="primary"> Editar </Button>
+                  <Button onClick={()=>onDelete(d)} color="secondary" > Borrar </Button>
+              </TableCell>
+                <TableCell numeric>{d.name}</TableCell>
+                <TableCell numeric>{d.cc}</TableCell>
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
   )
 }
 DocTable.propTypes={

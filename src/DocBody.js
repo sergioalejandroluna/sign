@@ -170,7 +170,6 @@ class DocBody extends React.Component {
 
   renderEditor = () => {
     return (
-      <div className="editor">
         <Editor
           placeholder="Enter some rich text..."
           value={this.state.value}
@@ -181,7 +180,6 @@ class DocBody extends React.Component {
           plugins={this.plugins}
           spellCheck
         />
-      </div>
     )
   }
 
