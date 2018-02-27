@@ -5,7 +5,7 @@ class DocStore{
   @observable docs=[];
 
   constructor(){
-    this.docs=initialState;
+    this.docs=initialState.docs;
   }
   getDoc(id){
     let foundIndex=this.docs.findIndex(x=>x.id===id)
@@ -13,7 +13,7 @@ class DocStore{
       return null;
     return this.docs[foundIndex];
   }
-  @computed addDoc(){
+  addDoc(){
     let init= initialDoc()
     init.id=this.docs.length+1
     this.docs=[...this.docs,init]
@@ -25,6 +25,10 @@ class DocStore{
     this.docs[foundIndex]=doc
   }
 
+   getDocs(){
+    return this.docs;
+  }
+
   changeDocField(id,field,value){
     let doc=getDoc(id)  
     doc[field]=value
@@ -32,4 +36,4 @@ class DocStore{
   }
 
 }
-exports default DocStore;
+export default DocStore;

@@ -1,8 +1,8 @@
 import React from 'react';
-import DocTable from './DocTable';
-import DocEditor from './DocEditor';
+import Layout from '../components/Layout';
 import ReactDOM from 'react-dom';
-import {render,shallow,mount} from 'enzyme';
+import {shallow} from 'enzyme';
+import { Route, Switch  } from 'react-router-dom';
 import App from './App';
 
 it('renders without crashing', () => {
@@ -11,15 +11,11 @@ it('renders without crashing', () => {
   ReactDOM.unmountComponentAtNode(div);
 });
 
-it('should have a a table by default', function() {
+it('should have the layout', function() {
   const wrapper= shallow(<App />);
-  expect(wrapper.find(DocTable).length).toBe(1);
+  expect(wrapper.find(Layout).length).toBe(1);
 });
-it('should  delete docs', function() {
-  const wrapper= mount(<App />);
-  const initialDocs=[ ...wrapper.state('docs') ];
-  wrapper.find('button.delete').hostNodes().last().simulate('click');
-  const endDocs=wrapper.state('docs');
-  initialDocs.pop();
-  expect(endDocs).toEqual(initialDocs);
+it('should have 3 routes', function() {
+  const wrapper= shallow(<App />);
+  expect(wrapper.find(Route).length).toBe(3);
 });

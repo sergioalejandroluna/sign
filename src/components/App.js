@@ -4,6 +4,8 @@ import DocTable from '../containers/DocTable';
 import HomePage from '../containers/HomePage';
 import DocEditor from '../containers/DocEditor';
 import initialState, {initialDoc} from '../stores/initialState';
+import { BrowserRouter } from 'react-router-dom'
+import Layout from '../components/Layout';
 
 class App extends Component {
   constructor(props){
@@ -13,21 +15,25 @@ class App extends Component {
 
   render(){
     return(  
-      <Switch>
-        <Route path="/folios" render={props=> (
-          <DocTable 
-            {...props}
-            docs={this.state.docs}  
-            onNew={this.newDoc} 
-            onEdit={this.editDoc} 
-            onDelete={this.deleteDoc}/> )} />
-        <Route path="/folio/:id?" render={props=>(
-          <DocEditor 
-            {...props}
-            doc={this.state.doc} 
-            onChange={this.onFieldChange} />)} />
-        <Route path="/" component={HomePage}/>
-      </Switch>
+      <BrowserRouter>
+        <Layout> 
+          <Switch>
+            <Route path="/folios" render={props=> (
+              <DocTable 
+                {...props}
+                docs={this.state.docs}  
+                onNew={this.newDoc} 
+                onEdit={this.editDoc} 
+                onDelete={this.deleteDoc}/> )} />
+            <Route path="/folio/:id?" render={props=>(
+              <DocEditor 
+                {...props}
+                doc={this.state.doc} 
+                onChange={this.onFieldChange} />)} />
+            <Route path="/" component={HomePage}/>
+          </Switch>
+        </Layout> 
+      </BrowserRouter>
     )
   }
 
