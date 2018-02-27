@@ -8,6 +8,9 @@ import { isKeyHotkey } from 'is-hotkey'
 import Button from 'material-ui/Button';
 import { FormatBold, FormatItalic, Code,FormatUnderlined,
   FormatQuote, FormatListNumbered, FormatListBulleted,LooksTwo,LooksOne} from 'material-ui-icons'
+import {docStore} from '../stores/DocStore';
+import { observer } from 'mobx-react';
+import { Value } from 'slate'
 const DEFAULT_NODE = 'paragraph'
 
 const isBoldHotkey = isKeyHotkey('mod+b')
@@ -15,18 +18,26 @@ const isItalicHotkey = isKeyHotkey('mod+i')
 const isUnderlinedHotkey = isKeyHotkey('mod+u')
 const isCodeHotkey = isKeyHotkey('mod+`')
 
-
+@observer
 class DocBody extends React.Component {
 
-  state = {
-    value: this.props.doc.body,
+  constructor(props){
+    super(props)
+    let val= props.doc.body;
+    if (!(val instanceof Value))
+      val=props.doc.body.target.value
+    this.state = {
+      value: val,
+      id: props.doc.id
+    }
+    this.plugins = [
+      PasteLinkify({
+        type: 'link',
+        hrefProperty: 'url',
+        collapseTo: 'end'
+      })]
+
   }
-  plugins = [
-    PasteLinkify({
-      type: 'link',
-      hrefProperty: 'url',
-      collapseTo: 'end'
-    })]
 
   hasMark = type => {
     const { value } = this.state
@@ -42,7 +53,7 @@ class DocBody extends React.Component {
   onChange = ({ value }) => {
     this.setState({ value })
     let v={target:{value:value}}
-    this.props.onChange(v,this.props.doc,'body')
+    docStore.changeDocField(this.state.id,'body',v)
   }
 
 
@@ -169,16 +180,16 @@ class DocBody extends React.Component {
 
   renderEditor = () => {
     return (
-        <Editor
-          placeholder="Enter some rich text..."
-          value={this.state.value}
-          onChange={this.onChange}
-          onKeyDown={this.onKeyDown}
-          renderNode={this.renderNode}
-          renderMark={this.renderMark}
-          plugins={this.plugins}
-          spellCheck
-        />
+      <Editor
+        placeholder="Enter some rich text..."
+        value={this.state.value}
+        onChange={this.onChange}
+        onKeyDown={this.onKeyDown}
+        renderNode={this.renderNode}
+        renderMark={this.renderMark}
+        plugins={this.plugins}
+        spellCheck
+      />
     )
   }
 
@@ -223,6 +234,5 @@ class DocBody extends React.Component {
 
 DocBody.propTypes={
   doc: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
 }
 export default DocBody;

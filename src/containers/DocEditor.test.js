@@ -8,7 +8,7 @@ import Button from 'material-ui/Button';
 const mockDocs=initialState.docs;
 let onChange=()=>{}
 let onCancel=()=>{}
-const wrapper= shallow(<DocEditor doc={mockDocs[1]} onChange={onChange} onCancel={onCancel}  />);
+const wrapper= shallow(<DocEditor doc={mockDocs[1]} match={{params:{id:2}}}    />);
 it('should have 2 Fields', function() {
   expect(wrapper.find(Field).length).toBe(2);
 });

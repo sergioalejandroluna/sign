@@ -1,16 +1,18 @@
-import { mobx,observable,computed } from 'mobx'
+import { observable } from 'mobx'
 import initialState,{initialDoc} from './initialState'
 
 class DocStore{
-  @observable docs=[];
+  @observable docs=initialState.docs;
 
   constructor(){
     this.docs=initialState.docs;
   }
   getDoc(id){
+    if (id===undefined)
+      return this.docs.slice(-1)[0]
+    //cast to int
+    id=~~id
     let foundIndex=this.docs.findIndex(x=>x.id===id)
-    if(id==-1)
-      return null;
     return this.docs[foundIndex];
   }
   addDoc(){
@@ -25,15 +27,17 @@ class DocStore{
     this.docs[foundIndex]=doc
   }
 
-   getDocs(){
-    return this.docs;
+  changeDocField(id,field,value){
+    let doc=this.getDoc(id)  
+    doc[field]=value
+    this.setDoc(doc)
   }
 
-  changeDocField(id,field,value){
-    let doc=getDoc(id)  
-    doc[field]=value
-    setDoc(doc)
+  deleteDoc(id){
+    let foundIndex=this.docs.findIndex(x=>x.id===id)
+    this.docs.splice(foundIndex,1)
   }
 
 }
-export default DocStore;
+const docStore=new DocStore();
+export {docStore};
