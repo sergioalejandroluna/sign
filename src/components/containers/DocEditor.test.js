@@ -1,11 +1,11 @@
 import React from 'react';
-import DocHeader from './DocHeader';
-import DocFooter from './DocFooter';
+import DocHeader from '../DocHeader';
+import DocFooter from '../DocFooter';
 import {render,shallow} from 'enzyme';
 import DocEditor from './DocEditor';
-import initialState  from '../stores/initialState';
-import Field  from '../containers/Field';
-import DocBody from '../components/DocBody'
+import initialState  from '../../stores/initialState';
+import Field  from '../Field';
+import DocBody from '../DocBody'
 import Button from 'material-ui/Button';
 const mockDocs=initialState.docs;
 let onChange=()=>{}

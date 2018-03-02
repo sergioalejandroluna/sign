@@ -2,6 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import Field from './Field';
 import logo from '../logo.png';
+import DateClick from './DateClick'
 import {Grid, List, ListItem} from 'material-ui';
 const style={
   greeting:{
@@ -22,8 +23,11 @@ const DocHeader=({name,onNameChange,date,onDateChange})=>{
       <Grid item lg={11}  >
         <Grid container justify="flex-end" >
           <Grid item >
-            <Field onChange={onDateChange} name="Fecha" 
-              type="date"  value={date} validState={()=> true} />
+            <DateClick 
+              value={date} 
+              onChange={onDateChange}
+              beforeText='Chihuahua, Chih. , a '
+            /> 
           </Grid>
         </Grid>
       </Grid>
