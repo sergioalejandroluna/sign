@@ -11,7 +11,6 @@ const Field=({type,value,name,validState,onChange,helperText})=>{
       value={value}
       onChange={onChange}
       helperText={helperText}
-      fullWidth
     />
   )
 }

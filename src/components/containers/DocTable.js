@@ -1,11 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import 'react-table/react-table.css'
 import Button from 'material-ui/Button';
 import { Link } from 'react-router-dom';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import { observer } from 'mobx-react'
-import {docStore} from '../stores/DocStore'
+import {docStore} from '../../stores/DocStore';
 const DocTable=observer(()=>{
   return (
     <Table>

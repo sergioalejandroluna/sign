@@ -54,10 +54,9 @@
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
-    "start": "node scripts/start.js   ",
-    "cat": "node scripts/start.js | node scripts/test.js  --env=jsdom --reporters jest-nyan-reporter ",
+    "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js --env=jsdom"
+    "test": "node scripts/test.js --env=jsdom --watchAll"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -71,6 +70,11 @@
   "jest": {
     "collectCoverageFrom": [
       "src/**/*.{js,jsx,mjs}"
+    ],
+    "reporters": [
+      ["jest-nyan-reporter", {
+        "suppressErrorReporter": false
+      }]
     ],
     "setupFiles": [
       "<rootDir>/config/polyfills.js"
@@ -107,7 +111,9 @@
     "presets": [
       "react-app"
     ],
-  "plugins": ["transform-decorators-legacy"]
+    "plugins": [
+      "transform-decorators-legacy"
+    ]
   },
   "eslintConfig": {
     "extends": "react-app"

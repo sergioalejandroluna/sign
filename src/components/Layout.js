@@ -12,7 +12,7 @@ import MenuIcon from 'material-ui-icons/Menu';
 import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
 import ChevronRightIcon from 'material-ui-icons/ChevronRight';
 import withWidth from 'material-ui/utils/withWidth';
-import { mailFolderListItems} from '../containers/SideMenuItems';
+import { mailFolderListItems} from './SideMenuItems';
 
 const drawerWidth = 240;
 

@@ -1,11 +1,10 @@
 
 import React from 'react'
 import PropTypes from 'prop-types'
-import 'react-table/react-table.css'
 import { Editor } from 'slate-react'
 import PasteLinkify from 'slate-paste-linkify'
 import { isKeyHotkey } from 'is-hotkey'
-import Button from 'material-ui/Button';
+import { Grid, Button } from 'material-ui';
 import { FormatBold, FormatItalic, Code,FormatUnderlined,
   FormatQuote, FormatListNumbered, FormatListBulleted,LooksTwo,LooksOne} from 'material-ui-icons'
 import {docStore} from '../stores/DocStore';
@@ -131,16 +130,16 @@ class DocBody extends React.Component {
 
   render() {
     return (
-      <div>
+      <Grid container  >
         {this.renderToolbar()}
         {this.renderEditor()}
-      </div>
+      </Grid>
     )
   }
 
   renderToolbar = () => {
     return (
-      <div className="menu toolbar-menu">
+      <Grid container justify="center" direction='row'  >
         {this.renderMarkButton('bold',<FormatBold />)}
         {this.renderMarkButton('italic',<FormatItalic />)}
         {this.renderMarkButton('underlined',<FormatUnderlined />)}
@@ -150,7 +149,7 @@ class DocBody extends React.Component {
         {this.renderBlockButton('block-quote',<FormatQuote />)}
         {this.renderBlockButton('numbered-list',<FormatListNumbered />)}
         {this.renderBlockButton('bulleted-list',<FormatListBulleted />)}
-      </div>
+      </Grid>
     )
   }
 
@@ -160,9 +159,12 @@ class DocBody extends React.Component {
 
     return (
     // eslint-disable-next-line react/jsx-no-bind
-      <Button onClick={onClick}>
-        {icon}
-      </Button>
+
+      <Grid item lg={1}>
+        <Button onClick={onClick}>
+          {icon}
+        </Button>
+      </Grid>
     )
   }
 
@@ -172,24 +174,28 @@ class DocBody extends React.Component {
 
     return (
     // eslint-disable-next-line react/jsx-no-bind
-      <Button onClick={onClick}>
-        {icon}
-      </Button>
+      <Grid item lg={1}>
+        <Button onClick={onClick}>
+          {icon}
+        </Button>
+      </Grid>
     )
   }
 
   renderEditor = () => {
     return (
-      <Editor
-        placeholder="Enter some rich text..."
-        value={this.state.value}
-        onChange={this.onChange}
-        onKeyDown={this.onKeyDown}
-        renderNode={this.renderNode}
-        renderMark={this.renderMark}
-        plugins={this.plugins}
-        spellCheck
-      />
+      <Grid item lg={12}>
+        <Editor
+          placeholder="Cuerpo del documento"
+          value={this.state.value}
+          onChange={this.onChange}
+          onKeyDown={this.onKeyDown}
+          renderNode={this.renderNode}
+          renderMark={this.renderMark}
+          plugins={this.plugins}
+          spellCheck
+        />
+      </Grid>
     )
   }
 
