@@ -4,18 +4,26 @@ import PropTypes from 'prop-types'
 import { Editor } from 'slate-react'
 import PasteLinkify from 'slate-paste-linkify'
 import { isKeyHotkey } from 'is-hotkey'
-import { Grid, Button } from 'material-ui';
+import { Grid, Button, withStyles  } from 'material-ui';
 import { FormatBold, FormatItalic, Code,FormatUnderlined,
   FormatQuote, FormatListNumbered, FormatListBulleted,LooksTwo,LooksOne} from 'material-ui-icons'
 import {docStore} from '../stores/DocStore';
 import { observer } from 'mobx-react';
 import { Value } from 'slate'
-const DEFAULT_NODE = 'paragraph'
 
+const DEFAULT_NODE = 'paragraph'
 const isBoldHotkey = isKeyHotkey('mod+b')
 const isItalicHotkey = isKeyHotkey('mod+i')
 const isUnderlinedHotkey = isKeyHotkey('mod+u')
 const isCodeHotkey = isKeyHotkey('mod+`')
+const styles = theme => ({
+
+  root:{
+    border: '1px solid '+theme.palette.grey[400],
+    marginTop: '20px',
+    marginBottom: '20px',
+  }
+})
 
 @observer
 class DocBody extends React.Component {
@@ -27,7 +35,7 @@ class DocBody extends React.Component {
       val=props.doc.body.target.value
     this.state = {
       value: val,
-      id: props.doc.id
+      id: props.doc.id,
     }
     this.plugins = [
       PasteLinkify({
@@ -130,28 +138,29 @@ class DocBody extends React.Component {
 
   render() {
     return (
-      <Grid container  >
-        {this.renderToolbar()}
+      <Grid container className={this.props.classes.root}  >
         {this.renderEditor()}
+        {this.renderToolbar()}
       </Grid>
     )
   }
 
   renderToolbar = () => {
-    return (
-      <Grid container justify="center" direction='row'  >
-        {this.renderMarkButton('bold',<FormatBold />)}
-        {this.renderMarkButton('italic',<FormatItalic />)}
-        {this.renderMarkButton('underlined',<FormatUnderlined />)}
-        {this.renderMarkButton('code',<Code />)}
-        {this.renderBlockButton('heading-one',<LooksOne />)}
-        {this.renderBlockButton('heading-two',<LooksTwo />)}
-        {this.renderBlockButton('block-quote',<FormatQuote />)}
-        {this.renderBlockButton('numbered-list',<FormatListNumbered />)}
-        {this.renderBlockButton('bulleted-list',<FormatListBulleted />)}
-      </Grid>
-    )
+      return (
+        <Grid container justify="center" direction='row'  >
+          {this.renderMarkButton('bold',<FormatBold />)}
+          {this.renderMarkButton('italic',<FormatItalic />)}
+          {this.renderMarkButton('underlined',<FormatUnderlined />)}
+          {this.renderMarkButton('code',<Code />)}
+          {this.renderBlockButton('heading-one',<LooksOne />)}
+          {this.renderBlockButton('heading-two',<LooksTwo />)}
+          {this.renderBlockButton('block-quote',<FormatQuote />)}
+          {this.renderBlockButton('numbered-list',<FormatListNumbered />)}
+          {this.renderBlockButton('bulleted-list',<FormatListBulleted />)}
+        </Grid>
+      )
   }
+
 
   renderMarkButton = (type, icon) => {
     // const isActive = this.hasMark(type)
@@ -175,7 +184,7 @@ class DocBody extends React.Component {
     return (
     // eslint-disable-next-line react/jsx-no-bind
       <Grid item lg={1}>
-        <Button onClick={onClick}>
+        <Button onClick={onClick} onFocus={this.onFocus}>
           {icon}
         </Button>
       </Grid>
@@ -193,7 +202,6 @@ class DocBody extends React.Component {
           renderNode={this.renderNode}
           renderMark={this.renderMark}
           plugins={this.plugins}
-          spellCheck
         />
       </Grid>
     )
@@ -241,4 +249,4 @@ class DocBody extends React.Component {
 DocBody.propTypes={
   doc: PropTypes.object.isRequired,
 }
-export default DocBody;
+export default withStyles(styles, { withTheme: true })(DocBody);
