@@ -2,7 +2,7 @@
     font-weight: bold;
 }
 img.logo-doc{
-    width: 120px;
+    height: 180px;
 }
 div.greeting{
     padding-top: 40px ;
@@ -11,4 +11,7 @@ div.greeting{
 div.align-right input{ 
   text-align: right;
   padding-right: 4px;
+}
+svg{
+  width: 100%;
 }

@@ -1,30 +1,22 @@
-import { observable } from 'mobx'
-import initialState,{initialDoc} from './initialState'
+import BaseStore from './BaseStore'
+import {initialDoc} from './initialState'
 
-class DocStore{
-  @observable docs=initialState.docs;
+class DocStore extends BaseStore{
 
-  constructor(){
-    this.docs=initialState.docs;
+  fetchDocs(){
+    return this.axios.get('/docs').catch(this.error)
   }
+
   getDoc(id){
-    if (id===undefined)
-      return this.docs.slice(-1)[0]
-    //cast to int
-    id=~~id
-    let foundIndex=this.docs.findIndex(x=>x.id===id)
-    return this.docs[foundIndex];
+    return this.axios.get('/docs/'+id).catch(this.error)
   }
-  addDoc(){
-    let init= initialDoc()
-    init.id=this.docs.length+1
-    this.docs=[...this.docs,init]
-    return init;
+
+  addDoc(doc){
+    return this.axios.post('/docs',doc ).catch(this.error)
   }
 
   setDoc(doc){
-    let foundIndex=this.docs.findIndex(x=>x.id===doc.id)
-    this.docs[foundIndex]=doc
+    return this.axios.put('/docs/'+doc.id,doc ).catch(this.error)
   }
 
   changeDocField(id,field,value){
@@ -34,10 +26,8 @@ class DocStore{
   }
 
   deleteDoc(id){
-    let foundIndex=this.docs.findIndex(x=>x.id===id)
-    this.docs.splice(foundIndex,1)
+    return this.axios.delete('/docs/'+id )
   }
 
 }
-const docStore=new DocStore();
-export {docStore};
+export default (new DocStore())

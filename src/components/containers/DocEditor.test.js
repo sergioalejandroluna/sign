@@ -1,16 +1,17 @@
 import React from 'react';
 import DocHeader from '../DocHeader';
 import DocFooter from '../DocFooter';
-import {render,shallow} from 'enzyme';
+import {shallow} from 'enzyme';
 import DocEditor from './DocEditor';
-import initialState  from '../../stores/initialState';
 import Field  from '../Field';
 import DocBody from '../DocBody'
 import Button from 'material-ui/Button';
-const mockDocs=initialState.docs;
+import db from '../../db.js'
+const mockDocs=db().docs;
 let onChange=()=>{}
 let onCancel=()=>{}
-const wrapper= shallow(<DocEditor doc={mockDocs[1]} match={{params:{id:2}}}    />);
+const wrapper= shallow(<DocEditor  match={{params:{id:2}}}    />);
+wrapper.setState({doc:mockDocs[1],isLoaded:true})
 it('should have a body', function() {
   expect(wrapper.find(DocBody).length).toBe(1);
 });

@@ -1,5 +1,5 @@
 import React from 'react';
-import {shallow} from 'enzyme';
+import {mount} from 'enzyme';
 import DateClick  from './DateClick'
 import { TextField,Button } from 'material-ui';
 const dateOpt={  year: 'numeric', month: 'long', day: 'numeric' };
@@ -17,7 +17,7 @@ const change=e=>{
   value=e.target.value
 }
 
-const wrapper= shallow(<DateClick value={value} onChange={change} beforeText={beforeText}  />)
+const wrapper= mount(<DateClick value={value} onChange={change} beforeText={beforeText}  />)
 it('should have a date text by default', function() {
   expect(wrapper.find(TextField).props().value).toBe(finalText());
 });

@@ -4,38 +4,56 @@ import Button from 'material-ui/Button';
 import { Link } from 'react-router-dom';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
 import { observer } from 'mobx-react'
-import {docStore} from '../../stores/DocStore';
-const DocTable=observer(()=>{
-  return (
-    <Table>
+import DocStore from '../../stores/DocStore';
+class DocTable extends React.Component{
+  state={docs:[],isLoaded:false}
+  componentDidMount(){
+    DocStore.fetchDocs().then(r=>{
+      this.setState({docs:r.data,isLoaded:true})
+    });
+  }
+
+  onDelete=(id)=>{
+  }
+
+  render(){
+    return (
+      <Table>
         <TableHead>
           <TableRow>
-            <TableCell> <Button onClick={()=> docStore.addDoc()} component={Link} to={'/folio'}  color="primary"> Nuevo </Button> </TableCell>
-            <TableCell numeric>Nombre</TableCell>
+            <TableCell> 
+              <Button onClick={()=> this.onDelete()} component={Link} to={'/folio'}  color="primary"> Nuevo </Button> 
+            </TableCell>
+            <TableCell numeric>Folio</TableCell>
             <TableCell numeric>CC</TableCell>
           </TableRow>
         </TableHead>
+        {this.renderBody()}
+      </Table>
+    )
+  }
+
+  renderBody(){
+    if(this.state.isLoaded)
+      return (
         <TableBody>
-          {docStore.docs.map(d => {
+          {this.state.docs.map(d => {
             return (
               <TableRow key={d.id}>
                 <TableCell> 
                   <Button component={Link} to={'/folio/'+d.id}   color="primary"> Editar </Button>
-                  <Button onClick={()=>docStore.deleteDoc(d)} color="secondary" > Borrar </Button>
-              </TableCell>
-                <TableCell numeric>{d.name}</TableCell>
-                <TableCell numeric>{d.cc}</TableCell>
+                  <Button onClick={()=>this.onDelete} color="secondary" > Borrar </Button>
+                </TableCell>
+                <TableCell numeric>{d.folio}</TableCell>
+                <TableCell numeric>{d.to.email}</TableCell>
               </TableRow>
             );
           })}
         </TableBody>
-      </Table>
-  )
-})
+      );
+    return(<span>Cargando</span>)
+  }
+}
 DocTable.propTypes={
-  docs: PropTypes.array.isRequired,
-  onNew: PropTypes.func.isRequired,
-  onEdit: PropTypes.func.isRequired,
-  onDelete: PropTypes.func.isRequired,
 }
 export default DocTable;

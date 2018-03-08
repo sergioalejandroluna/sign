@@ -7,7 +7,6 @@ import { isKeyHotkey } from 'is-hotkey'
 import { Grid, Button, withStyles  } from 'material-ui';
 import { FormatBold, FormatItalic, Code,FormatUnderlined,
   FormatQuote, FormatListNumbered, FormatListBulleted,LooksTwo,LooksOne} from 'material-ui-icons'
-import {docStore} from '../stores/DocStore';
 import { observer } from 'mobx-react';
 import { Value } from 'slate'
 
@@ -32,7 +31,7 @@ class DocBody extends React.Component {
     super(props)
     let val= props.doc.body;
     if (!(val instanceof Value))
-      val=props.doc.body.target.value
+      val=Value.fromJSON(props.doc.body)
     this.state = {
       value: val,
       id: props.doc.id,
@@ -60,7 +59,6 @@ class DocBody extends React.Component {
   onChange = ({ value }) => {
     this.setState({ value })
     let v={target:{value:value}}
-    docStore.changeDocField(this.state.id,'body',v)
   }
 
 
