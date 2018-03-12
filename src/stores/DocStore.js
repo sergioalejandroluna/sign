@@ -1,5 +1,4 @@
 import BaseStore from './BaseStore'
-import {initialDoc} from './initialState'
 
 class DocStore extends BaseStore{
 

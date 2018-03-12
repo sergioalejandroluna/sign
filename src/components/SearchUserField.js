@@ -66,25 +66,6 @@ function getSuggestionValue(guy) {
   return guy.name.full
 }
 
-function getSuggestions(value,suggestions) {
-  const inputValue = value.trim().toLowerCase();
-  const inputLength = inputValue.length;
-  let count = 0;
-
-  return inputLength === 0
-    ? []
-    : suggestions.filter(suggestion => {
-      const keep =
-        count < 5 && suggestion.label.toLowerCase().slice(0, inputLength) === inputValue;
-
-      if (keep) {
-        count += 1;
-      }
-
-      return keep;
-    });
-}
-
 const styles = theme => ({
   container: {
     flexGrow: 1,
@@ -110,7 +91,7 @@ const styles = theme => ({
   }
 });
 
-class AutosuggestField extends React.Component {
+class SearchUserField extends React.Component {
 
   constructor(props){
     super(props)
@@ -197,7 +178,9 @@ class AutosuggestField extends React.Component {
   }
 }
 
-AutosuggestField.propTypes = {
+SearchUserField.propTypes = {
+  to: PropTypes.object.isRequired,
+  onChange: PropTypes.func.isRequired,
 };
 
-export default withStyles(styles)(AutosuggestField);
+export default withStyles(styles)(SearchUserField);

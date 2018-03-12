@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import logo from '../logo.svg';
 import DateClick from './DateClick'
-import AutosuggestField from './AutosuggestField'
+import SearchUserField from './SearchUserField'
 import {Grid, TextField } from 'material-ui';
 
 const DocHeader=({doc,onFolioChange,onDateChange,onToChange})=>{
@@ -34,7 +34,7 @@ const DocHeader=({doc,onFolioChange,onDateChange,onToChange})=>{
       </Grid>
       <Grid container  justify="flex-start" direction="column" className='greeting bold'  >
         <Grid item lg={7} >
-          <Grid item ><AutosuggestField to={to} onChange={onToChange}  /></Grid>
+          <Grid item ><SearchUserField to={to} onChange={onToChange}  /></Grid>
           <Grid item >{to.job_title}</Grid>
           <Grid item >{to.institution}</Grid>
           <Grid item >Presente</Grid>
