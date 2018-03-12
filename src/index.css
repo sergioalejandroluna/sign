@@ -1,5 +1,5 @@
 .bold {
-    font-weight: bold;
+    font-weight: bold !important;
 }
 img.logo-doc{
     height: 180px;

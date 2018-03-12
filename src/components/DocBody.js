@@ -7,7 +7,6 @@ import { isKeyHotkey } from 'is-hotkey'
 import { Grid, Button, withStyles  } from 'material-ui';
 import { FormatBold, FormatItalic, Code,FormatUnderlined,
   FormatQuote, FormatListNumbered, FormatListBulleted,LooksTwo,LooksOne} from 'material-ui-icons'
-import { observer } from 'mobx-react';
 import { Value } from 'slate'
 
 const DEFAULT_NODE = 'paragraph'
@@ -24,7 +23,6 @@ const styles = theme => ({
   }
 })
 
-@observer
 class DocBody extends React.Component {
 
   constructor(props){
@@ -58,7 +56,7 @@ class DocBody extends React.Component {
 
   onChange = ({ value }) => {
     this.setState({ value })
-    let v={target:{value:value}}
+    this.props.onChange('body',value)
   }
 
 

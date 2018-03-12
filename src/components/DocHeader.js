@@ -5,9 +5,10 @@ import DateClick from './DateClick'
 import AutosuggestField from './AutosuggestField'
 import {Grid, TextField } from 'material-ui';
 
-const DocHeader=({name,onNameChange,date,onDateChange,to})=>{
+const DocHeader=({doc,onFolioChange,onDateChange,onToChange})=>{
+  const to=doc.to
   return (
-    <Grid container  alignItems="flex-end" >
+    <Grid container spacing={0} alignItems="flex-end" >
       <Grid item lg={1}  >
         <Grid container justify='flex-start'><img src={logo} alt="logo" className='logo-doc' /></Grid>
       </Grid>
@@ -16,7 +17,7 @@ const DocHeader=({name,onNameChange,date,onDateChange,to})=>{
           <Grid container justify="flex-end">
             <Grid item lg={3} >
               <DateClick 
-                value={date} 
+                value={doc.date} 
                 onChange={onDateChange}
                 beforeText='Chihuahua, Chih., a '
               /> 
@@ -24,17 +25,16 @@ const DocHeader=({name,onNameChange,date,onDateChange,to})=>{
           </Grid>
           <Grid item lg={3} >
             <TextField 
-              value={name} 
-              onChange={onNameChange}
+              value={doc.folio} 
+              onChange={onFolioChange}
               className="align-right bold"
             /> 
           </Grid>
         </Grid>
       </Grid>
       <Grid container  justify="flex-start" direction="column" className='greeting bold'  >
-        <Grid item >
-          <Grid item ><AutosuggestField /></Grid>
-          <Grid item >{to.name.title} {to.name.full}</Grid>
+        <Grid item lg={7} >
+          <Grid item ><AutosuggestField to={to} onChange={onToChange}  /></Grid>
           <Grid item >{to.job_title}</Grid>
           <Grid item >{to.institution}</Grid>
           <Grid item >Presente</Grid>
@@ -44,10 +44,10 @@ const DocHeader=({name,onNameChange,date,onDateChange,to})=>{
   )
 }
 DocHeader.propTypes={
-  date: PropTypes.string.isRequired,
   onDateChange: PropTypes.func.isRequired,
-  name: PropTypes.string.isRequired,
-  onNameChange: PropTypes.func.isRequired,
+  doc: PropTypes.object.isRequired,
+  onFolioChange: PropTypes.func.isRequired,
+  onToChange: PropTypes.func.isRequired,
 }
 
 export default DocHeader;

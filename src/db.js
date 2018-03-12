@@ -13,7 +13,8 @@ const  users= [
     "job_title": "Coordinador de ventas",
     "institution": "Universidad Autónoma de Chihuahua",
     "username": "JoseLopez",
-    "email": "joselopez@hotmail.com"
+    "email": "joselopez@hotmail.com",
+    photo: "https://pbs.twimg.com/profile_images/450658558523506688/DFoezuQ3.jpeg"
   },
   {
     "id": 2,
@@ -24,7 +25,8 @@ const  users= [
     "job_title": "Cargar el anillo",
     "institution": "La comunidad del anillo",
     "username": "frodobolson",
-    "email": "frodobolson@bagend.com"
+    "email": "frodobolson@bagend.com",
+    photo: "https://cdn.costumewall.com/wp-content/uploads/2017/06/frodo-baggins.jpg"
   },
   {
     "id": 3,
@@ -35,7 +37,8 @@ const  users= [
     "job_title": "Profesor de quimica",
     "institution": "Supervisor pollos hermanos",
     "username": "walterwhite",
-    "email": "walterwithe@bluemeth.com"
+    "email": "walterwithe@bluemeth.com",
+    photo: "https://www.sideshowtoy.com/wp-content/uploads/2016/06/breaking-bad-walter-white-life-size-bust-supacraft-feature-902754.jpg"
   },
   {
     "id": 4,
@@ -46,7 +49,8 @@ const  users= [
     "job_title": "Jefe de psiquiatría",
     "institution": "Arkham",
     "username": "Hugo",
-    "email": "hugo@arkham.com"
+    "email": "hugo@arkham.com",
+    photo: "https://upload.wikimedia.org/wikipedia/en/thumb/c/cd/Hugo_Strange_Gotham.jpg/170px-Hugo_Strange_Gotham.jpg"
   },
   {
     "id": 5,
@@ -57,18 +61,20 @@ const  users= [
     "job_title": "Policía",
     "institution": "Departamento de policía de los Ángeles",
     "username": "deckard",
-    "email": "deckard@runner.com"
+    "email": "deckard@runner.com",
+    photo: "https://pbs.twimg.com/profile_images/414915565229076481/AZ3lCeHf_400x400.jpeg"
   },
   {
     "id": 6,
     "name":{
       "title": "The Witcher",
-      "full": "Gerald of Rivia"
+      "full": "Geralt of Rivia"
     },
     "job_title": "Maestro witcher",
     "institution": "Escuela del lobo",
     "username": "gerald",
-    "email": "gerald@roach.com"
+    "email": "gerald@roach.com",
+    photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeakMaTTPtsdL4U87Xv7IGftUmITqQBkndJRlvP3FklCjMtwcX"
   },
   {
     "id": 7,
@@ -79,18 +85,20 @@ const  users= [
     "job_title": "Special forces",
     "institution": "Global order",
     "username": "kvaks",
-    "email": "kvaks@sleeve.com"
+    "email": "kvaks@sleeve.com",
+    photo: "https://i.imgur.com/cb4dy0V.gif"
   },
   {
     "id": 8,
     "name":{
       "title": "PHD",
-      "full": "Marie Courie"
+      "full": "Marie Curie"
     },
     "job_title": "Catedrática de química",
     "institution": "Universidad de París",
     "username": "courie",
-    "email": "courie@rads.com"
+    "email": "curie@rads.com",
+    photo: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPC7j-2H-cTcBg63Xu5Fpp_ggw3S-HNz6sEOeXLco0poI2x1C4"
   },
   {
     "id": 9,
@@ -101,7 +109,8 @@ const  users= [
     "job_title": "Psiquiatría médica",
     "institution": "Arkham",
     "username": "quinn",
-    "email": "hquinn@arkham.com"
+    "email": "hquinn@arkham.com",
+    photo: "https://cdn.vox-cdn.com/thumbor/pHBJL8ahQkxp_a8oUINOlDQ62Pk=/0x0:1560x780/1200x800/filters:focal(693x266:941x514)/cdn.vox-cdn.com/uploads/chorus_image/image/57846439/harley.0.0.jpg"
   },
   {
     "id": 10,
@@ -112,7 +121,20 @@ const  users= [
     "job_title": "Coordinador General de Tecnologías de Información",
     "institution": "Universidad Autónoma de Chihuahua",
     "username": "miguellopez",
-    "email": "miguel@uach.mx"
+    "email": "miguel@uach.mx",
+    photo: "http://fing.uach.mx/facultad/2015/09/01/LopezSantillanMiguelAngel.JPG",
+  },
+  {
+    "id": 11,
+    "name":{
+      "title": "M.F.",
+      "full": "Manuel Alfonso Palicio Guevara"
+    },
+    "job_title": "Coordinador General de Tecnologías de Información",
+    "institution": "Universidad Autónoma de Chihuahua",
+    "username": "manuelAlfonoso",
+    "email": "manuel@uach.mx",
+    photo: "http://recursoshumanos.uach.mx/portal/2012/10/02/pic1.JPG",
   }
 ]
 const getRandom=(min,max)=>{

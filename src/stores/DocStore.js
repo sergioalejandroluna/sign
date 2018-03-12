@@ -25,7 +25,7 @@ class DocStore extends BaseStore{
     this.setDoc(doc)
   }
 
-  deleteDoc(id){
+  delete(id){
     return this.axios.delete('/docs/'+id )
   }
 

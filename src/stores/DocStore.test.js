@@ -15,7 +15,7 @@ it('should get a doc', function(done) {
   })
 })
 it('should delete a doc', function(done) {
-  DocStore.deleteDoc(3).then(r =>{
+  DocStore.delete(3).then(r =>{
     expect(r.status).toEqual(200)
     done();
   })

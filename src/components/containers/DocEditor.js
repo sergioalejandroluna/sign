@@ -6,12 +6,12 @@ import DocHeader from '../DocHeader';
 import DocFooter from '../DocFooter';
 import { Link } from 'react-router-dom';
 import DocStore from '../../stores/DocStore';
-import { observer } from 'mobx-react';
+import { debounce } from 'lodash'
 
 const style={paddingTop:'40px',
-  paddingLeft:'40px',
-  paddingRight:'40px',
-  paddingBottom: '40px'}
+  padding:'40px',
+  margin: '0px',
+  width: 'auto'}
 class  DocEditor extends React.Component{
   state={doc:{},isLoaded:false}
   componentDidMount(){
@@ -20,16 +20,16 @@ class  DocEditor extends React.Component{
       this.setState({doc:r.data,isLoaded:true})
     });
   }
+
+  save=debounce(()=>{
+    DocStore.setDoc(this.state.doc)
+  },500)
+
   render(){
     return (
-      <div>
         <Paper>
           {this.renderDoc()}
         </Paper>
-        <Button component={Link} to='/folios' variant='raised' color='primary' className="back"  >
-          Volver
-        </Button>
-      </div>
     )
   }
 
@@ -37,26 +37,39 @@ class  DocEditor extends React.Component{
     if (this.state.isLoaded){
       const doc=this.state.doc;
       return (
-        <Grid container space={24} style={style} >
+        <Grid container  style={style} >
           <DocHeader 
-            date={doc.date} 
             onDateChange={ (e)=>this.changeDocField('date',e.target.value) } 
-            onNameChange={ (e)=>this.changeDocField('folio',e.target.value)}
-            name={doc.folio}
-            to={doc.to}
+            onFolioChange={ (e)=>this.changeDocField('folio',e.target.value)}
+            doc={doc}
+            onToChange={ this.onToChange}
           />
-          <DocBody doc={doc}  />
+          <DocBody doc={doc} onChange={ this.changeDocField } />
           <DocFooter address={doc.address}  />
+        <Button component={Link} to='/folios' variant='raised' color='primary' className="back"  >
+          Volver
+        </Button>
         </Grid>
       )
     }
     else
-      return (<span>Cargando...</span>);
+      return (
+        <Grid container space={24} style={style} />
+      );
   }
   changeDocField=(field,value)=>{
-    let doc=this.state.doc
-    doc[field]=value
-    this.setState({doc:doc})
+    this.setState((prevState)=>{
+      prevState.doc[field]=value
+      return prevState
+    })
+    this.save()
+  }
+  onToChange=(to)=>{
+    this.setState((prevState)=>{
+      prevState.doc.to=to
+      return prevState
+    })
+    this.save()
   }
 }
 DocEditor.propTypes={

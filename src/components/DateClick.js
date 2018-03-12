@@ -1,9 +1,7 @@
 import React from 'react'
 import { TextField } from 'material-ui';
 import PropTypes from 'prop-types'
-import { observer } from 'mobx-react';
 const dateOpt={  year: 'numeric', month: 'long', day: 'numeric' };
-@observer
 class DateClick extends React.Component{
 
   state={editing:false}

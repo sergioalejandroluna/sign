@@ -5,45 +5,10 @@ import match from 'autosuggest-highlight/match';
 import parse from 'autosuggest-highlight/parse';
 import TextField from 'material-ui/TextField';
 import Paper from 'material-ui/Paper';
-import { MenuItem } from 'material-ui/Menu';
+import { MenuItem, InputAdornment, ListItemText, Avatar } from 'material-ui';
 import { withStyles } from 'material-ui/styles';
-
-const suggestions = [
-  { label: 'Afghanistan' },
-  { label: 'Aland Islands' },
-  { label: 'Albania' },
-  { label: 'Algeria' },
-  { label: 'American Samoa' },
-  { label: 'Andorra' },
-  { label: 'Angola' },
-  { label: 'Anguilla' },
-  { label: 'Antarctica' },
-  { label: 'Antigua and Barbuda' },
-  { label: 'Argentina' },
-  { label: 'Armenia' },
-  { label: 'Aruba' },
-  { label: 'Australia' },
-  { label: 'Austria' },
-  { label: 'Azerbaijan' },
-  { label: 'Bahamas' },
-  { label: 'Bahrain' },
-  { label: 'Bangladesh' },
-  { label: 'Barbados' },
-  { label: 'Belarus' },
-  { label: 'Belgium' },
-  { label: 'Belize' },
-  { label: 'Benin' },
-  { label: 'Bermuda' },
-  { label: 'Bhutan' },
-  { label: 'Bolivia, Plurinational State of' },
-  { label: 'Bonaire, Sint Eustatius and Saba' },
-  { label: 'Bosnia and Herzegovina' },
-  { label: 'Botswana' },
-  { label: 'Bouvet Island' },
-  { label: 'Brazil' },
-  { label: 'British Indian Ocean Territory' },
-  { label: 'Brunei Darussalam' },
-];
+import { debounce, find } from 'lodash'
+import UserStore from '../stores/UserStore';
 
 function renderInput(inputProps) {
   const { classes, ref, ...other } = inputProps;
@@ -63,24 +28,26 @@ function renderInput(inputProps) {
 }
 
 function renderSuggestion(suggestion, { query, isHighlighted }) {
-  const matches = match(suggestion.label, query);
-  const parts = parse(suggestion.label, matches);
+  const fullName=suggestion.name.full
+  const matches = match(fullName, query);
+  const parts = parse(fullName, matches);
 
   return (
     <MenuItem selected={isHighlighted} component="div">
-      <div>
-        {parts.map((part, index) => {
+   <Avatar src={suggestion.photo} alt="photo" /> 
+      <ListItemText 
+        primary={parts.map((part,i) => {
           return part.highlight ? (
-            <span key={String(index)} style={{ fontWeight: 300 }}>
+            <span key={String(i)} style={{ fontWeight: 500 }}>
               {part.text}
             </span>
           ) : (
-            <strong key={String(index)} style={{ fontWeight: 500 }}>
+            <strong key={String(i)} style={{ fontWeight: 300 }}>
               {part.text}
             </strong>
           );
-        })}
-      </div>
+      })}
+     secondary={suggestion.email} />
     </MenuItem>
   );
 }
@@ -95,11 +62,11 @@ function renderSuggestionsContainer(options) {
   );
 }
 
-function getSuggestionValue(suggestion) {
-  return suggestion.label;
+function getSuggestionValue(guy) {
+  return guy.name.full
 }
 
-function getSuggestions(value) {
+function getSuggestions(value,suggestions) {
   const inputValue = value.trim().toLowerCase();
   const inputLength = inputValue.length;
   let count = 0;
@@ -107,22 +74,21 @@ function getSuggestions(value) {
   return inputLength === 0
     ? []
     : suggestions.filter(suggestion => {
-        const keep =
-          count < 5 && suggestion.label.toLowerCase().slice(0, inputLength) === inputValue;
+      const keep =
+        count < 5 && suggestion.label.toLowerCase().slice(0, inputLength) === inputValue;
 
-        if (keep) {
-          count += 1;
-        }
+      if (keep) {
+        count += 1;
+      }
 
-        return keep;
-      });
+      return keep;
+    });
 }
 
 const styles = theme => ({
   container: {
     flexGrow: 1,
     position: 'relative',
-    height: 250,
   },
   suggestionsContainerOpen: {
     position: 'absolute',
@@ -139,23 +105,43 @@ const styles = theme => ({
     padding: 0,
     listStyleType: 'none',
   },
+  adornment:{
+    whiteSpace: 'nowrap',
+  }
 });
 
 class AutosuggestField extends React.Component {
-  state = {
-    value: '',
-    suggestions: [],
-  };
 
-  handleSuggestionsFetchRequested = ({ value }) => {
-    this.setState({
-      suggestions: getSuggestions(value),
-    });
-  };
+  constructor(props){
+    super(props)
+    this.state = {
+      value: props.to.name.full,
+      suggestions: [],
+    };
+  }
+
+  handleSuggestionsFetchRequested = debounce(({ value }) => {
+    UserStore.search(value).then(r=>{
+      this.setState({
+        suggestions: r.data,
+      });
+    })
+  },500);
+
+  onBlur=()=>{
+    let full=find(this.state.psugges,{ name:{full:this.state.value} })
+    if(full===undefined){
+      full=find(this.state.suggestions,{ name:{full:this.state.value} })
+      if(full===undefined)
+        this.setState({value:''})
+    }
+  }
 
   handleSuggestionsClearRequested = () => {
-    this.setState({
-      suggestions: [],
+    this.setState((prev)=>{
+      prev.psugges=prev.suggestions
+      prev.suggestions=[]
+      return prev
     });
   };
 
@@ -163,6 +149,14 @@ class AutosuggestField extends React.Component {
     this.setState({
       value: newValue,
     });
+  };
+
+  changeId = (event, { suggestion }) => {
+    this.setState({
+      id: suggestion.id,
+      title: suggestion.name.title
+    });
+    this.props.onChange(suggestion);
   };
 
   render() {
@@ -175,6 +169,7 @@ class AutosuggestField extends React.Component {
           suggestionsContainerOpen: classes.suggestionsContainerOpen,
           suggestionsList: classes.suggestionsList,
           suggestion: classes.suggestion,
+
         }}
         renderInputComponent={renderInput}
         suggestions={this.state.suggestions}
@@ -182,12 +177,20 @@ class AutosuggestField extends React.Component {
         onSuggestionsClearRequested={this.handleSuggestionsClearRequested}
         renderSuggestionsContainer={renderSuggestionsContainer}
         getSuggestionValue={getSuggestionValue}
+        onSuggestionSelected={this.changeId}
         renderSuggestion={renderSuggestion}
         inputProps={{
           classes,
-          placeholder: 'Search a country (start with a)',
+          placeholder: 'Buscar persona',
           value: this.state.value,
           onChange: this.handleChange,
+          onBlur: this.onBlur,
+          startAdornment: <InputAdornment classes={{ root: classes.adornment }} position="start">
+            <b>{this.props.to.name.title}</b>
+          </InputAdornment>,
+          endAdornment: <InputAdornment classes={{ root: classes.adornment }} position="end">
+            {this.props.to.email}
+          </InputAdornment>
         }}
       />
     );

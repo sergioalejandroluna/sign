@@ -1,9 +1,7 @@
 import React from 'react'
-import PropTypes from 'prop-types'
 import Button from 'material-ui/Button';
 import { Link } from 'react-router-dom';
 import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
-import { observer } from 'mobx-react'
 import DocStore from '../../stores/DocStore';
 class DocTable extends React.Component{
   state={docs:[],isLoaded:false}
@@ -14,6 +12,12 @@ class DocTable extends React.Component{
   }
 
   onDelete=(id)=>{
+    DocStore.delete(id).then(r=>{
+      let docs= [...this.state.docs]
+      let foundIndex=docs.findIndex(x=>x.id===id)
+      docs.splice(foundIndex,1)
+      this.setState({docs:docs})
+    })
   }
 
   render(){
@@ -42,7 +46,7 @@ class DocTable extends React.Component{
               <TableRow key={d.id}>
                 <TableCell> 
                   <Button component={Link} to={'/folio/'+d.id}   color="primary"> Editar </Button>
-                  <Button onClick={()=>this.onDelete} color="secondary" > Borrar </Button>
+                  <Button onClick={()=>this.onDelete(d.id)} color="secondary" > Borrar </Button>
                 </TableCell>
                 <TableCell numeric>{d.folio}</TableCell>
                 <TableCell numeric>{d.to.email}</TableCell>
@@ -51,9 +55,13 @@ class DocTable extends React.Component{
           })}
         </TableBody>
       );
-    return(<span>Cargando</span>)
+    // you need render something inside of the table body!!!!
+    return(<TableBody >
+              <TableRow >
+                <TableCell> 
+                </TableCell>
+              </TableRow>
+      </TableBody>)
   }
-}
-DocTable.propTypes={
 }
 export default DocTable;
