@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {Grid } from 'material-ui';
 
-const  DocFooter =({ address,from,classes})=>{
+const  DocFooter =({ address,from})=>{
 
   return (
     <Grid container >

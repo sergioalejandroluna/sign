@@ -179,7 +179,7 @@ const emptyUser={
     signature: ""
   }
 module.exports = () => {
-  return {users:users,login_user: login_user,docs:docs}
+  return {users:users,login_user: login_user,docs:docs, addresses: addresses}
 }
 module.exports.newDoc=()=>{
   return {date: (new Date()).toISOString().slice(0,10), folio: '', 
