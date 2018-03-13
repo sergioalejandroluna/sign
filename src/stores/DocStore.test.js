@@ -35,3 +35,38 @@ it('should edit a doc', function(done) {
     done();
   })
 })
+it('should just save a doc if it has folio and to whom', function(done) {
+  let doc=data.docs[1];
+  doc.folio=''
+  doc.to.job_title=''
+  DocStore.save(doc).then(r =>{
+    expect(r.data).toEqual(doc)
+    done();
+  })
+  doc=data.docs[1];
+  doc.folio='asdad'
+  doc.to.job_title=''
+  DocStore.save(doc).then(r =>{
+    expect(r.data).toEqual(doc)
+    done();
+  })
+  doc=data.docs[1];
+  doc.folio=''
+  doc.to.job_title='asdasd'
+  DocStore.save(doc).then(r =>{
+    expect(r.data).toEqual(doc)
+    done();
+  })
+})
+
+it('should add a doc if it has not had an id ', function(done) {
+  let doc=data.docs[1];
+  doc.id=undefined
+  doc.folio='sad'
+  doc.to.job_title='asdasd'
+  DocStore.save(doc).then(r =>{
+    expect(r.data.id).toEqual(data.docs.length+1)
+    done();
+    return DocStore.delete(r.data.id)
+  })
+})

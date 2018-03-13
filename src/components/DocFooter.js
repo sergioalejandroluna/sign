@@ -1,18 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import {Grid } from 'material-ui';
-import sign from '../sign-sample.png'
 
-const  DocFooter =({ address,classes})=>{
+const  DocFooter =({ address,from,classes})=>{
 
   return (
     <Grid container >
       <Grid container  >
-        <Grid item  className='bold'  >
+        <Grid item lg={4} className='bold'  >
           <Grid item>Atentamente</Grid>
-          <Grid item><img src={sign} alt="logo"  /></Grid>
-          <Grid item>M.F Manuel Alfonso Palicio Guevara</Grid>
-          <Grid item>Jefe departamento de bienes patrimoniales</Grid>
+          <Grid item><img src={from.signature} alt="sign" style={{ maxWidth: '100%' }}/></Grid>
+          <Grid item>{from.name.title+' '+from.name.full}</Grid>
+          <Grid item>{from.job_title}</Grid>
+          <Grid item>{from.institution}</Grid>
         </Grid>
       </Grid>
       <Grid container justify="flex-end"  >
@@ -29,5 +29,6 @@ const  DocFooter =({ address,classes})=>{
 }
 DocFooter.propTypes={
   address: PropTypes.object.isRequired,
+  from: PropTypes.object.isRequired,
 }
 export default DocFooter;

@@ -26,7 +26,7 @@ class DocTable extends React.Component{
         <TableHead>
           <TableRow>
             <TableCell> 
-              <Button onClick={()=> this.onDelete()} component={Link} to={'/folio'}  color="primary"> Nuevo </Button> 
+              <Button  component={Link} to={'/folio'}  color="primary"> Nuevo </Button> 
             </TableCell>
             <TableCell numeric>Folio</TableCell>
             <TableCell numeric>CC</TableCell>

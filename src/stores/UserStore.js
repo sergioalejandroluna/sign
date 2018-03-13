@@ -6,7 +6,16 @@ class UserStore extends BaseStore {
   }
 
   fetchLoginUser(){
-    return this.axios.get('/login_user').catch(this.error)
+    let current_user=this.getLocal('current_user')
+    if (current_user===null){
+      return this.axios.get('/login_user').then(r=>{
+        this.saveLocal('current_user',r.data)
+        return r.data
+      })
+    }
+    return new Promise((resolve,reject)=>{
+      resolve(current_user)
+    })
   }
   
   search(str){

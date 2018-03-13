@@ -7,11 +7,12 @@ import Field  from '../Field';
 import DocBody from '../DocBody'
 import Button from 'material-ui/Button';
 import db from '../../db.js'
-const mockDocs=db().docs;
+const data=db()
+const mockDocs=data.docs
 let onChange=()=>{}
 let onCancel=()=>{}
 const wrapper= shallow(<DocEditor  match={{params:{id:2}}}    />);
-wrapper.setState({doc:mockDocs[1],isLoaded:true})
+wrapper.setState({doc:mockDocs[1],isLoaded:true,current_user: data.users[3]})
 it('should have a body', function() {
   expect(wrapper.find(DocBody).length).toBe(1);
 });

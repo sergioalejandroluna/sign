@@ -3,7 +3,7 @@ import db from '../db.js'
 const data=db()
 it('should get current User', function(done) {
   UserStore.fetchLoginUser().then((r)=>{
-    expect(r.data).toEqual(data.login_user)
+    expect(r).toEqual(data.login_user)
     done();
   } );
 })

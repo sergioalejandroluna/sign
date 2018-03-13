@@ -8,6 +8,14 @@ class BaseStore  {
     });
   }
 
+  saveLocal(key,object){
+    localStorage.setItem(key, JSON.stringify(object));
+  }
+
+  getLocal(key){
+    return JSON.parse(localStorage.getItem(key))
+  }
+
   error(error) {
     console.error(error)
   }

@@ -22,14 +22,18 @@ class  DocEditor extends React.Component{
   }
 
   save=debounce(()=>{
-    DocStore.setDoc(this.state.doc)
+    const doc=this.state.doc
+    DocStore.save(doc).then(r=>{
+      this.setState({id:r.data.id})
+    })
+
   },500)
 
   render(){
     return (
-        <Paper>
-          {this.renderDoc()}
-        </Paper>
+      <Paper>
+        {this.renderDoc()}
+      </Paper>
     )
   }
 
@@ -45,10 +49,10 @@ class  DocEditor extends React.Component{
             onToChange={ this.onToChange}
           />
           <DocBody doc={doc} onChange={ this.changeDocField } />
-          <DocFooter address={doc.address}  />
-        <Button component={Link} to='/folios' variant='raised' color='primary' className="back"  >
-          Volver
-        </Button>
+          <DocFooter address={doc.address} from={doc.from}  />
+          <Button component={Link} to='/folios' variant='raised' color='primary' className="back"  >
+            Volver
+          </Button>
         </Grid>
       )
     }
