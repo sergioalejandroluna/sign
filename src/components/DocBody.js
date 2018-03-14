@@ -1,12 +1,14 @@
-
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Editor } from 'slate-react'
 import PasteLinkify from 'slate-paste-linkify'
+import PluginEditTable from 'slate-deep-table'
 import { isKeyHotkey } from 'is-hotkey'
-import { Grid, Button, withStyles  } from 'material-ui';
+import { Grid, Button, withStyles, Paper  } from 'material-ui';
 import { FormatBold, FormatItalic, Code,FormatUnderlined,
-  FormatQuote, FormatListNumbered, FormatListBulleted,InsertLink} from 'material-ui-icons'
+  FormatQuote, FormatListNumbered, 
+  FormatListBulleted,InsertLink, GridOn,
+  } from 'material-ui-icons'
 import { Value } from 'slate'
 
 const DEFAULT_NODE = 'paragraph'
@@ -35,6 +37,7 @@ function wrapLink(change, href) {
 function unwrapLink(change) {
   change.unwrapInline('link')
 }
+const tablePlugin = PluginEditTable();
 
 class DocBody extends React.Component {
 
@@ -52,7 +55,7 @@ class DocBody extends React.Component {
         type: 'link',
         hrefProperty: 'href',
         collapseTo: 'end'
-      })]
+      }), tablePlugin]
 
   }
 
@@ -95,20 +98,18 @@ class DocBody extends React.Component {
 
   hasLinks = () => {
     const { value } = this.state
-    return value.inlines.some(inline => inline.type == 'link')
+    return value.inlines.some(inline => inline.type === 'link')
   }
 
   onClickMark = (event, type) => {
     event.preventDefault()
-    if(type==='link'){
-      this.onClickLink(event)
-    }else{
-      const { value } = this.state
-      const change = value.change().toggleMark(type)
-      this.onChange(change)
-    }
+    const { value } = this.state
+    const change = value.change().toggleMark(type)
+    this.onChange(change)
   }
 
+
+  // TODO change the prompt for a proper material component
   onClickLink = event => {
     const { value } = this.state
     const hasLinks = this.hasLinks()
@@ -133,54 +134,75 @@ class DocBody extends React.Component {
 
   onClickBlock = (event, type) => {
     event.preventDefault()
-    const { value } = this.state
-    const change = value.change()
-    const { document } = value
 
-    // Handle everything but list buttons.
-    if (type !== 'bulleted-list' && type !== 'numbered-list') {
-      const isActive = this.hasBlock(type)
-      const isList = this.hasBlock('list-item')
+    if(type==='link'){
+      this.onClickLink(event)
+    }else{
+      const { value } = this.state
+      const change = value.change()
+      const { document } = value
+      // Handle everything but list buttons.
+      if (type !== 'bulleted-list' && type !== 'numbered-list') {
+        const isActive = this.hasBlock(type)
+        const isList = this.hasBlock('list-item')
 
-      if (isList) {
-        change
-          .setBlock(isActive ? DEFAULT_NODE : type)
-          .unwrapBlock('bulleted-list')
-          .unwrapBlock('numbered-list')
+        if (isList) {
+          change
+            .setBlock(isActive ? DEFAULT_NODE : type)
+            .unwrapBlock('bulleted-list')
+            .unwrapBlock('numbered-list')
+        } else {
+          change.setBlock(isActive ? DEFAULT_NODE : type)
+        }
       } else {
-        change.setBlock(isActive ? DEFAULT_NODE : type)
-      }
-    } else {
-      // Handle the extra wrapping required for list buttons.
-      const isList = this.hasBlock('list-item')
-      const isType = value.blocks.some(block => {
-        return !!document.getClosest(block.key, parent => parent.type === type)
-      })
+        // Handle the extra wrapping required for list buttons.
+        const isList = this.hasBlock('list-item')
+        const isType = value.blocks.some(block => {
+          return !!document.getClosest(block.key, parent => parent.type === type)
+        })
 
-      if (isList && isType) {
-        change
-          .setBlock(DEFAULT_NODE)
-          .unwrapBlock('bulleted-list')
-          .unwrapBlock('numbered-list')
-      } else if (isList) {
-        change
-          .unwrapBlock(
-            type === 'bulleted-list' ? 'numbered-list' : 'bulleted-list'
-          )
-          .wrapBlock(type)
-      } else {
-        change.setBlock('list-item').wrapBlock(type)
+        if (isList && isType) {
+          change
+            .setBlock(DEFAULT_NODE)
+            .unwrapBlock('bulleted-list')
+            .unwrapBlock('numbered-list')
+        } else if (isList) {
+          change
+            .unwrapBlock(
+              type === 'bulleted-list' ? 'numbered-list' : 'bulleted-list'
+            )
+            .wrapBlock(type)
+        } else {
+          change.setBlock('list-item').wrapBlock(type)
+        }
       }
+      this.onChange(change)
     }
 
-    this.onChange(change)
+  }
+
+  renderTableToolbar() {
+    return (
+      <Grid container justify="center" direction='row'  >
+        {this.renderTableButton('insert-row','insertar fila')}
+        {this.renderTableButton('insert-column','Insertar columna')}
+        {this.renderTableButton('remove-column','Borrar columna')}
+        {this.renderTableButton('remove-row','Borrar fila')}
+        {this.renderTableButton('remove-table','Borrar tabla')}
+      </Grid>
+    );
   }
 
   render() {
+    const { value } = this.state;
+    const isInTable = tablePlugin.utils.isSelectionInTable(value);
     return (
       <Grid container className={this.props.classes.root}  >
         {this.renderEditor()}
-        {this.renderToolbar()}
+        <Paper >
+          {isInTable ? this.renderTableToolbar() : null}
+          {this.renderToolbar()}
+        </Paper>
       </Grid>
     )
   }
@@ -192,43 +214,42 @@ class DocBody extends React.Component {
         {this.renderMarkButton('italic',<FormatItalic />)}
         {this.renderMarkButton('underlined',<FormatUnderlined />)}
         {this.renderMarkButton('code',<Code />)}
-        {this.renderMarkButton('link',<InsertLink />)}
+        {this.renderBlockButton('link',<InsertLink />)}
         {this.renderBlockButton('block-quote',<FormatQuote />)}
+        {this.renderTableButton('insert-table',<GridOn />)}
         {this.renderBlockButton('numbered-list',<FormatListNumbered />)}
         {this.renderBlockButton('bulleted-list',<FormatListBulleted />)}
       </Grid>
     )
+  }
+  renderTableButton = (type, icon) => {
+    const onClick = event => this.onClickTable(event, type)
+    return this.renderButton(onClick,icon)
   }
 
 
   renderMarkButton = (type, icon) => {
     // const isActive = this.hasMark(type)
     const onClick = event => this.onClickMark(event, type)
-
-    return (
-    // eslint-disable-next-line react/jsx-no-bind
-
-      <Grid item lg={1}>
-        <Button onClick={onClick}>
-          {icon}
-        </Button>
-      </Grid>
-    )
+    return this.renderButton(onClick,icon)
   }
 
   renderBlockButton = (type, icon) => {
     // const isActive = this.hasBlock(type)
     const onClick = event => this.onClickBlock(event, type)
-
+    return this.renderButton(onClick,icon)
+  }
+  renderButton = (onClick, icon) => {
     return (
     // eslint-disable-next-line react/jsx-no-bind
       <Grid item lg={1}>
-        <Button onClick={onClick} onFocus={this.onFocus}>
+        <Button onClick={onClick} >
           {icon}
         </Button>
       </Grid>
     )
   }
+
 
   renderEditor = () => {
     return (
@@ -248,17 +269,41 @@ class DocBody extends React.Component {
 
   renderNode = props => {
     const { attributes, children, node } = props
+    let textAlign;
     switch (node.type) {
       case 'link':
         return <a {...attributes} href={node.data.get('href')}>{children}</a>
       case 'block-quote':
-        return <blockquote {...attributes}>{children}</blockquote>
+        return <blockquote {...attributes}>"{children}"</blockquote>
       case 'bulleted-list':
         return <ul {...attributes}>{children}</ul>
       case 'list-item':
         return <li {...attributes}>{children}</li>
       case 'numbered-list':
         return <ol {...attributes}>{children}</ol>
+      case 'table':
+        return (
+          <table className="doc">
+            <tbody {...attributes}>{children}</tbody>
+          </table>
+        );
+      case 'table_row':
+        return <tr {...attributes}>{children}</tr>;
+      case 'table_cell':
+        textAlign = node.get('data').get('textAlign');
+        textAlign =
+          ['left', 'right', 'center'].indexOf(textAlign) === -1
+          ? 'left'
+          : textAlign;
+        return (
+          <td style={{ textAlign }} {...attributes}>
+            {children}
+          </td>
+        );
+      case 'paragraph':
+        return <p {...attributes}>{children}</p>;
+      case 'heading':
+        return <h1 {...attributes}>{children}</h1>;
       default :
         return null;
     }
@@ -279,6 +324,35 @@ class DocBody extends React.Component {
         return null;
     }
   }
+  onClickTable = (event, type) => {
+    event.preventDefault();
+    const { value } = this.state
+    let change = value.change()
+    switch (type) {
+      case 'insert-row': 
+        change=tablePlugin.changes.insertRow(change)
+        break
+      case 'insert-column': 
+        change=tablePlugin.changes.insertColumn(change)
+        break
+      case 'remove-column': 
+        change=tablePlugin.changes.removeColumn(change)
+        break
+      case 'remove-row': 
+        change=tablePlugin.changes.removeRow(change)
+        break
+      case 'insert-table': 
+        change=tablePlugin.changes.insertTable(change);
+        break
+      case 'remove-table': 
+        change=tablePlugin.changes.removeTable(change);
+        break
+      default :
+        break
+    }
+    this.onChange(change)
+  }
+
 }
 
 DocBody.propTypes={

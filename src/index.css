@@ -15,3 +15,36 @@ div.align-right input{
 svg{
   width: 100%;
 }
+table.doc {
+    width: 100%;
+    border-collapse: collapse;
+    border-top: 1px solid black;
+}
+
+table.doc tr {
+    border: none;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+table.doc tr:first-child {
+    background: #f5f5f5;
+    font-weight: bold;
+}
+
+table.doc td {
+    border: 1px solid black;
+    border-top: none;
+   border-bottom: none;
+   border-right: none;
+    flex: 1;
+    word-break: break-all;
+}
+
+p {
+ margin-top:0px;
+ margin-bottom:3px;
+}
