@@ -6,7 +6,7 @@ import PasteLinkify from 'slate-paste-linkify'
 import { isKeyHotkey } from 'is-hotkey'
 import { Grid, Button, withStyles  } from 'material-ui';
 import { FormatBold, FormatItalic, Code,FormatUnderlined,
-  FormatQuote, FormatListNumbered, FormatListBulleted,LooksTwo,LooksOne} from 'material-ui-icons'
+  FormatQuote, FormatListNumbered, FormatListBulleted,InsertLink} from 'material-ui-icons'
 import { Value } from 'slate'
 
 const DEFAULT_NODE = 'paragraph'
@@ -23,6 +23,19 @@ const styles = theme => ({
   }
 })
 
+function wrapLink(change, href) {
+  change.wrapInline({
+    type: 'link',
+    data: { href },
+  })
+
+  change.collapseToEnd()
+}
+
+function unwrapLink(change) {
+  change.unwrapInline('link')
+}
+
 class DocBody extends React.Component {
 
   constructor(props){
@@ -37,7 +50,7 @@ class DocBody extends React.Component {
     this.plugins = [
       PasteLinkify({
         type: 'link',
-        hrefProperty: 'url',
+        hrefProperty: 'href',
         collapseTo: 'end'
       })]
 
@@ -80,10 +93,41 @@ class DocBody extends React.Component {
     return true
   }
 
+  hasLinks = () => {
+    const { value } = this.state
+    return value.inlines.some(inline => inline.type == 'link')
+  }
+
   onClickMark = (event, type) => {
     event.preventDefault()
+    if(type==='link'){
+      this.onClickLink(event)
+    }else{
+      const { value } = this.state
+      const change = value.change().toggleMark(type)
+      this.onChange(change)
+    }
+  }
+
+  onClickLink = event => {
     const { value } = this.state
-    const change = value.change().toggleMark(type)
+    const hasLinks = this.hasLinks()
+    const change = value.change()
+
+    if (hasLinks) {
+      change.call(unwrapLink)
+    } else if (value.isExpanded) {
+      const href = window.prompt('Enter the URL of the link:')
+      change.call(wrapLink, href)
+    } else {
+      const href = window.prompt('Enter the URL of the link:')
+      const text = window.prompt('Enter the text for the link:')
+      change
+        .insertText(text)
+        .extend(0 - text.length)
+        .call(wrapLink, href)
+    }
+
     this.onChange(change)
   }
 
@@ -142,19 +186,18 @@ class DocBody extends React.Component {
   }
 
   renderToolbar = () => {
-      return (
-        <Grid container justify="center" direction='row'  >
-          {this.renderMarkButton('bold',<FormatBold />)}
-          {this.renderMarkButton('italic',<FormatItalic />)}
-          {this.renderMarkButton('underlined',<FormatUnderlined />)}
-          {this.renderMarkButton('code',<Code />)}
-          {this.renderBlockButton('heading-one',<LooksOne />)}
-          {this.renderBlockButton('heading-two',<LooksTwo />)}
-          {this.renderBlockButton('block-quote',<FormatQuote />)}
-          {this.renderBlockButton('numbered-list',<FormatListNumbered />)}
-          {this.renderBlockButton('bulleted-list',<FormatListBulleted />)}
-        </Grid>
-      )
+    return (
+      <Grid container justify="center" direction='row'  >
+        {this.renderMarkButton('bold',<FormatBold />)}
+        {this.renderMarkButton('italic',<FormatItalic />)}
+        {this.renderMarkButton('underlined',<FormatUnderlined />)}
+        {this.renderMarkButton('code',<Code />)}
+        {this.renderMarkButton('link',<InsertLink />)}
+        {this.renderBlockButton('block-quote',<FormatQuote />)}
+        {this.renderBlockButton('numbered-list',<FormatListNumbered />)}
+        {this.renderBlockButton('bulleted-list',<FormatListBulleted />)}
+      </Grid>
+    )
   }
 
 
@@ -207,15 +250,11 @@ class DocBody extends React.Component {
     const { attributes, children, node } = props
     switch (node.type) {
       case 'link':
-        return <a {...attributes} href={node.data.get('url')}>{children}</a>
+        return <a {...attributes} href={node.data.get('href')}>{children}</a>
       case 'block-quote':
         return <blockquote {...attributes}>{children}</blockquote>
       case 'bulleted-list':
         return <ul {...attributes}>{children}</ul>
-      case 'heading-one':
-        return <h1 {...attributes}>{children}</h1>
-      case 'heading-two':
-        return <h2 {...attributes}>{children}</h2>
       case 'list-item':
         return <li {...attributes}>{children}</li>
       case 'numbered-list':
