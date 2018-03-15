@@ -4,7 +4,7 @@ import { Editor } from 'slate-react'
 import PasteLinkify from 'slate-paste-linkify'
 import PluginEditTable from 'slate-deep-table'
 import { isKeyHotkey } from 'is-hotkey'
-import { Grid, Button, withStyles, Paper  } from 'material-ui';
+import { Grid, IconButton, withStyles, Paper  } from 'material-ui';
 import { FormatBold, FormatItalic, Code,FormatUnderlined,
   FormatQuote, FormatListNumbered, 
   FormatListBulleted,InsertLink, GridOn,
@@ -23,7 +23,14 @@ const styles = theme => ({
     marginTop: '20px',
     marginBottom: '20px',
   },
-  actions:{
+  menu:{
+    position: 'fixed',
+    bottom: '0px',
+    marginRight: 'auto',
+    width: '422px',
+    left: 0,
+    right: 0,
+    marginLeft: 'auto',
   }
 })
 
@@ -187,8 +194,8 @@ class DocBody extends React.Component {
   render() {
     return (
       <Grid container className={this.props.classes.root}  >
-        {this.renderEditor()}
         {this.renderToolbar()}
+        {this.renderEditor()}
       </Grid>
     )
   }
@@ -196,20 +203,20 @@ class DocBody extends React.Component {
   renderToolbar = () => {
     const { value } = this.state;
     const isInTable = tablePlugin.utils.isSelectionInTable(value);
-    // const isInEditor=document.activeElement.dataset.slateEditor==='true'
-    const isInEditor=true
+    const isInEditor=document.activeElement.dataset.slateEditor==='true'
+    // const isInEditor=true
     if (!isInEditor)
       return null
     return (
-      <Paper classes={styles.actions} >
-        {isInTable ? (<Grid container justify="center" direction='row'  >
+      <Paper className={this.props.classes.menu} >
+        {isInTable ? (<Grid container direction='row'  >
           {this.renderTableButton('insert-row','insertar fila')}
           {this.renderTableButton('insert-column','Insertar columna')}
           {this.renderTableButton('remove-column','Borrar columna')}
           {this.renderTableButton('remove-row','Borrar fila')}
           {this.renderTableButton('remove-table','Borrar tabla')}
         </Grid>) : null}
-        <Grid container justify="center" direction='row'  >
+        <Grid container  direction='row'  >
           {this.renderMarkButton('bold',<FormatBold />)}
           {this.renderMarkButton('italic',<FormatItalic />)}
           {this.renderMarkButton('underlined',<FormatUnderlined />)}
@@ -242,12 +249,9 @@ class DocBody extends React.Component {
   }
   renderButton = (onClick, icon) => {
     return (
-    // eslint-disable-next-line react/jsx-no-bind
-      <Grid item lg={1}>
-        <Button onMouseDown={onClick} >
-          {icon}
-        </Button>
-      </Grid>
+      <IconButton onMouseDown={onClick} color="accent" >
+        {icon}
+      </IconButton>
     )
   }
 
