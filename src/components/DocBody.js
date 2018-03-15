@@ -22,6 +22,8 @@ const styles = theme => ({
     border: '1px solid '+theme.palette.grey[400],
     marginTop: '20px',
     marginBottom: '20px',
+  },
+  actions:{
   }
 })
 
@@ -48,7 +50,7 @@ class DocBody extends React.Component {
       val=Value.fromJSON(props.doc.body)
     this.state = {
       value: val,
-      id: props.doc.id,
+      showToolbar:false
     }
     this.plugins = [
       PasteLinkify({
@@ -78,6 +80,7 @@ class DocBody extends React.Component {
 
   onKeyDown = (event, change) => {
     let mark
+    this.setState({showToolbar:true})
 
     if (isBoldHotkey(event)) {
       mark = 'bold'
@@ -181,45 +184,43 @@ class DocBody extends React.Component {
 
   }
 
-  renderTableToolbar() {
-    return (
-      <Grid container justify="center" direction='row'  >
-        {this.renderTableButton('insert-row','insertar fila')}
-        {this.renderTableButton('insert-column','Insertar columna')}
-        {this.renderTableButton('remove-column','Borrar columna')}
-        {this.renderTableButton('remove-row','Borrar fila')}
-        {this.renderTableButton('remove-table','Borrar tabla')}
-      </Grid>
-    );
-  }
-
   render() {
-    const { value } = this.state;
-    const isInTable = tablePlugin.utils.isSelectionInTable(value);
     return (
       <Grid container className={this.props.classes.root}  >
         {this.renderEditor()}
-        <Paper >
-          {isInTable ? this.renderTableToolbar() : null}
-          {this.renderToolbar()}
-        </Paper>
+        {this.renderToolbar()}
       </Grid>
     )
   }
 
   renderToolbar = () => {
+    const { value } = this.state;
+    const isInTable = tablePlugin.utils.isSelectionInTable(value);
+    // const isInEditor=document.activeElement.dataset.slateEditor==='true'
+    const isInEditor=true
+    if (!isInEditor)
+      return null
     return (
-      <Grid container justify="center" direction='row'  >
-        {this.renderMarkButton('bold',<FormatBold />)}
-        {this.renderMarkButton('italic',<FormatItalic />)}
-        {this.renderMarkButton('underlined',<FormatUnderlined />)}
-        {this.renderMarkButton('code',<Code />)}
-        {this.renderBlockButton('link',<InsertLink />)}
-        {this.renderBlockButton('block-quote',<FormatQuote />)}
-        {this.renderTableButton('insert-table',<GridOn />)}
-        {this.renderBlockButton('numbered-list',<FormatListNumbered />)}
-        {this.renderBlockButton('bulleted-list',<FormatListBulleted />)}
-      </Grid>
+      <Paper classes={styles.actions} >
+        {isInTable ? (<Grid container justify="center" direction='row'  >
+          {this.renderTableButton('insert-row','insertar fila')}
+          {this.renderTableButton('insert-column','Insertar columna')}
+          {this.renderTableButton('remove-column','Borrar columna')}
+          {this.renderTableButton('remove-row','Borrar fila')}
+          {this.renderTableButton('remove-table','Borrar tabla')}
+        </Grid>) : null}
+        <Grid container justify="center" direction='row'  >
+          {this.renderMarkButton('bold',<FormatBold />)}
+          {this.renderMarkButton('italic',<FormatItalic />)}
+          {this.renderMarkButton('underlined',<FormatUnderlined />)}
+          {this.renderMarkButton('code',<Code />)}
+          {this.renderBlockButton('link',<InsertLink />)}
+          {this.renderBlockButton('block-quote',<FormatQuote />)}
+          {this.renderTableButton('insert-table',<GridOn />)}
+          {this.renderBlockButton('numbered-list',<FormatListNumbered />)}
+          {this.renderBlockButton('bulleted-list',<FormatListBulleted />)}
+        </Grid>
+      </Paper>
     )
   }
   renderTableButton = (type, icon) => {
@@ -243,7 +244,7 @@ class DocBody extends React.Component {
     return (
     // eslint-disable-next-line react/jsx-no-bind
       <Grid item lg={1}>
-        <Button onClick={onClick} >
+        <Button onMouseDown={onClick} >
           {icon}
         </Button>
       </Grid>
@@ -302,8 +303,6 @@ class DocBody extends React.Component {
         );
       case 'paragraph':
         return <p {...attributes}>{children}</p>;
-      case 'heading':
-        return <h1 {...attributes}>{children}</h1>;
       default :
         return null;
     }
