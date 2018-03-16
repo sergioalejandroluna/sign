@@ -1,54 +1,49 @@
 import React from 'react'
+import { AddRow,AddTable,AddColumn,
+  RemoveColumn,RemoveRow,RemoveTable  } from '../img/'
+import { Grid, IconButton, withStyles, Paper,Snackbar } from 'material-ui';
+import { FormatBold, FormatItalic, Code,FormatUnderlined,
+  FormatQuote, FormatListNumbered, 
+  FormatListBulleted,InsertLink, GridOn,
+  } from 'material-ui-icons'
+import Tooltip from 'material-ui/Tooltip';
 
-const renderTableButton = (type, icon) => {
-  const onClick = event => this.onClickTable(event, type)
-  return this.renderButton(onClick,icon)
-}
-
-
-const renderMarkButton = (type, icon) => {
-  // const isActive = this.hasMark(type)
-  const onClick = event => this.onClickMark(event, type)
-  return this.renderButton(onClick,icon)
-}
-
-const renderBlockButton = (type, icon) => {
-  // const isActive = this.hasBlock(type)
-  const onClick = event => this.onClickBlock(event, type)
-  return this.renderButton(onClick,icon)
-}
-const renderButton = (onClick, icon) => {
+const renderButton = (click, type, icon,help) => {
+  const onClick = event => click(event, type)
   return (
+    <Tooltip placement="top" title={help} enterDelay="100" >
     <IconButton onMouseDown={onClick} >
       {icon}
     </IconButton>
+  </Tooltip>
   )
 }
 
-const DocBodyToolBar=({isInTable})=>{
+const DocBodyToolBar=({isInTable,  onClickBlock, onClickMark, onClickTable})=>{
   const isInEditor=document.activeElement.dataset.slateEditor==='true'
   return (
     <Snackbar open={isInEditor} >
       <Paper>
         {isInTable ? (<Grid container direction='row'  >
-          {renderTableButton('insert-row',<AddRow />)}
-          {renderTableButton('insert-column',<AddColumn />)}
-          {renderTableButton('remove-column',<RemoveTable />)}
-          {renderTableButton('remove-row',<RemoveTable />)}
-          {renderTableButton('remove-table',<RemoveTable />)}
+          {renderButton(onClickTable,'insert-row',<AddRow />, 'Agregar fila')}
+          {renderButton(onClickTable,'insert-column',<AddColumn />, 'Agregar columna')}
+          {renderButton(onClickTable,'remove-column',<RemoveColumn />,'Borrar columna')}
+          {renderButton(onClickTable,'remove-row',<RemoveRow />,'Borrar fila')}
+          {renderButton(onClickTable,'remove-table',<RemoveTable />,'Borrar tabla')}
         </Grid>) : null}
         <Grid container  direction='row'  >
-          {renderMarkButton('bold',<FormatBold />)}
-          {renderMarkButton('italic',<FormatItalic />)}
-          {renderMarkButton('underlined',<FormatUnderlined />)}
-          {renderMarkButton('code',<Code />)}
-          {renderBlockButton('link',<InsertLink />)}
-          {renderBlockButton('block-quote',<FormatQuote />)}
-          {renderTableButton('insert-table',<AddTable />)}
-          {renderBlockButton('numbered-list',<FormatListNumbered />)}
-          {renderBlockButton('bulleted-list',<FormatListBulleted />)}
+          {renderButton(onClickMark,'bold',<FormatBold />,'Negritas')}
+          {renderButton(onClickMark,'italic',<FormatItalic />,'Itálica')}
+          {renderButton(onClickMark,'underlined',<FormatUnderlined />,'Subrayado')}
+          {renderButton(onClickMark,'code',<Code />,'Código')}
+          {renderButton(onClickBlock,'link',<InsertLink />,'Link')}
+          {renderButton(onClickBlock,'block-quote',<FormatQuote />,'Citar')}
+          {renderButton(onClickTable,'insert-table',<AddTable />,'Agregar tabla')}
+          {renderButton(onClickBlock,'numbered-list',<FormatListNumbered />,'Agregar lista')}
+          {renderButton(onClickBlock,'bulleted-list',<FormatListBulleted />,'Agregar lista')}
         </Grid>
       </Paper>
     </Snackbar>
   )
 }
+export default DocBodyToolBar;
