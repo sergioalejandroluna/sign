@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import logo from '../logo.svg';
+import { Logo } from '../img';
 import DateClick from './DateClick'
 import SearchUserField from './SearchUserField'
 import {Grid, TextField } from 'material-ui';
@@ -10,7 +10,7 @@ const DocHeader=({doc,onFolioChange,onDateChange,onToChange})=>{
   return (
     <Grid container spacing={0} alignItems="flex-end" >
       <Grid item lg={1}  >
-        <Grid container justify='flex-start'><img src={logo} alt="logo" className='logo-doc' /></Grid>
+        <Grid container justify='flex-start'><img src={Logo} alt="logo" className='logo-doc' /></Grid>
       </Grid>
       <Grid item lg={11}  >
         <Grid container direction="column" alignItems="flex-end"  >

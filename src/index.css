@@ -30,6 +30,9 @@ table.doc tr {
     flex-wrap: nowrap;
 }
 
+table.doc tr:first-child td {
+    text-align: center ; 
+}
 table.doc tr:first-child {
     background: #f5f5f5;
     font-weight: bold;

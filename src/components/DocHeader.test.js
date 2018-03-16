@@ -2,7 +2,7 @@ import React from 'react'
 import DocHeader from './DocHeader'
 import {shallow} from 'enzyme';
 import DateClick from './DateClick.js';
-import logo from '../logo.svg';
+import { Logo } from '../img';
 import { TextField } from 'material-ui';
 import SearchUserField from './SearchUserField'
 import db from '../db.js'
@@ -12,7 +12,7 @@ const wrapper= shallow(<DocHeader   doc={doc} onFolioChange={e=> console.log(e)}
  onDateChange={e=> console.log(e)}  
 />);
 it('should have a logo', function() {
-  expect(wrapper.find('img').props().src).toBe(logo)
+  expect(wrapper.find('img').props().src).toBe(Logo)
 })
 it('should have a date', function() {
   expect(wrapper.find(DateClick).props().value).toBe(doc.date)

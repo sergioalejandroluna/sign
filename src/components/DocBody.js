@@ -4,7 +4,9 @@ import { Editor } from 'slate-react'
 import PasteLinkify from 'slate-paste-linkify'
 import PluginEditTable from 'slate-deep-table'
 import { isKeyHotkey } from 'is-hotkey'
-import { Grid, IconButton, withStyles, Paper  } from 'material-ui';
+import { AddRow,AddTable,AddColumn,
+  RemoveColumn,RemoveRow,RemoveTable  } from '../img/'
+import { Grid, IconButton, withStyles, Paper,Snackbar } from 'material-ui';
 import { FormatBold, FormatItalic, Code,FormatUnderlined,
   FormatQuote, FormatListNumbered, 
   FormatListBulleted,InsertLink, GridOn,
@@ -133,10 +135,11 @@ class DocBody extends React.Component {
     } else {
       const href = window.prompt('Enter the URL of the link:')
       const text = window.prompt('Enter the text for the link:')
-      change
-        .insertText(text)
-        .extend(0 - text.length)
-        .call(wrapLink, href)
+      if (text!=='')
+        change
+          .insertText(text)
+          .extend(0 - text.length)
+          .call(wrapLink, href)
     }
 
     this.onChange(change)
@@ -204,30 +207,29 @@ class DocBody extends React.Component {
     const { value } = this.state;
     const isInTable = tablePlugin.utils.isSelectionInTable(value);
     const isInEditor=document.activeElement.dataset.slateEditor==='true'
-    // const isInEditor=true
-    if (!isInEditor)
-      return null
     return (
-      <Paper className={this.props.classes.menu} >
-        {isInTable ? (<Grid container direction='row'  >
-          {this.renderTableButton('insert-row','insertar fila')}
-          {this.renderTableButton('insert-column','Insertar columna')}
-          {this.renderTableButton('remove-column','Borrar columna')}
-          {this.renderTableButton('remove-row','Borrar fila')}
-          {this.renderTableButton('remove-table','Borrar tabla')}
-        </Grid>) : null}
-        <Grid container  direction='row'  >
-          {this.renderMarkButton('bold',<FormatBold />)}
-          {this.renderMarkButton('italic',<FormatItalic />)}
-          {this.renderMarkButton('underlined',<FormatUnderlined />)}
-          {this.renderMarkButton('code',<Code />)}
-          {this.renderBlockButton('link',<InsertLink />)}
-          {this.renderBlockButton('block-quote',<FormatQuote />)}
-          {this.renderTableButton('insert-table',<GridOn />)}
-          {this.renderBlockButton('numbered-list',<FormatListNumbered />)}
-          {this.renderBlockButton('bulleted-list',<FormatListBulleted />)}
-        </Grid>
-      </Paper>
+      <Snackbar open={isInEditor} >
+        <Paper>
+          {isInTable ? (<Grid container direction='row'  >
+            {this.renderTableButton('insert-row',<AddRow />)}
+            {this.renderTableButton('insert-column',<AddColumn />)}
+            {this.renderTableButton('remove-column',<RemoveTable />)}
+            {this.renderTableButton('remove-row',<RemoveTable />)}
+            {this.renderTableButton('remove-table',<RemoveTable />)}
+          </Grid>) : null}
+          <Grid container  direction='row'  >
+            {this.renderMarkButton('bold',<FormatBold />)}
+            {this.renderMarkButton('italic',<FormatItalic />)}
+            {this.renderMarkButton('underlined',<FormatUnderlined />)}
+            {this.renderMarkButton('code',<Code />)}
+            {this.renderBlockButton('link',<InsertLink />)}
+            {this.renderBlockButton('block-quote',<FormatQuote />)}
+            {this.renderTableButton('insert-table',<AddTable />)}
+            {this.renderBlockButton('numbered-list',<FormatListNumbered />)}
+            {this.renderBlockButton('bulleted-list',<FormatListBulleted />)}
+          </Grid>
+        </Paper>
+      </Snackbar>
     )
   }
   renderTableButton = (type, icon) => {
@@ -249,7 +251,7 @@ class DocBody extends React.Component {
   }
   renderButton = (onClick, icon) => {
     return (
-      <IconButton onMouseDown={onClick} color="accent" >
+      <IconButton onMouseDown={onClick} >
         {icon}
       </IconButton>
     )
@@ -274,7 +276,6 @@ class DocBody extends React.Component {
 
   renderNode = props => {
     const { attributes, children, node } = props
-    let textAlign;
     switch (node.type) {
       case 'link':
         return <a {...attributes} href={node.data.get('href')}>{children}</a>
@@ -295,13 +296,8 @@ class DocBody extends React.Component {
       case 'table_row':
         return <tr {...attributes}>{children}</tr>;
       case 'table_cell':
-        textAlign = node.get('data').get('textAlign');
-        textAlign =
-          ['left', 'right', 'center'].indexOf(textAlign) === -1
-          ? 'left'
-          : textAlign;
         return (
-          <td style={{ textAlign }} {...attributes}>
+          <td  {...attributes}>
             {children}
           </td>
         );
