@@ -13,6 +13,7 @@ const  DocFooter =({ address,from})=>{
           <Grid item>{from.name.title+' '+from.name.full}</Grid>
           <Grid item>{from.job_title}</Grid>
           <Grid item>{from.institution}</Grid>
+          <Grid item>{from.email}</Grid>
         </Grid>
       </Grid>
       <Grid container justify="flex-end"  >
