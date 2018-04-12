@@ -49,7 +49,7 @@ class  DocEditor extends React.Component{
             onToChange={ this.onToChange}
           />
           <DocBody doc={doc} onChange={ this.changeDocField } />
-          <DocFooter address={doc.address} from={doc.from}  />
+          <DocFooter address={doc.address} from={doc.from} createdBy={doc.createdBy} />
           <Button component={Link} to='/folios' variant='raised' color='primary' className="back"  >
             Volver
           </Button>

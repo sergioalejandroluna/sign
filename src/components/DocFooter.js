@@ -2,10 +2,14 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {Grid } from 'material-ui';
 
-const  DocFooter =({ address,from})=>{
+const style={
+    margin: '0 0 1em',
+    }
+
+const  DocFooter =({ address,from,createdBy})=>{
 
   return (
-    <Grid container >
+    <Grid container style={style}>
       <Grid container  >
         <Grid item lg={4} className='bold'  >
           <Grid item>Atentamente</Grid>
@@ -25,11 +29,14 @@ const  DocFooter =({ address,from})=>{
           <Grid item >{ address.zip }</Grid>
         </Grid>
       </Grid>
+      <Grid item justify="flex-start">Creado por: </Grid>
+        <Grid item  justify="flex-start">{ createdBy.email }</Grid>
     </Grid>
   )
 }
 DocFooter.propTypes={
   address: PropTypes.object.isRequired,
   from: PropTypes.object.isRequired,
+  createdBy: PropTypes.object.isRequired,
 }
 export default DocFooter;

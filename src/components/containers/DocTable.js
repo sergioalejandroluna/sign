@@ -28,9 +28,10 @@ class DocTable extends React.Component{
             <TableCell> 
               <Button  component={Link} to={'/folio'}  color="primary"> Nuevo </Button> 
             </TableCell>
-            <TableCell numeric>Folio</TableCell>
-            <TableCell numeric>De</TableCell>
-            <TableCell numeric>Para</TableCell>
+            <TableCell >Folio</TableCell>
+            <TableCell >De</TableCell>
+            <TableCell >Para</TableCell>
+            <TableCell >Creado por</TableCell>
           </TableRow>
         </TableHead>
         {this.renderBody()}
@@ -49,9 +50,10 @@ class DocTable extends React.Component{
                   <Button component={Link} to={'/folio/'+d.id}   color="primary"> Editar </Button>
                   <Button onClick={()=>this.onDelete(d.id)} color="secondary" > Borrar </Button>
                 </TableCell>
-                <TableCell numeric>{d.folio}</TableCell>
-                <TableCell numeric>{d.from.email}</TableCell>
-                <TableCell numeric>{d.to.email}</TableCell>
+                <TableCell >{d.folio}</TableCell>
+                <TableCell >{d.from.email}</TableCell>
+                <TableCell >{d.to.email}</TableCell>
+                <TableCell >{d.createdBy.email}</TableCell>
               </TableRow>
             );
           })}
