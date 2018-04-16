@@ -30,6 +30,10 @@ class DocStore extends BaseStore{
     }
   }
 
+  send(doc){
+    return this.axios.patch('/docs/'+doc.id,{sent: true} ).catch(this.error)
+  }
+
   setDoc(doc){
     return this.axios.put('/docs/'+doc.id,doc ).catch(this.error)
   }

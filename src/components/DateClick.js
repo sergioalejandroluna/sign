@@ -7,6 +7,8 @@ class DateClick extends React.Component{
   state={editing:false}
 
   setEditing=e=>{
+    if (this.props.disabled)
+      return 
     if (this.state.editing)
       return 
     this.setState({editing: true})
@@ -38,6 +40,7 @@ class DateClick extends React.Component{
         onBlur={ this.setReading}
         onClick={this.setEditing}
         className="align-right"
+        disabled={this.props.disabled}
         fullWidth
         inputRef={input=>{this.input=input} }
       />

@@ -10,6 +10,7 @@ const doc=db().docs[1]
 const wrapper= shallow(<DocHeader   doc={doc} onFolioChange={e=> console.log(e)}
  onToChange={e=> console.log(e)}  
  onDateChange={e=> console.log(e)}  
+ disabled={false}
 />);
 it('should have a logo', function() {
   expect(wrapper.find('img').props().src).toBe(Logo)

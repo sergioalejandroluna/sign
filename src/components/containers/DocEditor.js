@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {  Paper, Button ,Grid} from 'material-ui';
+import {  Paper, Grid, Snackbar} from 'material-ui';
 import DocBody from '../DocBody';
 import DocHeader from '../DocHeader';
 import DocFooter from '../DocFooter';
-import { Link } from 'react-router-dom';
+import DocActionButtons from '../DocActionButtons';
 import DocStore from '../../stores/DocStore';
 import { debounce } from 'lodash'
 
@@ -13,7 +13,7 @@ const style={paddingTop:'40px',
   margin: '0px',
   width: 'auto'}
 class  DocEditor extends React.Component{
-  state={doc:{},isLoaded:false}
+  state={doc:{},isLoaded:false,snack: false}
   componentDidMount(){
     const id=this.props.match.params.id 
     DocStore.getDoc(id).then(r=>{
@@ -41,6 +41,7 @@ class  DocEditor extends React.Component{
   renderDoc(){
     if (this.state.isLoaded){
       const doc=this.state.doc;
+      const disabled=this.state.doc.sent
       return (
         <Grid container  style={style} >
           <DocHeader 
@@ -48,12 +49,15 @@ class  DocEditor extends React.Component{
             onFolioChange={ (e)=>this.changeDocField('folio',e.target.value)}
             doc={doc}
             onToChange={ this.onToChange}
+            disabled={disabled}
           />
-          <DocBody doc={doc} onChange={ this.changeDocField } />
+          <DocBody doc={doc} onChange={ this.changeDocField } disabled={disabled} />
           <DocFooter address={doc.address} from={doc.from} created_by={doc.created_by} />
-          <Button component={Link} to='/folios' variant='raised' color='primary' className="back"  >
-            Volver
-          </Button>
+          <DocActionButtons onSend={this.onSend} disableSend={this.disableSend} />
+          <Snackbar
+            open={this.state.snack}
+            message="Folio enviado con exito"
+          />
         </Grid>
       )
     }
@@ -62,6 +66,7 @@ class  DocEditor extends React.Component{
         <Grid container space={24} style={style} />
       );
   }
+
   changeDocField=(field,value)=>{
     this.setState((prevState)=>{
       prevState.doc[field]=value
@@ -69,6 +74,21 @@ class  DocEditor extends React.Component{
     })
     this.save()
   }
+
+  // you shall not send empty documents 
+  disableSend=()=>{
+    const doc= this.state.doc.body.document
+    return !(doc.text!==undefined && doc.text.length>0)
+  }
+
+  onSend=()=>{
+    const doc= this.state.doc
+      DocStore.send(doc).then(()=>{
+        this.setState({ snack: true })
+
+      })
+  }
+
   onToChange=(to)=>{
     this.setState((prevState)=>{
       prevState.doc.to=to
@@ -79,5 +99,6 @@ class  DocEditor extends React.Component{
 }
 DocEditor.propTypes={
   match: PropTypes.object.isRequired,
+  disabled: PropTypes.bool.isRequired,
 }
 export default DocEditor;

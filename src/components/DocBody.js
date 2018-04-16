@@ -204,6 +204,7 @@ class DocBody extends React.Component {
           renderNode={this.renderNode}
           renderMark={this.renderMark}
           plugins={this.plugins}
+          readOnly={this.props.disabled}
         />
       </Grid>
     )

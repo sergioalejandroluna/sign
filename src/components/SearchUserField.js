@@ -166,6 +166,7 @@ class SearchUserField extends React.Component {
           value: this.state.value,
           onChange: this.handleChange,
           onBlur: this.onBlur,
+          disabled: this.props.disabled,
           startAdornment: <InputAdornment classes={{ root: classes.adornment }} position="start">
             <b>{this.props.to.name.title}</b>
           </InputAdornment>,

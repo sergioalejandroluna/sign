@@ -35,6 +35,14 @@ it('should edit a doc', function(done) {
     done();
   })
 })
+it('should send a doc', function(done) {
+  let doc=data.docs[1];
+  doc.folio='1212'
+  DocStore.send(doc).then(r =>{
+    expect(r.data.sent).toEqual(true)
+    done();
+  })
+})
 it('should just save a doc if it has folio and to whom', function(done) {
   let doc=data.docs[1];
   doc.folio=''

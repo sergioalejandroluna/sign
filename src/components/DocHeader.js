@@ -5,7 +5,7 @@ import DateClick from './DateClick'
 import SearchUserField from './SearchUserField'
 import {Grid, TextField } from 'material-ui';
 
-const DocHeader=({doc,onFolioChange,onDateChange,onToChange})=>{
+const DocHeader=({doc,onFolioChange,onDateChange,onToChange,disabled})=>{
   const to=doc.to
   return (
     <Grid container spacing={0} alignItems="flex-end" >
@@ -20,6 +20,7 @@ const DocHeader=({doc,onFolioChange,onDateChange,onToChange})=>{
                 value={doc.date} 
                 onChange={onDateChange}
                 beforeText='Chihuahua, Chih., a '
+                disabled={disabled}
               /> 
             </Grid>
           </Grid>
@@ -28,13 +29,14 @@ const DocHeader=({doc,onFolioChange,onDateChange,onToChange})=>{
               value={doc.folio} 
               onChange={onFolioChange}
               className="align-right bold"
+              disabled={disabled}
             /> 
           </Grid>
         </Grid>
       </Grid>
       <Grid container  justify="flex-start" direction="column" className='greeting bold'  >
         <Grid item lg={7} >
-          <Grid item ><SearchUserField to={to} onChange={onToChange}  /></Grid>
+          <Grid item ><SearchUserField to={to} onChange={onToChange} disabled={disabled}  /></Grid>
           <Grid item >{to.job_title}</Grid>
           <Grid item >{to.institution}</Grid>
           <Grid item >Presente</Grid>
@@ -48,6 +50,7 @@ DocHeader.propTypes={
   doc: PropTypes.object.isRequired,
   onFolioChange: PropTypes.func.isRequired,
   onToChange: PropTypes.func.isRequired,
+  disabled: PropTypes.bool.isRequired,
 }
 
 export default DocHeader;
