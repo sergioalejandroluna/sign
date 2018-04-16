@@ -47,6 +47,6 @@ const  DocFooter =({ address,from,created_by})=>{
 DocFooter.propTypes={
   address: PropTypes.object.isRequired,
   from: PropTypes.object.isRequired,
-  createdBy: PropTypes.object.isRequired,
+  created_by: PropTypes.object.isRequired,
 }
 export default DocFooter;

@@ -6,8 +6,8 @@ import db from '../db'
 const data=db()
 const address=data.addresses[1]
 const from=data.users[1]
-const createdBy=data.users[1]
-const wrapper= shallow(<DocFooter address={address} from={from} createdBy={createdBy}/>);
+const created_by=data.users[2]
+let wrapper= shallow(<DocFooter address={address} from={from} created_by={created_by}/>);
 it('should have a  signature', function() {
   expect(wrapper.find(Grid).get(4).props.children.props.src).toBe(from.signature)
 })
@@ -33,8 +33,12 @@ it('should have a city', function() {
   expect(wrapper.find(Grid).get(15).props.children).toBe(address.zip)
 })
 it('should have an from email ', function() {
-    expect(wrapper.find(Grid).get(8).props.children).toBe(from.email)
+  expect(wrapper.find(Grid).get(8).props.children).toBe(from.email)
 })
 it('should have a created by email ', function() {
-    expect(wrapper.find(Grid).get(17).props.children).toBe(createdBy.email)
+  expect(wrapper.find(Grid).get(18).props.children).toBe(created_by.email)
+})
+it('should hide a created by email when the from an create by are the same ', function() {
+  wrapper= shallow(<DocFooter address={address} from={from} created_by={from}/>);
+  expect(wrapper.find(Grid).get(17)).toBe(null)
 })
