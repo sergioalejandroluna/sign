@@ -151,6 +151,23 @@ const  users= [
     signature: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Juan_Manuel_Santos_Signature.svg/500px-Juan_Manuel_Santos_Signature.svg.png"
   }
 ]
+const login_user=users.pop()
+const emptyUser={
+    "name":{
+      "title": "",
+      "full": ""
+    },
+    "job_title": "",
+    "institution": "",
+    "email": "",
+    photo: "",
+    signature: ""
+  }
+const newDoc=()=>{
+  return {date: (new Date()).toISOString().slice(0,10), folio: '',
+    to: emptyUser, from: login_user, body:initialBody , 
+    address:addresses[0], created_by: login_user}
+}
 const getRandom=(min,max)=>{
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
@@ -166,24 +183,7 @@ const docs=[
   {id:3,date: '1991-10-13', folio: 'RTH/552/R51', to: randomUser(), from: randomUser(), body:initialBody , address:randomAddress(), created_by: randomUser()},
   {id:4,date: '1992-09-14', folio: 'DVU/104/A34', to: randomUser(), from: randomUser(), body:initialBody , address:randomAddress(), created_by: randomUser()},
 ]
-const login_user=users.pop()
-const emptyUser={
-    "name":{
-      "title": "",
-      "full": ""
-    },
-    "job_title": "",
-    "institution": "",
-    "email": "",
-    photo: "",
-    signature: ""
-  }
 module.exports = () => {
-  return {users:users,login_user: login_user,docs:docs, addresses: addresses}
-}
-module.exports.newDoc=()=>{
-  return {date: (new Date()).toISOString().slice(0,10), folio: '',
-    to: emptyUser, from: login_user, body:initialBody , 
-    address:addresses[0], created_by: login_user}
+  return {users:users,login_user: login_user,docs:docs, addresses: addresses, new_doc: newDoc()  }
 }
 

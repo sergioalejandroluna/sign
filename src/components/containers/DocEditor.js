@@ -24,7 +24,8 @@ class  DocEditor extends React.Component{
   save=debounce(()=>{
     const doc=this.state.doc
     DocStore.save(doc).then(r=>{
-      this.setState({id:r.data.id})
+      doc.id=r.data.id
+      this.setState({doc: doc})
     })
 
   },500)

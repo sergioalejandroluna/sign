@@ -9,9 +9,7 @@ class DocStore extends BaseStore{
 
   getDoc(id){
     if (id===undefined)
-      return new Promise((resolve,reject)=>{
-        resolve({ data:newDoc() })
-      })
+      return this.axios.get('/docs/new').catch(this.error)
     return this.axios.get('/docs/'+id).catch(this.error)
   }
 
@@ -26,7 +24,7 @@ class DocStore extends BaseStore{
         resolve({data: doc })
       })}
     if (doc.id===undefined){
-      return this.addDoc(doc)
+      return this.addDoc(doc) 
     }else{
       return this.setDoc(doc)
     }
