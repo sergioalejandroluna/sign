@@ -1,5 +1,4 @@
 import BaseStore from './BaseStore'
-import { newDoc } from '../db'
 
 class DocStore extends BaseStore{
 

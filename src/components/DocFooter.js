@@ -10,7 +10,7 @@ function same_dude(from, created_by){
   if (from.id===created_by.id)
     return null;
   return (
-    <Grid item justify="flex-start">
+    <Grid item >
       <Grid item >Creado por: </Grid>
       <Grid item  >{ created_by.email }</Grid>
     </Grid>)

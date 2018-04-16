@@ -1,10 +1,10 @@
 import React from 'react'
 import { AddRow,AddTable,AddColumn,
   RemoveColumn,RemoveRow,RemoveTable  } from '../img/'
-import { Grid, IconButton, withStyles, Paper,Snackbar } from 'material-ui';
+import { Grid, IconButton, Paper,Snackbar } from 'material-ui';
 import { FormatBold, FormatItalic, Code,FormatUnderlined,
   FormatQuote, FormatListNumbered, 
-  FormatListBulleted,InsertLink, GridOn,
+  FormatListBulleted,InsertLink,
   } from 'material-ui-icons'
 import Tooltip from 'material-ui/Tooltip';
 

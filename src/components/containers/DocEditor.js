@@ -42,6 +42,7 @@ class  DocEditor extends React.Component{
     if (this.state.isLoaded){
       const doc=this.state.doc;
       const disabled=this.state.doc.sent
+
       return (
         <Grid container  style={style} >
           <DocHeader 
@@ -99,6 +100,5 @@ class  DocEditor extends React.Component{
 }
 DocEditor.propTypes={
   match: PropTypes.object.isRequired,
-  disabled: PropTypes.bool.isRequired,
 }
 export default DocEditor;
