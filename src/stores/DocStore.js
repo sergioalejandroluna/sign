@@ -30,7 +30,8 @@ class DocStore extends BaseStore{
   }
 
   send(doc){
-    return this.axios.patch('/docs/'+doc.id,{sent: true} ).catch(this.error)
+    // the sent param is no needed by rails but is neede for the json server, for fronted dev
+    return this.axios.patch('/docs/'+doc.id+'/send',{sent: true} ).catch(this.error)
   }
 
   setDoc(doc){

@@ -84,10 +84,14 @@ class  DocEditor extends React.Component{
 
   onSend=()=>{
     const doc= this.state.doc
-      DocStore.send(doc).then(()=>{
-        this.setState({ snack: true })
-
+    DocStore.send(doc).then(()=>{
+      this.setState((prevState)=>{
+        prevState.doc.sent=true
+        prevState.snack=true
+        return prevState
       })
+
+    })
   }
 
   onToChange=(to)=>{

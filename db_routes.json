@@ -1,3 +1,4 @@
 {
-  "/docs/new": "/new_doc"
+  "/docs/new": "/new_doc",
+  "/docs/:id/send": "/docs/:id"
 }
