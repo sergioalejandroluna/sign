@@ -53,7 +53,7 @@ class DocTable extends React.Component{
                 <TableCell >{d.folio}</TableCell>
                 <TableCell >{d.from.email}</TableCell>
                 <TableCell >{d.to.email}</TableCell>
-                <TableCell >{d.createdBy.email}</TableCell>
+                <TableCell >{d.created_by.email}</TableCell>
               </TableRow>
             );
           })}

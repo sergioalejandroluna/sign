@@ -3,10 +3,20 @@ import PropTypes from 'prop-types'
 import {Grid } from 'material-ui';
 
 const style={
-    margin: '0 0 1em',
-    }
+  margin: '0 0 1em',
+}
 
-const  DocFooter =({ address,from,createdBy})=>{
+function same_dude(from, created_by){
+  if (from.id===created_by.id)
+    return null;
+  return (
+    <Grid item justify="flex-start">
+      <Grid item >Creado por: </Grid>
+      <Grid item  >{ created_by.email }</Grid>
+    </Grid>)
+}
+
+const  DocFooter =({ address,from,created_by})=>{
 
   return (
     <Grid container style={style}>
@@ -29,11 +39,11 @@ const  DocFooter =({ address,from,createdBy})=>{
           <Grid item >{ address.zip }</Grid>
         </Grid>
       </Grid>
-      <Grid item justify="flex-start">Creado por: </Grid>
-        <Grid item  justify="flex-start">{ createdBy.email }</Grid>
+      {same_dude(from,created_by)}
     </Grid>
   )
 }
+
 DocFooter.propTypes={
   address: PropTypes.object.isRequired,
   from: PropTypes.object.isRequired,

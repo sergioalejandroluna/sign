@@ -161,10 +161,10 @@ const randomAddress=()=>{
   return addresses[getRandom(0,addresses.length-1)];
 }
 const docs=[
-  {id:1,date: '1999-12-11', folio: 'ADS/756/H67', to: randomUser(), from: randomUser(), body:initialBody , address:randomAddress(), createdBy: randomUser()},
-  {id:2,date: '1990-11-12', folio: 'DFG/285/Y56', to: randomUser(), from: randomUser(), body:initialBody , address:randomAddress(), createdBy: randomUser()},
-  {id:3,date: '1991-10-13', folio: 'RTH/552/R51', to: randomUser(), from: randomUser(), body:initialBody , address:randomAddress(), createdBy: randomUser()},
-  {id:4,date: '1992-09-14', folio: 'DVU/104/A34', to: randomUser(), from: randomUser(), body:initialBody , address:randomAddress(), createdBy: randomUser()},
+  {id:1,date: '1999-12-11', folio: 'ADS/756/H67', to: randomUser(), from: randomUser(), body:initialBody , address:randomAddress(), created_by: randomUser()},
+  {id:2,date: '1990-11-12', folio: 'DFG/285/Y56', to: randomUser(), from: randomUser(), body:initialBody , address:randomAddress(), created_by: randomUser()},
+  {id:3,date: '1991-10-13', folio: 'RTH/552/R51', to: randomUser(), from: randomUser(), body:initialBody , address:randomAddress(), created_by: randomUser()},
+  {id:4,date: '1992-09-14', folio: 'DVU/104/A34', to: randomUser(), from: randomUser(), body:initialBody , address:randomAddress(), created_by: randomUser()},
 ]
 const login_user=users.pop()
 const emptyUser={
@@ -184,6 +184,6 @@ module.exports = () => {
 module.exports.newDoc=()=>{
   return {date: (new Date()).toISOString().slice(0,10), folio: '',
     to: emptyUser, from: login_user, body:initialBody , 
-    address:addresses[0], createdBy: login_user}
+    address:addresses[0], created_by: login_user}
 }
 
