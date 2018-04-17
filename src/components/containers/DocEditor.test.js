@@ -25,3 +25,6 @@ it('should have a Footer', function() {
 it('should have action buttons', function() {
   expect(wrapper.find(DocActionButtons).length).toBe(1);
 });
+it('should disableSend  be true when body es empty', function() {
+  expect(wrapper.instance().disableSend()).toBe(true)
+});

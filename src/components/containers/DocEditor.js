@@ -58,6 +58,8 @@ class  DocEditor extends React.Component{
           <Snackbar
             open={this.state.snack}
             message="Folio enviado con exito"
+            anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
+            onClose={()=>{ this.setState({snack: false}) }}
           />
         </Grid>
       )
@@ -76,10 +78,10 @@ class  DocEditor extends React.Component{
     this.save()
   }
 
-  // you shall not send empty documents 
+  // you shall not send empty body documents 
   disableSend=()=>{
     const doc= this.state.doc.body.document
-    return !(doc.text!==undefined && doc.text.length>0)
+    return !(doc.text!==undefined && this.state.doc.sent===false && doc.text.length>0)
   }
 
   onSend=()=>{
