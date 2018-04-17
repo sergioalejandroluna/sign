@@ -6,6 +6,10 @@ import DocEditor from './containers/DocEditor';
 import { BrowserRouter } from 'react-router-dom'
 import Layout from './Layout';
 import { createMuiTheme,MuiThemeProvider } from 'material-ui/styles';
+import PrivateRoute from './PrivateRoute'
+import Login from './Login'
+import NotFound from './NotFound'
+import Delegate from './containers/Delegate'
 
 const theme = createMuiTheme({
   palette: {
@@ -30,9 +34,12 @@ const App =()=> {
       <MuiThemeProvider theme={theme}>
         <Layout> 
           <Switch>
-            <Route path="/folios" component={DocTable}/>
-            <Route path="/folio/:id?" component={DocEditor}/>
-            <Route path="/" component={HomePage}/>
+            <Route path="/" exact component={HomePage}/>
+            <PrivateRoute path="/folios" component={DocTable}/>
+            <PrivateRoute path="/folios/:id?" component={DocEditor}/>
+            <PrivateRoute path="/delegar" component={Delegate}/>
+            <Route path="/login" component={Login}/>
+            <Route path="*" component={NotFound}/>
           </Switch>
         </Layout> 
       </MuiThemeProvider>

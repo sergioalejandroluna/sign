@@ -1,5 +1,6 @@
 import axios from 'axios'
 class BaseStore  {
+  isAuthenticated= false;
   constructor(){
     const API_URL=process.env.REACT_APP_API
     this.axios=axios.create({
