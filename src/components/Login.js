@@ -6,25 +6,30 @@ class Login extends React.Component {
   state = {
     redirectToReferrer: false
   }
-  login = () => {
-    UserStore.authenticate(() => {
-      this.setState(() => ({
-        redirectToReferrer: true
-      }))
+
+  componentDidMount(){
+    UserStore.fetchLoginUser(window.location.search).then((auth)=>{
+      this.setState({redirectToReferrer: auth}) 
     })
   }
+
+  login = () => {
+    UserStore.authenticate()
+  }
   render() {
-    const { from } = this.props.location.state || { from: { pathname: '/' } }
+    const { from } = this.props.location.state || { from: { pathname: UserStore.popLocal('from') || '/' } } 
     const { redirectToReferrer } = this.state
 
     if (redirectToReferrer === true) {
       return (<Redirect to={from} />)
     }
+    UserStore.saveLocal('from',from.pathname)
 
     return (
       <div>
-        <p>You must log in to view the page</p>
-        <Button onClick={this.login}>Log in</Button>
+        <p>Favor de autenticarte para continuar</p>
+        <Button color='primary' onClick={this.login}>Log in con google(Me falta estilo)</Button>
+        <div><b>Falta texto exlpique solo personal de la uach entra con su cuenta de google</b></div>
       </div>
     )
   }

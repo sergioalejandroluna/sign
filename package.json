@@ -36,6 +36,7 @@
     "postcss-flexbugs-fixes": "3.2.0",
     "postcss-loader": "2.0.8",
     "promise": "8.0.1",
+    "query-string": "^6.0.0",
     "raf": "3.4.0",
     "react": "^16.2.0",
     "react-autosuggest": "^9.3.4",
@@ -110,8 +111,7 @@
     "presets": [
       "react-app"
     ],
-    "plugins": [
-    ]
+    "plugins": []
   },
   "eslintConfig": {
     "extends": "react-app"
