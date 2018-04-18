@@ -1,12 +1,6 @@
 import UserStore from './UserStore'
 import db from '../db.js'
 const data=db()
-it('should get current User', function(done) {
-  UserStore.fetchLoginUser().then((r)=>{
-    expect(r).toEqual(data.login_user)
-    done();
-  } );
-})
 it('should get  User by id', function(done) {
   UserStore.get(3).then((r)=>{
     expect(r.data).toEqual(data.users[2])
