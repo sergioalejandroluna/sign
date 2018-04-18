@@ -26,7 +26,7 @@ class DocTable extends React.Component{
         <TableHead>
           <TableRow>
             <TableCell> 
-              <Button  component={Link} to={'/folio'}  color="primary"> Nuevo </Button> 
+              <Button  component={Link} to={'/folios/new'}  color="primary"> Nuevo </Button> 
             </TableCell>
             <TableCell >Folio</TableCell>
             <TableCell >De</TableCell>
