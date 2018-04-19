@@ -34,5 +34,8 @@ class BaseStore  {
   error(error) {
     console.error(error)
   }
+  isAuth(){
+    return this.isAuthenticated
+  }
 }
 export default BaseStore; 

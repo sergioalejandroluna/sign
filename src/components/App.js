@@ -34,7 +34,7 @@ const App =()=> {
       <MuiThemeProvider theme={theme}>
         <Layout> 
           <Switch>
-            <Route path="/" exact component={HomePage}/>
+            <PrivateRoute path="/" exact component={HomePage}/>
             <PrivateRoute path="/folios" exact component={DocTable}/>
             <PrivateRoute path="/folios/new" exact component={DocEditor}/>
             <PrivateRoute path="/folios/:id?" component={DocEditor}/>

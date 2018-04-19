@@ -1,18 +1,13 @@
 import React from 'react';
 import { withStyles } from 'material-ui/styles';
 import classNames from 'classnames';
-import Drawer from 'material-ui/Drawer';
-import AppBar from 'material-ui/AppBar';
-import Toolbar from 'material-ui/Toolbar';
-import List from 'material-ui/List';
-import Typography from 'material-ui/Typography';
-import Divider from 'material-ui/Divider';
-import IconButton from 'material-ui/IconButton';
-import MenuIcon from 'material-ui-icons/Menu';
-import ChevronLeftIcon from 'material-ui-icons/ChevronLeft';
-import ChevronRightIcon from 'material-ui-icons/ChevronRight';
+import { List,Toolbar, AppBar, Drawer,Typography,Divider,IconButton  } from 'material-ui';
+import { Menu,ChevronLeft,ChevronRight } from 'material-ui-icons';
 import withWidth from 'material-ui/utils/withWidth';
-import { mailFolderListItems} from './SideMenuItems';
+import SideMenuItems  from './SideMenuItems'
+import ProfileMenu  from './ProfileMenu'
+import UserStore from '../stores/UserStore'
+import { withRouter } from 'react-router'
 
 const drawerWidth = 240;
 
@@ -75,6 +70,9 @@ const styles = theme => ({
     backgroundColor: theme.palette.background.default,
     padding: theme.spacing.unit * 3,
   },
+  flex: {
+    flex: 1,
+  },
 });
 
 class Layout extends React.Component {
@@ -89,6 +87,20 @@ class Layout extends React.Component {
   handleDrawerClose = () => {
     this.setState({ open: false });
   };
+   
+  signout = () => {
+    UserStore.signout().then((a)=>{
+      this.setState({isAuth: a});
+      this.props.history.push('/login')
+    });
+  };
+
+  componentDidMount(){
+    const isAuth=UserStore.isAuthenticated
+    if (this.state.isAuth !== isAuth) {
+      this.setState({isAuth: isAuth});
+    }
+  }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.width !== nextProps.width) {
@@ -112,11 +124,12 @@ class Layout extends React.Component {
               onClick={this.handleDrawerOpen}
               className={classNames(classes.menuButton, this.state.open && classes.hide)}
             >
-              <MenuIcon />
+              <Menu />
             </IconButton>
-            <Typography variant="title" color="inherit" noWrap>
+            <Typography variant="title" color="inherit" noWrap className={classes.flex}>
               Sign
             </Typography>
+            <ProfileMenu isAuth={this.state.isAuth} signout={this.signout} info={UserStore.info()}/>
           </Toolbar>
         </AppBar>
         <Drawer
@@ -128,11 +141,11 @@ class Layout extends React.Component {
         >
           <div className={classes.toolbar}>
             <IconButton onClick={this.handleDrawerClose}>
-              {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+              {theme.direction === 'rtl' ? <ChevronRight /> : <ChevronLeft />}
             </IconButton>
           </div>
           <Divider />
-          <List>{mailFolderListItems}</List>
+          <List><SideMenuItems isAuth={this.state.isAuth} /></List>
         </Drawer>
         <main className={classes.content}>
           <div className={classes.toolbar} />   
@@ -141,8 +154,9 @@ class Layout extends React.Component {
       </div>
     );
   }
+
 }
 
 
-export default withWidth()(withStyles(styles, { withTheme: true })(Layout));
+export default withWidth()(withStyles(styles, { withTheme: true })(withRouter(Layout)));
 
