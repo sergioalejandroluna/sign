@@ -9,8 +9,12 @@ class Login extends React.Component {
 
   componentDidMount(){
     UserStore.fetchLoginUser(window.location.search).then((auth)=>{
+      if (this.unmounted) return;
       this.setState({redirectToReferrer: auth}) 
     })
+  }
+  componentWillUnmount(){
+    this.unmounted = true;
   }
 
   login = () => {

@@ -101,6 +101,13 @@ class SearchUserField extends React.Component {
     };
   }
 
+  static getDerivedStateFromProps(nextProps, prevState){
+    const name= nextProps.to.name.full
+    if (name===prevState.value)
+      return null;
+    return {suggestions:[], value: name}
+  }
+
   handleSuggestionsFetchRequested = debounce(({ value }) => {
     UserStore.search(value).then(r=>{
       this.setState({
