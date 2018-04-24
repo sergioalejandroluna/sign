@@ -13,7 +13,9 @@ const style={paddingTop:'40px',
   margin: '0px',
   width: 'auto'}
 class  DocEditor extends React.Component{
-  state={doc:{},isLoaded:false,snack: false}
+  state={doc:{},isLoaded:false,
+    snack: false,
+  }
   componentDidMount(){
     const id=this.props.match.params.id 
     DocStore.getDoc(id).then(r=>{
@@ -53,8 +55,9 @@ class  DocEditor extends React.Component{
             disabled={disabled}
           />
           <DocBody doc={doc} onChange={ this.changeDocField } disabled={disabled} />
-          <DocFooter address={doc.address} from={doc.from} created_by={doc.created_by} />
-          <DocActionButtons onSend={this.onSend} disableSend={this.disableSend} />
+          <DocFooter address={doc.address} from={doc.from} created_by={doc.created_by}
+            onSwitchFrom={this.onSwitchFrom} disabled={disabled} />
+          <DocActionButtons onSend={this.onSend} disableSend={this.disableSend}  />
           <Snackbar
             open={this.state.snack}
             message="Folio enviado con exito"
@@ -75,6 +78,14 @@ class  DocEditor extends React.Component{
       prevState.doc[field]=value
       return prevState
     })
+    this.save()
+  }
+
+  onSwitchFrom=(user)=>{
+      this.setState((prevState)=>{
+        prevState.doc.from=user
+        return prevState
+      })
     this.save()
   }
 

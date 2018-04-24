@@ -1,6 +1,4 @@
-
 import BaseStore from './BaseStore'
-import * as qs from 'query-string';
 
 class DelegateStore extends BaseStore {
   add(user) {
@@ -11,6 +9,9 @@ class DelegateStore extends BaseStore {
   }
   list(){
     return this.axios.get('/delegate')
+  }
+  getUsersOnBehalf(){
+    return this.axios.get('/delegate/behalf')
   }
 }
 export default (new DelegateStore())

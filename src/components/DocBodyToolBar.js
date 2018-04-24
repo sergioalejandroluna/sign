@@ -11,7 +11,7 @@ import Tooltip from 'material-ui/Tooltip';
 const renderButton = (click, type, icon,help) => {
   const onClick = event => click(event, type)
   return (
-    <Tooltip placement="top" title={help} enterDelay="100" >
+    <Tooltip placement="top" title={help} enterDelay={ 100 } >
     <IconButton onMouseDown={onClick} >
       {icon}
     </IconButton>
