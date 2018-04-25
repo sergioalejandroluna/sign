@@ -34,7 +34,7 @@ class  DocFooter extends React.Component{
   shouldComponentUpdate(nextProps, nextState) {
     return (this.props.address.id!==nextProps.address.id) || 
       (this.props.from.id!==nextProps.from.id) || (this.props.created_by.id!==nextProps.created_by.id) 
-      || (this.state.open!==nextState.open)|| (this.state.users.length!==nextState.users.length) || nextProps.disabled!==undefined;
+      || (this.state.open!==nextState.open)|| (this.state.users.length!==nextState.users.length) || nextProps.disabled!==this.props.disabled;
   }
 
   openDialog=()=>{
@@ -58,7 +58,7 @@ class  DocFooter extends React.Component{
             <Grid item>Atentamente</Grid>
             <Grid item><img src={from.signature} alt="sign" style={{ maxWidth: '100%' }}/></Grid>
             <Grid item>{from.name.title+' '+from.name.full}
-              { users.length>0 && !disabled  ?
+              { users.length>1 && !disabled  ?
                   <IconButton onClick={this.openDialog}  >
                     <SupervisorAccount />
                   </IconButton>

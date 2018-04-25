@@ -23,11 +23,22 @@ class  DocEditor extends React.Component{
     });
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if (!this.state.isLoaded) return true;
+    const nextBodDiff=this.state.doc.body.valid!==nextState.doc.body.valid
+    return  this.state.doc.date!==nextState.doc.date || this.state.snack!==nextState.snack ||
+      this.state.doc.folio!==nextState.doc.folio || this.state.doc.from.id!==nextState.doc.from.id || nextBodDiff
+  }
+
+
   save=debounce(()=>{
     const doc=this.state.doc
     DocStore.save(doc).then(r=>{
-      doc.id=r.data.id
-      this.setState({doc: doc})
+      this.setState((prevState)=>{
+        const newState={...prevState}
+        newState.doc.id=r.data.id
+        return newState;
+      })
     })
 
   },500)
@@ -50,14 +61,16 @@ class  DocEditor extends React.Component{
           <DocHeader 
             onDateChange={ (e)=>this.changeDocField('date',e.target.value) } 
             onFolioChange={ (e)=>this.changeDocField('folio',e.target.value)}
-            doc={doc}
+            date={doc.date}
+            folio={doc.folio}
+            to={doc.to}
             onToChange={ this.onToChange}
             disabled={disabled}
           />
-          <DocBody doc={doc} onChange={ this.changeDocField } disabled={disabled} />
+          <DocBody doc={doc} onChange={ this.onBodyChange } disabled={disabled} />
           <DocFooter address={doc.address} from={doc.from} created_by={doc.created_by}
             onSwitchFrom={this.onSwitchFrom} disabled={disabled} />
-          <DocActionButtons onSend={this.onSend} disableSend={this.disableSend}  />
+          <DocActionButtons onSend={this.onSend} disabled={this.disableSend()}  />
           <Snackbar
             open={this.state.snack}
             message="Folio enviado con exito"
@@ -72,36 +85,49 @@ class  DocEditor extends React.Component{
         <Grid container space={24} style={style} />
       );
   }
+  
+  onBodyChange=(value)=>{
+    this.setState((prevState)=>{
+      const newState={...prevState, doc: { ...prevState.doc } }
+      newState.doc.body=value
+      newState.doc.body.valid= value.document.text.length>50 
+      return newState
+    })
+    this.save()
+  }
 
   changeDocField=(field,value)=>{
     this.setState((prevState)=>{
-      prevState.doc[field]=value
-      return prevState
+      const newState={...prevState, doc: { ...prevState.doc } }
+      newState.doc[field]=value
+      return newState
     })
     this.save()
   }
 
   onSwitchFrom=(user)=>{
-      this.setState((prevState)=>{
-        prevState.doc.from=user
-        return prevState
-      })
+    this.setState((prevState)=>{
+      const newState={...prevState, doc: { ...prevState.doc } }
+      newState.doc.from=user
+      newState.doc.address=user.address
+      return newState
+    })
     this.save()
   }
 
   // you shall not send empty body documents 
   disableSend=()=>{
-    const doc= this.state.doc.body.document
-    return !(doc.text!==undefined && this.state.doc.sent===false && doc.text.length>0)
+    return !this.state.doc.body.valid && !this.state.doc.sent
   }
 
   onSend=()=>{
     const doc= this.state.doc
     DocStore.send(doc).then(()=>{
       this.setState((prevState)=>{
-        prevState.doc.sent=true
-        prevState.snack=true
-        return prevState
+        const newState={...prevState}
+        newState.doc.sent=true
+        newState.snack=true
+        return newState
       })
 
     })
@@ -109,8 +135,9 @@ class  DocEditor extends React.Component{
 
   onToChange=(to)=>{
     this.setState((prevState)=>{
-      prevState.doc.to=to
-      return prevState
+      const newState={...prevState}
+      newState.doc.to=to
+      return newState;
     })
     this.save()
   }

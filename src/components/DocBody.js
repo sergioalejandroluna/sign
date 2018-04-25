@@ -75,7 +75,7 @@ class DocBody extends React.Component {
 
   onChange = ({ value }) => {
     this.setState({ value })
-    this.props.onChange('body',value)
+    this.props.onChange(value)
   }
 
 
@@ -188,6 +188,7 @@ class DocBody extends React.Component {
   render() {
     const { value } = this.state;
     const isInTable = tablePlugin.utils.isSelectionInTable(value);
+    const isInEditor=document.activeElement.dataset.slateEditor==='true'
     return (
       <Grid item lg={12} className={this.props.classes.root}  >
         <DocBodyToolBar 
@@ -195,6 +196,7 @@ class DocBody extends React.Component {
           onClickMark={this.onClickMark}
           onClickTable={this.onClickTable}
           isInTable={isInTable}
+          isInEditor={isInEditor}
         />
         <Editor
           placeholder="Cuerpo del documento"
