@@ -35,7 +35,7 @@ const App =()=> {
         <Layout> 
           <Switch>
             <PrivateRoute path="/" exact component={HomePage}/>
-            <PrivateRoute path="/folios" exact component={DocTable}/>
+            <PrivateRoute path="/folios" exact component={HomePage}/>
             <PrivateRoute path="/folios/new" exact component={DocEditor}/>
             <PrivateRoute path="/folios/:id?" component={DocEditor}/>
             <PrivateRoute path="/delegar" component={Delegate}/>

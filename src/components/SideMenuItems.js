@@ -11,12 +11,6 @@ const AuthItems = () => {
         </ListItemIcon>
         <ListItemText primary="Home" />
       </ListItem>
-      <ListItem component={Link} to='/folios' button>
-        <ListItemIcon>
-          <Description />
-        </ListItemIcon>
-        <ListItemText primary="Oficios" />
-      </ListItem>
       <ListItem component={Link} to='/delegar' button>
         <ListItemIcon>
           <Person />

@@ -2,8 +2,17 @@ import BaseStore from './BaseStore'
 
 class DocStore extends BaseStore{
 
-  fetchDocs(){
-    return this.axios.get('/docs').catch(this.error)
+  inbox(){
+    return this.axios.get('/docs?inbox=1').catch(this.error)
+  }
+  draft(){
+    return this.axios.get('/docs?draft=1').catch(this.error)
+  }
+  sent(){
+    return this.axios.get('/docs?send=1').catch(this.error)
+  }
+  signed(){
+    return this.axios.get('/docs?signed=1').catch(this.error)
   }
 
   getDoc(id){

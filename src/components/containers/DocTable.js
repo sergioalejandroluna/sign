@@ -6,7 +6,7 @@ import DocStore from '../../stores/DocStore';
 class DocTable extends React.Component{
   state={docs:[],isLoaded:false}
   componentDidMount(){
-    DocStore.fetchDocs().then(r=>{
+    this.props.fetch.then(r=>{
       this.setState({docs:r.data,isLoaded:true})
     });
   }
@@ -51,9 +51,9 @@ class DocTable extends React.Component{
                   <Button onClick={()=>this.onDelete(d.id)} color="secondary" > Borrar </Button>
                 </TableCell>
                 <TableCell >{d.folio}</TableCell>
-                <TableCell >{d.from.email}</TableCell>
-                <TableCell >{d.to.email}</TableCell>
-                <TableCell >{d.created_by.email}</TableCell>
+                <TableCell >{d.from}</TableCell>
+                <TableCell >{d.to}</TableCell>
+                <TableCell >{d.created_by}</TableCell>
               </TableRow>
             );
           })}
