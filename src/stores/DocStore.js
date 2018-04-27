@@ -9,7 +9,7 @@ class DocStore extends BaseStore{
     return this.axios.get('/docs?draft=1').catch(this.error)
   }
   sent(){
-    return this.axios.get('/docs?send=1').catch(this.error)
+    return this.axios.get('/docs?sent=1').catch(this.error)
   }
   signed(){
     return this.axios.get('/docs?signed=1').catch(this.error)
