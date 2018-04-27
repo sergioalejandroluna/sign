@@ -117,7 +117,7 @@ class  DocEditor extends React.Component{
 
   // you shall not send empty body documents 
   disableSend=()=>{
-    return !this.state.doc.body.valid && !this.state.doc.sent
+    return !this.state.doc.body.valid || this.state.doc.sent || this.state.doc.signed
   }
 
   onSend=()=>{
