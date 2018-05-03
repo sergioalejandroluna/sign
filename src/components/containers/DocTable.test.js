@@ -5,9 +5,15 @@ import DocTable  from './DocTable'
 import Table  from 'material-ui/Table';
 import Button from 'material-ui/Button';
 import db from '../../db.js'
-const wrapper= shallow(<DocTable   />)
 const mockDocs=db().docs
-wrapper.setState({docs:mockDocs,isLoaded:true});
+const mockFetch=()=>{
+  return new Promise(resolve=>{
+    resolve({data:{ docs: mockDocs } }) 
+  })
+}
+const wrapper= shallow(<DocTable  fetch={mockFetch()} />)
+wrapper.setState({docs: mockDocs, isLoaded: true})
+wrapper.update()
 it('should render a  table', function() {
   expect(wrapper.find(Table).length).toBe(1);
 });

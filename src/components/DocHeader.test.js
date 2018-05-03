@@ -7,11 +7,18 @@ import { TextField } from 'material-ui';
 import SearchUserField from './SearchUserField'
 import db from '../db.js'
 const doc=db().docs[1]
-const wrapper= shallow(<DocHeader   doc={doc} onFolioChange={e=> console.log(e)}
- onToChange={e=> console.log(e)}  
- onDateChange={e=> console.log(e)}  
- disabled={false}
-/>);
+doc.to=db().users[1]
+const wrapper= shallow(
+  <DocHeader 
+    onDateChange={ (e)=>{} } 
+    onFolioChange={ (e)=>{}}
+    date={doc.date}
+    folio={doc.folio}
+    to={doc.to}
+    onToChange={ (e)=>{}}
+    disabled={true}
+  />
+);
 it('should have a logo', function() {
   expect(wrapper.find('img').props().src).toBe(Logo)
 })

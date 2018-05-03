@@ -3,18 +3,19 @@ import DocActionButtons from './DocActionButtons.js'
 import {Grid } from 'material-ui';
 import {shallow} from 'enzyme';
 import Button from 'material-ui/Button';
-let wrapper= shallow(<DocActionButtons onSend={()=>{}} disableSend={()=>{return false}} />);
+const wrapper= shallow(<DocActionButtons onSend={()=>{}} disabled={false} showSend={true} />);
 it('should have a back button', function() {
   expect(wrapper.find(Button).get(0).props.children).toBe('Volver')
 });
 it('should have a send button', function() {
   expect(wrapper.find(Button).get(1).props.children).toBe('Enviar')
 });
-it('should able to disable the send button', function() {
-  let wrapper= shallow(<DocActionButtons onSend={()=>{}} disableSend={()=>{return true}} />);
-  expect(wrapper.find(Button).get(1).props.disabled).toBe(true)
-});
 it('should change the text of send button', function() {
-  expect(0).toBe(true)
+  wrapper.setProps({ showSend: false})
+  expect(wrapper.find(Button).get(1).props.children).toBe('Solicitar firma' )
+});
+it('should able to disable the send button', function() {
+  wrapper.setProps({disabled:true, showSend: false})
+  expect(wrapper.find(Button).get(1).props.disabled).toBe(true)
 });
 
