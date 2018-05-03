@@ -27,7 +27,8 @@ class  DocEditor extends React.Component{
     if (!this.state.isLoaded) return true;
     const nextBodDiff=this.state.doc.body.valid!==nextState.doc.body.valid
     return  this.state.doc.date!==nextState.doc.date || this.state.snack!==nextState.snack ||
-      this.state.doc.folio!==nextState.doc.folio || this.state.doc.from.id!==nextState.doc.from.id || nextBodDiff
+      this.state.doc.folio!==nextState.doc.folio || this.state.doc.from.id!==nextState.doc.from.id || 
+      this.state.doc.to.id!==nextState.doc.to.id ||  nextBodDiff
   }
 
 
@@ -52,40 +53,51 @@ class  DocEditor extends React.Component{
   }
 
   renderDoc(){
-    if (this.state.isLoaded){
-      const doc=this.state.doc;
-      const disabled=this.state.doc.sent
-
-      return (
-        <Grid container  style={style} >
-          <DocHeader 
-            onDateChange={ (e)=>this.changeDocField('date',e.target.value) } 
-            onFolioChange={ (e)=>this.changeDocField('folio',e.target.value)}
-            date={doc.date}
-            folio={doc.folio}
-            to={doc.to}
-            onToChange={ this.onToChange}
-            disabled={disabled}
-          />
-          <DocBody doc={doc} onChange={ this.onBodyChange } disabled={disabled} />
-          <DocFooter address={doc.address} from={doc.from} created_by={doc.created_by}
-            onSwitchFrom={this.onSwitchFrom} disabled={disabled} />
-          <DocActionButtons onSend={this.onSend} disabled={this.disableSend()}  />
-          <Snackbar
-            open={this.state.snack}
-            message="Folio enviado con exito"
-            anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
-            onClose={()=>{ this.setState({snack: false}) }}
-          />
-        </Grid>
-      )
-    }
-    else
+    if (!this.state.isLoaded)
       return (
         <Grid container space={24} style={style} />
       );
+    const doc=this.state.doc;
+    const disabled= this.state.doc.sent || this.state.doc.signed
+    const canSend=doc.created_by.id===doc.from.id
+    // you shall not send empty body documents 
+    const disableSend= !this.state.doc.body.valid || disabled
+
+    return (
+      <Grid container  style={style} >
+        <DocHeader 
+          onDateChange={ (e)=>this.changeDocField('date',e.target.value) } 
+          onFolioChange={ (e)=>this.changeDocField('folio',e.target.value)}
+          date={doc.date}
+          folio={doc.folio}
+          to={doc.to}
+          onToChange={ this.onToChange}
+          disabled={disabled}
+        />
+        <DocBody doc={doc} onChange={ this.onBodyChange } disabled={disabled} />
+        <DocFooter address={doc.address} from={doc.from} created_by={doc.created_by}
+          onSwitchFrom={this.onSwitchFrom} disabled={disabled} />
+        <DocActionButtons onSend={this.onSend} disabled={disableSend} 
+          showSend={canSend}  />
+        <Snackbar
+          open={this.state.snack}
+          message="Folio enviado con exito"
+          anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
+          onClose={()=>{ this.setState({snack: false}) }}
+        />
+      </Grid>
+    )
   }
+
   
+  onToChange=(value)=>{
+    this.setState((prevState)=>{
+      const newState={...prevState, doc: { ...prevState.doc, to: {...value} } }
+      return newState
+    })
+    this.save()
+  }
+
   onBodyChange=(value)=>{
     this.setState((prevState)=>{
       const newState={...prevState, doc: { ...prevState.doc } }
@@ -115,31 +127,18 @@ class  DocEditor extends React.Component{
     this.save()
   }
 
-  // you shall not send empty body documents 
-  disableSend=()=>{
-    return !this.state.doc.body.valid || this.state.doc.sent || this.state.doc.signed
-  }
-
   onSend=()=>{
     const doc= this.state.doc
-    DocStore.send(doc).then(()=>{
+    DocStore.send_or_sign(doc).then((r)=>{
       this.setState((prevState)=>{
         const newState={...prevState}
-        newState.doc.sent=true
+        newState.doc.sent=r.data.sent
+        newState.doc.signed=r.data.signed
         newState.snack=true
         return newState
       })
 
     })
-  }
-
-  onToChange=(to)=>{
-    this.setState((prevState)=>{
-      const newState={...prevState}
-      newState.doc.to=to
-      return newState;
-    })
-    this.save()
   }
 }
 DocEditor.propTypes={

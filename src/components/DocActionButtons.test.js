@@ -14,4 +14,7 @@ it('should able to disable the send button', function() {
   let wrapper= shallow(<DocActionButtons onSend={()=>{}} disableSend={()=>{return true}} />);
   expect(wrapper.find(Button).get(1).props.disabled).toBe(true)
 });
+it('should change the text of send button', function() {
+  expect(0).toBe(true)
+});
 

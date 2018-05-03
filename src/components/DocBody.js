@@ -75,7 +75,8 @@ class DocBody extends React.Component {
 
   onChange = ({ value }) => {
     this.setState({ value })
-    this.props.onChange(value)
+    
+    if (!this.props.disabled) this.props.onChange(value)
   }
 
 

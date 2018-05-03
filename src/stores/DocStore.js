@@ -25,9 +25,12 @@ class DocStore extends BaseStore{
     return this.axios.post('/docs',doc ).catch(this.error)
   }
 
+  setDoc(doc){
+    return this.axios.put('/docs/'+doc.id,doc )
+  }
 
   save(doc){
-    if(doc.to.job_title==='' || doc.folio===''){
+    if(doc.to.id===null || doc.folio===''){
       return new Promise((resolve,reject)=>{
         resolve({data: doc })
       })}
@@ -38,13 +41,10 @@ class DocStore extends BaseStore{
     }
   }
 
-  send(doc){
-    // the sent param is no needed by rails but is neede for the json server, for fronted dev
-    return this.axios.patch('/docs/'+doc.id+'/send',{sent: true} ).catch(this.error)
-  }
-
-  setDoc(doc){
-    return this.axios.put('/docs/'+doc.id,doc ).catch(this.error)
+  send_or_sign(doc){
+    if (doc.created_by.id===doc.from.id)
+      return this.axios.patch('/docs/'+doc.id+'/send' ).catch(this.error)
+    return this.axios.patch('/docs/'+doc.id+'/request_sign' ).catch(this.error)
   }
 
   changeDocField(id,field,value){

@@ -7,7 +7,7 @@ class DocTable extends React.Component{
   state={docs:[],isLoaded:false}
   componentDidMount(){
     this.props.fetch.then(r=>{
-      this.setState({docs:r.data,isLoaded:true})
+      this.setState({docs:r.data.docs,isLoaded:true})
     });
   }
 

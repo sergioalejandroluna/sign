@@ -10,7 +10,7 @@ class DocHeader extends React.Component{
   shouldComponentUpdate(nextProps, nextState) {
     const tprops=this.props
     return tprops.disabled!==nextProps.disabled || tprops.date!==nextProps.date ||
-        tprops.folio!==nextProps.folio
+        tprops.folio!==nextProps.folio ||  tprops.to.id!==nextProps.to.id
 
   }
 
