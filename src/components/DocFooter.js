@@ -29,7 +29,7 @@ function same_dude(from, created_by){
       <Grid item  >{ created_by.email }</Grid>
     </Grid>)
 }
-const Sign=withStyles(styles, { withTheme: true })(({ blank,sign,classes })=>{
+export const Sign=withStyles(styles, { withTheme: true })(({ blank,sign,classes })=>{
   return (
     <div className={classes.sign} > 
       { blank ? 
@@ -113,5 +113,6 @@ DocFooter.propTypes={
   from: PropTypes.object.isRequired,
   created_by: PropTypes.object.isRequired,
   onSwitchFrom: PropTypes.func.isRequired,
+  showSign: PropTypes.bool.isRequired,
 }
 export default DocFooter;

@@ -1,6 +1,6 @@
 import React from 'react'
 import {Grid, IconButton } from 'material-ui';
-import DocFooter from './DocFooter'
+import  DocFooter,{ Sign } from './DocFooter'
 import {shallow} from 'enzyme';
 import db from '../db'
 import DelegateStore from "../stores/DelegateStore"
@@ -15,9 +15,9 @@ DelegateStore.getUsersOnBehalf=()=>{
   })
 }
 const onSwitchFrom=()=>{}
-const wrapper= shallow(<DocFooter address={address} from={from} created_by={created_by} onSwitchFrom={onSwitchFrom} disabled={false}/>);
+const wrapper= shallow(<DocFooter address={address} from={from} created_by={created_by} onSwitchFrom={onSwitchFrom} disabled={false} showSign={true}/>);
 it('should have a  signature', function() {
-  expect(wrapper.find(Grid).get(4).props.children.props.src).toBe(from.signature)
+  expect(wrapper.find(Sign).length).toBe(1)
 })
 it('should have a name of the sender', function() {
   expect(wrapper.find(Grid).get(5).props.children[0]).toBe(from.name.title+' '+from.name.full)
