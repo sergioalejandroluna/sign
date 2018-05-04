@@ -57,11 +57,15 @@ class  DocEditor extends React.Component{
       return (
         <Grid container space={24} style={style} />
       );
-    const doc=this.state.doc;
-    const disabled= this.state.doc.sent || this.state.doc.signed
-    const canSend=doc.created_by.id===doc.from.id
+    const { doc  }=this.state;
+    // you can only send when the current user and the documents from, are the same 
+    const canSend=doc.from.email===DocStore.email
+    // disabled when the docs was sent or teh current already requested a sign
+    const disabled= doc.sent || (doc.signed && !canSend)
     // you shall not send empty body documents 
-    const disableSend= !this.state.doc.body.valid || disabled
+    const disableSend= !doc.body.valid || disabled
+    // if the docs is to the current users, dont show send button
+    const hideSend=doc.to.email===DocStore.email && doc.sent
 
     return (
       <Grid container  style={style} >
@@ -76,9 +80,14 @@ class  DocEditor extends React.Component{
         />
         <DocBody doc={doc} onChange={ this.onBodyChange } disabled={disabled} />
         <DocFooter address={doc.address} from={doc.from} created_by={doc.created_by}
-          onSwitchFrom={this.onSwitchFrom} disabled={disabled} />
+          onSwitchFrom={this.onSwitchFrom} 
+          disabled={disabled}
+          showSign={doc.sent}
+        />
         <DocActionButtons onSend={this.onSend} disabled={disableSend} 
-          showSend={canSend}  />
+          canSend={canSend}
+          hideSend={hideSend}
+          />
         <Snackbar
           open={this.state.snack}
           message="Folio enviado con exito"

@@ -11,7 +11,7 @@ class  DocActionButtons extends React.Component{
     return true
   }
   render(){
-    const { onSend, disabled, showSend }= this.props
+    const { onSend, disabled, canSend, hideSend }= this.props
     return (
       <Grid container >
         <Grid item  >
@@ -20,9 +20,9 @@ class  DocActionButtons extends React.Component{
           </Button>
         </Grid>
         <Grid item  >
-          <Button  variant='raised' color='primary' onClick={onSend} disabled={disabled} >
-            { showSend ?  'Enviar' : 'Solicitar firma' }
-          </Button>
+          {hideSend ? null : <Button  variant='raised' color='primary' onClick={onSend} disabled={disabled} >
+            { canSend ?  'Firmar y enviar' : 'Solicitar firma' }
+          </Button>}
         </Grid>
       </Grid>
     )
@@ -32,6 +32,7 @@ class  DocActionButtons extends React.Component{
 DocActionButtons.propTypes={
   onSend: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,
-  showSend: PropTypes.bool.isRequired,
+  canSend: PropTypes.bool.isRequired,
+  hideSend: PropTypes.bool.isRequired,
 }
 export default DocActionButtons;
