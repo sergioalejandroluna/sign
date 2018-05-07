@@ -54,6 +54,7 @@ class DocTable extends React.Component{
                 <TableCell >{d.from}</TableCell>
                 <TableCell >{d.to}</TableCell>
                 <TableCell >{d.created_by}</TableCell>
+                { d.signed!==undefined ? <TableCell children={d.signed+''} /> : null}
               </TableRow>
             );
           })}
