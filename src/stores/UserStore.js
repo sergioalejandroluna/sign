@@ -49,6 +49,35 @@ class UserStore extends BaseStore {
     })
   }
 
+  subscribe_notification(){
+    const swNoti = `${process.env.PUBLIC_URL}/service-notification.js`;
+    const axios= this.axios;
+    // register the service
+    navigator.serviceWorker.register(swNoti);
+    //setup the push notification with a vapid key
+    navigator.serviceWorker.ready.then(function(registration) {
+      return registration.pushManager.getSubscription()
+        .then(async function(subscription) {
+          if (subscription) {
+            return subscription;
+          }
+          const response = await axios('/vapid_public_key');
+          const vapidPublicKey = await response.data;
+          const convertedVapidKey = new Uint8Array(vapidPublicKey);
+          return registration.pushManager.subscribe({
+            userVisibleOnly: true,
+            applicationServerKey: convertedVapidKey
+          }).then(subscription=>{
+            axios.patch('/users/subscribe_notification', {
+              subscription: subscription,
+              message: 'You clicked a button!'
+            });
+            return subscription;
+          });
+        });
+    })
+  }
+
   setDelegate(delegate){
   }
 

@@ -7,6 +7,7 @@ import withWidth from 'material-ui/utils/withWidth';
 import SideMenuItems  from './SideMenuItems'
 import ProfileMenu  from './ProfileMenu'
 import UserStore from '../stores/UserStore'
+import RequestNotificationPermission from './RequestNotificationPermission'
 import { withRouter } from 'react-router'
 
 const drawerWidth = 240;
@@ -113,6 +114,7 @@ class Layout extends React.Component {
 
     return (
       <div className={classes.root}>
+        <RequestNotificationPermission />
         <AppBar
           position="absolute"
           className={classNames(classes.appBar, this.state.open && classes.appBarShift)}
