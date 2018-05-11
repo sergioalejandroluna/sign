@@ -15,7 +15,7 @@ class  DocActionButtons extends React.Component{
     return (
       <Grid container >
         <Grid item  >
-          <Button component={Link} to='/folios' variant='raised' color='primary' className="back"  >
+          <Button component={Link} to='/oficios' variant='raised' color='primary' className="back"  >
             Volver
           </Button>
         </Grid>

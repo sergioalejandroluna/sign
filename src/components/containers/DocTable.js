@@ -26,7 +26,7 @@ class DocTable extends React.Component{
         <TableHead>
           <TableRow>
             <TableCell> 
-              <Button  component={Link} to={'/folios/new'}  color="primary"> Nuevo </Button> 
+              <Button  component={Link} to={'/oficios/new'}  color="primary"> Nuevo </Button> 
             </TableCell>
             <TableCell >Folio</TableCell>
             <TableCell >De</TableCell>
@@ -47,7 +47,7 @@ class DocTable extends React.Component{
             return (
               <TableRow key={d.id}>
                 <TableCell> 
-                  <Button component={Link} to={'/folios/'+d.id}   color="primary"> Editar </Button>
+                  <Button component={Link} to={'/oficios/'+d.id}   color="primary"> Editar </Button>
                   <Button onClick={()=>this.onDelete(d.id)} color="secondary" > Borrar </Button>
                 </TableCell>
                 <TableCell >{d.folio}</TableCell>
