@@ -2,6 +2,7 @@
   "name": "sign-front",
   "version": "0.1.0",
   "private": true,
+  "homepage": "/",
   "dependencies": {
     "autoprefixer": "7.1.6",
     "autosuggest-highlight": "^3.1.1",
@@ -17,6 +18,7 @@
     "css-loader": "0.28.7",
     "dotenv": "4.0.0",
     "dotenv-expand": "4.2.0",
+    "env-cmd": "^8.0.1",
     "eslint": "4.10.0",
     "eslint-config-react-app": "^2.1.0",
     "eslint-loader": "1.9.0",
@@ -59,7 +61,8 @@
   },
   "scripts": {
     "start": "node scripts/start.js",
-    "build": "node scripts/build.js",
+    "p_build": "env-cmd ./.env.production node scripts/build.js",
+    "s_build": "env-cmd ./.env.staging node scripts/build.js",
     "backend": "json-server --watch --port 3001 --routes db_routes.json src/db.js",
     "test": "node scripts/test.js --env=jsdom --watchAll",
     "test_backend": "json-server --watch --port 3002 --routes db_routes.json src/db.js"
