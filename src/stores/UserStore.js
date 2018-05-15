@@ -4,7 +4,8 @@ import * as qs from 'query-string';
 class UserStore extends BaseStore { 
 
   authenticate(cb) {
-    window.location.replace('http://lvh.me:3001/users/auth/google_oauth2')
+    const API_URL=process.env.REACT_APP_API
+    window.location.replace(API_URL+'/users/auth/google_oauth2')
   }
 
   signout() {
