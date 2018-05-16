@@ -1,8 +1,6 @@
 import axios from 'axios'
 class BaseStore  {
   isAuthenticated= this.getLocal('auth')==='true';
-  email=this.getLocal('email')
-  token=this.getLocal('token')
   constructor(){
     const API_URL=process.env.REACT_APP_API
     this.axios=axios.create({
@@ -10,6 +8,14 @@ class BaseStore  {
       timeout: 10000,
     });
     this.setGlobalHeaders();
+  }
+
+  token(){
+    return this.getLocal('token');
+  }
+
+  email(){
+    return this.getLocal('email')
   }
 
   setGlobalHeaders(){

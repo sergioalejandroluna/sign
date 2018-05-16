@@ -36,59 +36,10 @@
       "src": "/images/logo/36*36.png",
       "type": "image/png",
       "sizes": "36x36"
-    },
+    }
   ],
   "start_url": "/",
   "background_color": "#FAFAFA",
-  "display": "standalone",
+  "display": "fullscreen",
   "theme_color": "#694A8A"
 }
-<<<<<<< HEAD
-=======
-{
-  "name": "Sistema de Administacion de oficios",
-  "short_name": "GOD",
-  "icons": [
-    {
-      "src": "/images/logo/512*512.png",
-      "type": "image/png",
-      "sizes": "512x512"
-    },
-    {
-      "src": "/images/logo/192*192.png",
-      "type": "image/png",
-      "sizes": "192x192"
-    },
-    {
-      "src": "/images/logo/144*144.png",
-      "type": "image/png",
-      "sizes": "144x144"
-    },
-    {
-      "src": "/images/logo/96*96.png",
-      "type": "image/png",
-      "sizes": "96x96"
-    },
-    {
-      "src": "/images/logo/72*72.png",
-      "type": "image/png",
-      "sizes": "72x72"
-    },
-    {
-      "src": "/images/logo/48*48.png",
-      "type": "image/png",
-      "sizes": "48x48"
-    },
-    {
-      "src": "/images/logo/36*36.png",
-      "type": "image/png",
-      "sizes": "36x36"
-    },
-  ],
-  "start_url": "/",
-  "background_color": "#FAFAFA",
-  "display": "standalone",
-  "theme_color": "#694A8A"
-}
->>>>>>> 69911c500eda3256e468a7a9b5fe3d6bf545461a
-

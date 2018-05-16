@@ -16,6 +16,7 @@ class UserStore extends BaseStore {
       this.email=null
       this.token=null
       this.setGlobalHeaders()
+      this.unsubscribe_notification()
       resolve(this.isAuthenticated)
     })
   }
@@ -50,11 +51,20 @@ class UserStore extends BaseStore {
     })
   }
 
+  unsubscribe_notification(){
+    navigator.serviceWorker.ready.then(function(reg) {
+      reg.pushManager.getSubscription().then(function(subscription) {
+        subscription.unsubscribe().then(function(successful) {
+          // You've successfully unsubscribed
+        }).catch(function(e) {
+          // Unsubscription failed
+        })
+      })        
+    });
+  }
+
   subscribe_notification(){
-    const swNoti = `${process.env.PUBLIC_URL}/service-notification.js`;
     const axios= this.axios;
-    // register the service
-    navigator.serviceWorker.register(swNoti);
     //setup the push notification with a vapid key
     navigator.serviceWorker.ready.then(function(registration) {
       return registration.pushManager.getSubscription()

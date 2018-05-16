@@ -114,7 +114,7 @@ class Layout extends React.Component {
 
     return (
       <div className={classes.root}>
-        <RequestNotificationPermission />
+        {this.state.isAuth ? <RequestNotificationPermission /> : null }
         <AppBar
           position="absolute"
           className={classNames(classes.appBar, this.state.open && classes.appBarShift)}

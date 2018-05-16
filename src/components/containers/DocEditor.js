@@ -59,13 +59,13 @@ class  DocEditor extends React.Component{
       );
     const { doc  }=this.state;
     // you can only send when the current user and the documents from, are the same 
-    const canSend=doc.from.email===DocStore.email
+    const canSend=doc.from.email===DocStore.email()
     // disabled when the docs was sent or teh current already requested a sign
     const disabled= doc.sent || (doc.signed && !canSend)
     // you shall not send empty body documents 
     const disableSend= !doc.body.valid || disabled
     // if the docs is to the current users, dont show send button
-    const hideSend=doc.to.email===DocStore.email && doc.sent
+    const hideSend=doc.to.email===DocStore.email() && doc.sent
 
     return (
       <Grid container  style={style} >
