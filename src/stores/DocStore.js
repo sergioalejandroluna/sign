@@ -42,7 +42,7 @@ class DocStore extends BaseStore{
   }
 
   send_or_sign(doc){
-    if (this.email===doc.from.email)
+    if (this.email()===doc.from.email)
       return this.axios.patch('/docs/'+doc.id+'/send' ).catch(this.error)
     return this.axios.patch('/docs/'+doc.id+'/request_sign' ).catch(this.error)
   }

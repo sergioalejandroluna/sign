@@ -1,5 +1,4 @@
 self.addEventListener('push', function(event) {
-
   if (event.data) {
     const pushData = event.data.json();
     event.waitUntil(new Promise(resolve =>{
@@ -10,9 +9,9 @@ self.addEventListener('push', function(event) {
   }
 });
 self.addEventListener('notificationclick', function(event) {
-  let url = event.notification.data;
   event.notification.close(); // Android needs explicit close.
-  event.waitUntil(()=>{
-    return clients.openWindow(url);
-  });
+  let url = event.notification.data;
+  event.waitUntil(
+    clients.openWindow(url)
+  );
 });

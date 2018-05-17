@@ -19,8 +19,8 @@ class BaseStore  {
   }
 
   setGlobalHeaders(){
-    axios.defaults.headers.common['Email'] = this.email;
-    axios.defaults.headers.common['Token'] = this.token;
+    axios.defaults.headers.common['Email'] = this.email();
+    axios.defaults.headers.common['Token'] = this.token();
   }
 
   saveLocal(key,object){

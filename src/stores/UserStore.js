@@ -13,8 +13,6 @@ class UserStore extends BaseStore {
       this.popLocal('email')
       this.popLocal('auth')
       this.isAuthenticated = false
-      this.email=null
-      this.token=null
       this.setGlobalHeaders()
       this.unsubscribe_notification()
       resolve(this.isAuthenticated)
@@ -37,8 +35,6 @@ class UserStore extends BaseStore {
     return new Promise((resolve,reject)=>{
       const parsed = qs.parse(search);
       if (parsed.token!==undefined && parsed!==undefined){
-        this.token=parsed.token
-        this.email=parsed.email
         this.saveLocal('token',parsed.token)
         this.saveLocal('email',parsed.email)
         this.saveLocal('photo',parsed.photo)
