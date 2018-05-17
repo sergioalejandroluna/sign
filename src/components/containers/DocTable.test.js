@@ -8,7 +8,7 @@ import db from '../../db.js'
 const mockDocs=db().docs
 const mockFetch=()=>{
   return new Promise(resolve=>{
-    resolve({data:{ docs: mockDocs } }) 
+    resolve({data:{ docs: mockDocs } })
   })
 }
 const wrapper= shallow(<DocTable  fetch={mockFetch()} />)

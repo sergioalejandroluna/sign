@@ -5,9 +5,9 @@ const HomePage=()=>{
   return(<div>
     <h1>Borradores</h1> 
     <DocTable fetch={DocStore.draft()} />  
-    <h1>En revision</h1> 
+    <h1>En revisión</h1>
     <DocTable fetch={DocStore.signed()} />  
-    <h1>Recividos</h1> 
+    <h1>Recibidos</h1>
     <DocTable fetch={DocStore.inbox()} />  
     <h1>Enviados</h1> 
     <DocTable fetch={DocStore.sent()} />  
