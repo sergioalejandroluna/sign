@@ -17,7 +17,6 @@ class  DocEditor extends React.Component{
     snack: false,
   }
   componentDidMount(){
-    throw 'yes'
     const id=this.props.match.params.id 
     DocStore.getDoc(id).then(r=>{
       this.setState({doc:r.data,isLoaded:true})
