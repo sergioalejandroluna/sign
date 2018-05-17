@@ -17,8 +17,8 @@ class DocStore extends BaseStore{
 
   getDoc(id){
     if (id===undefined)
-      return this.axios.get('/docs/new').catch(this.error)
-    return this.axios.get('/docs/'+id).catch(this.error)
+      return this.axios.get('/docs/new')
+    return this.axios.get('/docs/'+id)
   }
 
   addDoc(doc){

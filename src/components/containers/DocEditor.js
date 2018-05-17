@@ -17,9 +17,22 @@ class  DocEditor extends React.Component{
     snack: false,
   }
   componentDidMount(){
+    throw 'yes'
     const id=this.props.match.params.id 
     DocStore.getDoc(id).then(r=>{
       this.setState({doc:r.data,isLoaded:true})
+    },e=>{
+      switch( e.response.status){
+        case 403:
+          this.setState({error: 'Acceso denegado'});
+          break;
+        case 404:
+          this.setState({error: 'No encontrado'});
+          break;
+        default:
+          this.setState({error: 'Error '})
+          console.error(e.message)
+      }
     });
   }
 
@@ -55,9 +68,16 @@ class  DocEditor extends React.Component{
   renderDoc(){
     if (!this.state.isLoaded)
       return (
-        <Grid container space={24} style={style} />
+        <div>
+          <Grid container space={24} style={style} />
+          <Snackbar
+            open={true}
+            message={this.state.error}
+            anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
+          />
+        </div>
       );
-    const { doc  }=this.state;
+    const { doc, snack  }=this.state;
     // you can only send when the current user and the documents from, are the same 
     const canSend=doc.from.email===DocStore.email()
     // disabled when the docs was sent or teh current already requested a sign
@@ -89,7 +109,7 @@ class  DocEditor extends React.Component{
           hideSend={hideSend}
           />
         <Snackbar
-          open={this.state.snack}
+          open={snack}
           message="Folio enviado con exito"
           anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
           onClose={()=>{ this.setState({snack: false}) }}

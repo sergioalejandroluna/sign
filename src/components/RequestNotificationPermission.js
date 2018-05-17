@@ -1,7 +1,7 @@
 import React from 'react';
 import Notification  from 'react-web-notification'
 import UserStore from '../stores/UserStore'
-// it is just a wrapper  to ask for the permision logic, no push-messages  are rendered here, check src/service-notification for that
+// it is just a wrapper  to ask for the permision logic, no push-messages  are rendered here, check public/service-notification for that
 class RequestNotificationPermission extends React.Component {
   constructor(props) {
     super(props);

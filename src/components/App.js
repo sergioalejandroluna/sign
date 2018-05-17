@@ -5,6 +5,7 @@ import HomePage from './HomePage';
 import DocEditor from './containers/DocEditor';
 import { BrowserRouter } from 'react-router-dom'
 import Layout from './Layout';
+import ErrorBoundary from './ErrorBoundary';
 import { createMuiTheme,MuiThemeProvider } from 'material-ui/styles';
 import PrivateRoute from './PrivateRoute'
 import Login from './Login'
@@ -33,15 +34,17 @@ const App =()=> {
     <BrowserRouter>
       <MuiThemeProvider theme={theme}>
         <Layout> 
-          <Switch>
-            <PrivateRoute path="/" exact component={HomePage}/>
-            <PrivateRoute path="/oficios" exact component={HomePage}/>
-            <PrivateRoute path="/oficios/new" exact component={DocEditor}/>
-            <PrivateRoute path="/oficios/:id?" component={DocEditor}/>
-            <PrivateRoute path="/delegar" component={Delegate}/>
-            <Route path="/login" component={Login}/>
-            <Route path="*" component={NotFound}/>
-          </Switch>
+          <ErrorBoundary>
+            <Switch>
+              <PrivateRoute path="/" exact component={HomePage}/>
+              <PrivateRoute path="/oficios" exact component={HomePage}/>
+              <PrivateRoute path="/oficios/new" exact component={DocEditor}/>
+              <PrivateRoute path="/oficios/:id?" component={DocEditor}/>
+              <PrivateRoute path="/delegar" component={Delegate}/>
+              <Route path="/login" component={Login}/>
+              <Route path="*" component={NotFound}/>
+            </Switch>
+          </ErrorBoundary>
         </Layout> 
       </MuiThemeProvider>
     </BrowserRouter>
