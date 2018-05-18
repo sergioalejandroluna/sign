@@ -70,7 +70,7 @@ class  DocEditor extends React.Component{
         <div>
           <Grid container space={24} style={style} />
           <Snackbar
-            open={true}
+            open={this.state.error!==undefined}
             message={this.state.error}
             anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
           />

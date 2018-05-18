@@ -2,17 +2,28 @@ import BaseStore from './BaseStore'
 
 class DocStore extends BaseStore{
 
-  inbox(){
-    return this.axios.get('/docs?inbox=1').catch(this.error)
-  }
-  draft(){
-    return this.axios.get('/docs?draft=1').catch(this.error)
-  }
-  sent(){
-    return this.axios.get('/docs?sent=1').catch(this.error)
-  }
-  signed(){
-    return this.axios.get('/docs?signed=1').catch(this.error)
+  fetch(type='inbox',per=5, page=1){
+    const params={}
+    switch (type){
+      case 'inbox':
+        params.inbox=1
+        break;
+      case 'draft':
+        params.draft=1
+        break;
+      case 'sent':
+        params.sent=1
+        break;
+      case 'signed':
+        params.signed=1
+        break;
+      default:
+        break;
+
+    }
+    params.per=per
+    params.page=page
+    return this.axios.get('/docs', {params: params}).catch(this.error)
   }
 
   getDoc(id){

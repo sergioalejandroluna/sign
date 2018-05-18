@@ -19,87 +19,6 @@ import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 import LastPageIcon from '@material-ui/icons/LastPage';
 import DocStore from '../../stores/DocStore';
 
-const actionsStyles = theme => ({
-  root: {
-    flexShrink: 0,
-    color: theme.palette.text.secondary,
-    marginLeft: theme.spacing.unit * 2.5,
-  },
-});
-
-class TablePaginationActions extends React.Component {
-  handleFirstPageButtonClick = event => {
-    this.props.onChangePage(event, 0);
-  };
-
-  handleBackButtonClick = event => {
-    this.props.onChangePage(event, this.props.page - 1);
-  };
-
-  handleNextButtonClick = event => {
-    this.props.onChangePage(event, this.props.page + 1);
-  };
-
-  handleLastPageButtonClick = event => {
-    this.props.onChangePage(
-      event,
-      Math.max(0, Math.ceil(this.props.count / this.props.rowsPerPage) - 1),
-    );
-  };
-
-  render() {
-    const { classes, count, page, rowsPerPage, theme } = this.props;
-
-    return (
-      <div className={classes.root}>
-        <IconButton
-          onClick={this.handleFirstPageButtonClick}
-          disabled={page === 0}
-          aria-label="First Page"
-        >
-          {theme.direction === 'rtl' ? <LastPageIcon /> : <FirstPageIcon />}
-        </IconButton>
-        <IconButton
-          onClick={this.handleBackButtonClick}
-          disabled={page === 0}
-          aria-label="Previous Page"
-        >
-          {theme.direction === 'rtl' ? <KeyboardArrowRight /> : <KeyboardArrowLeft />}
-        </IconButton>
-        <IconButton
-          onClick={this.handleNextButtonClick}
-          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-          aria-label="Next Page"
-        >
-          {theme.direction === 'rtl' ? <KeyboardArrowLeft /> : <KeyboardArrowRight />}
-        </IconButton>
-        <IconButton
-          onClick={this.handleLastPageButtonClick}
-          disabled={page >= Math.ceil(count / rowsPerPage) - 1}
-          aria-label="Last Page"
-        >
-          {theme.direction === 'rtl' ? <FirstPageIcon /> : <LastPageIcon />}
-        </IconButton>
-      </div>
-    );
-  }
-}
-
-TablePaginationActions.propTypes = {
-  classes: PropTypes.object.isRequired,
-  count: PropTypes.number.isRequired,
-  onChangePage: PropTypes.func.isRequired,
-  page: PropTypes.number.isRequired,
-  rowsPerPage: PropTypes.number.isRequired,
-  theme: PropTypes.object.isRequired,
-};
-
-const TablePaginationActionsWrapped = withStyles(actionsStyles, { withTheme: true })(
-  TablePaginationActions,
-);
-
-
-
 const styles = theme => ({
   root: {
     width: '100%',
@@ -122,15 +41,8 @@ export class DocTable extends React.Component {
   };
 
   componentDidMount(){
-    this.props.fetch.then(r=>{
+    DocStore.fetch(this.props.fetch).then(r=>{
       this.setState({docs:r.data.docs,count:r.data.total,isLoaded:true})
-    });
-  }
-
-  getDocs(){
-    const { rowsPerPage, page }  = this.state;
-    DocStore.fetchDocs(rowsPerPage, page).then(r=>{
-      this.setState({docs:r.data,isLoaded:true})
     });
   }
 
@@ -144,20 +56,23 @@ export class DocTable extends React.Component {
   }
   handleChangePage = (event, page) => {
     const { rowsPerPage }  = this.state;
-    DocStore.fetchDocs(rowsPerPage, page).then(r=>{
-      // console.log(r);
-      this.setState({docs:r.data,page: page})
-
-      // console.log(this.state);
-
+    DocStore.fetch(this.props.fetch,rowsPerPage, page+1).then(r=>{
+      this.setState({docs:r.data.docs,count:r.data.total, page: page })
     });
   };
 
   handleChangeRowsPerPage = event => {
-    this.setState({ rowsPerPage: event.target.value });
+    const rowsPerPage= event.target.value ;
+    const { page }= this.state
+    DocStore.fetch(this.props.fetch,rowsPerPage, page).then(r=>{
+      this.setState({docs:r.data.docs,count:r.data.total,rowsPerPage: rowsPerPage})
+    });
   };
 
 
+  labelDisplayRows =  ({ from, to, count }) => {
+    return `${from}-${to} de ${count}`
+  };
 
   render() {
     // console.log(this.state);
@@ -210,7 +125,8 @@ export class DocTable extends React.Component {
                   page={page}
                   onChangePage={this.handleChangePage}
                   onChangeRowsPerPage={this.handleChangeRowsPerPage}
-                  Actions={TablePaginationActionsWrapped}
+                  labelDisplayedRows={this.labelDisplayRows}
+                  labelRowsPerPage='Resultados por página'
                 />
               </TableRow>
             </TableFooter>
@@ -222,7 +138,7 @@ export class DocTable extends React.Component {
 }
 
 DocTable.propTypes = {
-
+  fetch: PropTypes.string.isRequired,
 };
 
 export default withStyles(styles)(DocTable);
