@@ -1,5 +1,4 @@
 import React from 'react'
-import DocStore from '../stores/DocStore';
 import DocTable from './containers/DocTable';
 const HomePage=()=>{
   return(<div>

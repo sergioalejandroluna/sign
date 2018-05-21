@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, Switch  } from 'react-router-dom';
-import DocTable from './containers/DocTable';
 import HomePage from './HomePage';
 import DocEditor from './containers/DocEditor';
 import { BrowserRouter } from 'react-router-dom'
