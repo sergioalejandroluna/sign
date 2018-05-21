@@ -15,7 +15,7 @@ class DocHeader extends React.Component{
   }
 
   render(){
-    const {onFolioChange,onDateChange,onToChange,disabled,to,date,folio}=this.props
+    const {onDateChange,onToChange,disabled,to,date,folio}=this.props
     return (
       <Grid container spacing={0} alignItems="flex-end" >
         <Grid item lg={1}  >
@@ -36,9 +36,8 @@ class DocHeader extends React.Component{
             <Grid item lg={3} >
               <TextField 
                 value={folio} 
-                onChange={onFolioChange}
                 className="align-right bold"
-                disabled={disabled}
+                disabled={true}
               /> 
             </Grid>
           </Grid>
@@ -57,7 +56,6 @@ class DocHeader extends React.Component{
 }
 DocHeader.propTypes={
   onDateChange: PropTypes.func.isRequired,
-  onFolioChange: PropTypes.func.isRequired,
   date: PropTypes.string.isRequired,
   folio: PropTypes.string.isRequired,
   to: PropTypes.object.isRequired,

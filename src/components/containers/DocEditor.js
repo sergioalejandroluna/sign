@@ -91,7 +91,6 @@ class  DocEditor extends React.Component{
       <Grid container  style={style} >
         <DocHeader 
           onDateChange={ (e)=>this.changeDocField('date',e.target.value) } 
-          onFolioChange={ (e)=>this.changeDocField('folio',e.target.value)}
           date={doc.date}
           folio={doc.folio}
           to={doc.to}
