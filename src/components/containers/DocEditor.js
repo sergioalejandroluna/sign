@@ -50,6 +50,7 @@ class  DocEditor extends React.Component{
       this.setState((prevState)=>{
         const newState={...prevState}
         newState.doc.id=r.data.id
+        newState.doc.folio=r.data.folio
         return newState;
       })
     })
