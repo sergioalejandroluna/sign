@@ -1,13 +1,27 @@
-import axios from 'axios'
+import axios from 'axios';
+
 class BaseStore  {
   isAuthenticated= this.getLocal('auth')==='true';
   constructor(){
-    const API_URL=process.env.REACT_APP_API
     this.axios=axios.create({
-      baseURL: API_URL,
+      baseURL: this.api_url(),
       timeout: 10000,
     });
     this.setGlobalHeaders();
+    if(this.isAuthenticated){
+      const ActionCable = require('actioncable')
+      const url=`ws://${this.api_domain()}/live?email=${this.email()}&token=${this.token()}`
+      this.cable=ActionCable.createConsumer(url); 
+    }
+  }
+
+  api_domain(){
+    const url= new URL(this.api_url())
+    return url.host;
+  }
+
+  api_url(){
+    return  process.env.REACT_APP_API; 
   }
 
   token(){

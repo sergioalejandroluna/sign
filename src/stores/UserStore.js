@@ -85,15 +85,6 @@ class UserStore extends BaseStore {
     })
   }
 
-  setDelegate(delegate){
-  }
-
-  removeDelegate(delegate){
-  }
-
-  getDelegates(){
-  }
-
   search(str){
     return this.axios.get('/users',{
       params:{q:str}

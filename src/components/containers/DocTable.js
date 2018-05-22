@@ -12,6 +12,7 @@ import Table, {
   TableRow,
 } from 'material-ui/Table';
 import Paper from 'material-ui/Paper';
+import ReadedCell from '../ReadedCell';
 import DocStore from '../../stores/DocStore';
 
 const styles = theme => ({
@@ -71,9 +72,10 @@ export class DocTable extends React.Component {
 
   render() {
     // console.log(this.state);
-    const { classes } = this.props;
+    const { classes, fetch } = this.props;
     const { docs, rowsPerPage, page, count } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, count - page * rowsPerPage);
+    const sentTable=fetch==='sent'
 
     return (
       <Paper className={classes.root}>
@@ -88,6 +90,7 @@ export class DocTable extends React.Component {
                 <TableCell >De</TableCell>
                 <TableCell >Para</TableCell>
                 <TableCell >Creado por</TableCell>
+                {sentTable ? <TableCell >Visto</TableCell> : null}
               </TableRow>
             </TableHead>
             <TableBody>
@@ -102,6 +105,7 @@ export class DocTable extends React.Component {
                     <TableCell >{d.from}</TableCell>
                     <TableCell >{d.to}</TableCell>
                     <TableCell >{d.created_by}</TableCell>
+                    {sentTable ? <ReadedCell id={d.id} readed={d.readed} /> : null }
                   </TableRow>
                 );
               })}

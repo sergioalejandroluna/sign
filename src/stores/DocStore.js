@@ -1,5 +1,4 @@
 import BaseStore from './BaseStore'
-
 class DocStore extends BaseStore{
 
   fetch(type='inbox',per=5, page=1){
@@ -25,6 +24,13 @@ class DocStore extends BaseStore{
     params.page=page
     return this.axios.get('/docs', {params: params}).catch(this.error)
   }
+
+  getDocChannel(id,onMessage){
+    return this.cable.subscriptions.create({channel: 'DocReadedChannel', id:id },{
+      received: onMessage 
+    }) 
+  }
+
 
   getDoc(id){
     if (id===undefined)
