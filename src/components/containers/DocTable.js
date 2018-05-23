@@ -76,6 +76,7 @@ export class DocTable extends React.Component {
     const { docs, rowsPerPage, page, count } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, count - page * rowsPerPage);
     const sentTable=fetch==='sent'
+    const editable= fetch==='draft'
 
     return (
       <Paper className={classes.root}>
@@ -98,8 +99,10 @@ export class DocTable extends React.Component {
                 return (
                   <TableRow key={d.id}>
                     <TableCell>
-                      <Button className="PaginationButton"  component={Link} to={'/oficios/'+d.id}   color="primary"> Editar </Button>
-                      <Button onClick={()=>this.onDelete(d.id)} color="secondary" > Borrar </Button>
+                      <Button className="PaginationButton"  component={Link} to={'/oficios/'+d.id}   color="primary">
+                        { editable ? 'Editar' : 'Ver' } 
+                      </Button>
+                      { editable ? <Button onClick={()=>this.onDelete(d.id)} color="secondary" > Borrar </Button> : null}
                     </TableCell>
                     <TableCell >{d.folio}</TableCell>
                     <TableCell >{d.from}</TableCell>
