@@ -1,5 +1,5 @@
 import React from 'react';
-import  {TableCell} from '@material-ui/core/Table';
+import  {TableCell} from '@material-ui/core';
 import {  Done } from '@material-ui/icons';
 import DocStore from '../stores/DocStore'
 
