@@ -16,7 +16,8 @@ class BaseStore  {
 
   cable(){
     if (this.cableConsumer===undefined){
-      const url=`ws://${this.api_domain()}/live?email=${this.email()}&token=${this.token()}`
+      const proto= window.location.protocol==='https:' ? 'wss' : 'ws'
+      const url=`${proto}://${this.api_domain()}/live?email=${this.email()}&token=${this.token()}`
       this.cableConsumer=ActionCable.createConsumer(url); 
     }
     return this.cableConsumer
