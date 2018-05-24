@@ -1,4 +1,5 @@
 import axios from 'axios';
+import ActionCable from 'actioncable';
 
 class BaseStore  {
   isAuthenticated= this.getLocal('auth')==='true';
@@ -7,12 +8,18 @@ class BaseStore  {
       baseURL: this.api_url(),
       timeout: 10000,
     });
-    this.setGlobalHeaders();
     if(this.isAuthenticated){
-      const ActionCable = require('actioncable')
-      const url=`ws://${this.api_domain()}/live?email=${this.email()}&token=${this.token()}`
-      this.cable=ActionCable.createConsumer(url); 
+      this.setGlobalHeaders();
     }
+  }
+
+
+  cable(){
+    if (this.cableConsumer===undefined){
+      const url=`ws://${this.api_domain()}/live?email=${this.email()}&token=${this.token()}`
+      this.cableConsumer=ActionCable.createConsumer(url); 
+    }
+    return this.cableConsumer
   }
 
   api_domain(){

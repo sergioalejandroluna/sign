@@ -25,12 +25,17 @@ class DocStore extends BaseStore{
     return this.axios.get('/docs', {params: params}).catch(this.error)
   }
 
-  getDocChannel(id,onMessage){
-    return this.cable.subscriptions.create({channel: 'DocReadedChannel', id:id },{
+  getReadedChannel(id,onMessage){
+    return this.cable().subscriptions.create({channel: 'DocReadedChannel', id:id },{
       received: onMessage 
     }) 
   }
 
+  getInboxChannel(onMessage){
+    return this.cable().subscriptions.create({channel: 'InboxDocumentChannel', email:this.email() },{
+      received: onMessage 
+    }) 
+  }
 
   getDoc(id){
     if (id===undefined)
@@ -60,8 +65,8 @@ class DocStore extends BaseStore{
 
   send_or_sign(doc){
     if (this.email()===doc.from.email)
-      return this.axios.patch('/docs/'+doc.id+'/send' ).catch(this.error)
-    return this.axios.patch('/docs/'+doc.id+'/request_sign' ).catch(this.error)
+      return this.axios.patch('/docs/'+doc.id+'/send' )
+    return this.axios.patch('/docs/'+doc.id+'/request_sign' )
   }
 
   changeDocField(id,field,value){

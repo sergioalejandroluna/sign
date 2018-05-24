@@ -1,6 +1,9 @@
 .bold {
     font-weight: bold !important;
 }
+tr.alert{
+  background-color: #FFEB3B;
+}
 img.logo-doc{
     height: 180px;
 }

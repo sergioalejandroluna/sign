@@ -40,6 +40,20 @@ export class DocTable extends React.Component {
     DocStore.fetch(this.props.fetch).then(r=>{
       this.setState({docs:r.data.docs,count:r.data.total,isLoaded:true})
     });
+    if (this.props.fetch==='inbox')
+      this.subs=DocStore.getInboxChannel(this.onNewInbox);
+  }
+
+  onNewInbox=(data)=>{
+    this.setState((prevState)=>{
+      const newState={ ...prevState }
+      newState.docs=[...prevState.docs]
+      if(newState.docs.length===newState.rowsPerPage)
+        newState.docs.pop()
+      data.new=true
+      newState.docs.unshift(data)
+      return newState;
+    })
   }
 
   onDelete=(id)=>{
@@ -97,7 +111,7 @@ export class DocTable extends React.Component {
             <TableBody>
               {docs.map(d => {
                 return (
-                  <TableRow key={d.id}>
+                  <TableRow key={d.id} className={d.new ? 'alert' : null }  >
                     <TableCell>
                       <Button className="PaginationButton"  component={Link} to={'/oficios/'+d.id}   color="primary">
                         { editable ? 'Editar' : 'Ver' } 

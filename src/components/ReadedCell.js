@@ -11,7 +11,7 @@ export class ReadedCell extends React.Component {
   componentDidMount(){
     //just subs when the document hasnt been readed 
     if (!this.state.readed){
-      this.subs=DocStore.getDocChannel(this.props.id, this.onReaded);
+      this.subs=DocStore.getReadedChannel(this.props.id, this.onReaded);
     }
   }
   componentWillUnmount(){

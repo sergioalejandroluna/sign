@@ -44,7 +44,7 @@ class  DocEditor extends React.Component{
 
   addWSCheckReaded=(doc)=>{
     if(!doc.readed && doc.sent && this.subs===undefined)
-      this.subs=DocStore.getDocChannel(doc.id, (data)=>{
+      this.subs=DocStore.getReadedChannel(doc.id, (data)=>{
         this.setState((prevState)=>{
           const newState={...prevState}
           newState.doc={...prevState.doc}
