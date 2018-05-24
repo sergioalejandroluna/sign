@@ -102,12 +102,6 @@ class Layout extends React.Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.width !== nextProps.width) {
-      this.setState({open: nextProps.width === 'lg'});
-    }
-  }
-
   render() {
     const { classes, theme } = this.props;
 
