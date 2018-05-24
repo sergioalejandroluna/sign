@@ -3,10 +3,10 @@ import PropTypes from 'prop-types';
 import Autosuggest from 'react-autosuggest';
 import match from 'autosuggest-highlight/match';
 import parse from 'autosuggest-highlight/parse';
-import TextField from 'material-ui/TextField';
-import Paper from 'material-ui/Paper';
-import { MenuItem, InputAdornment, ListItemText, Avatar } from 'material-ui';
-import { withStyles } from 'material-ui/styles';
+import TextField from '@material-ui/core/TextField';
+import Paper from '@material-ui/core/Paper';
+import { MenuItem, InputAdornment, ListItemText, Avatar } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
 import { debounce, find } from 'lodash'
 import UserStore from '../stores/UserStore';
 
@@ -105,7 +105,7 @@ class SearchUserField extends React.Component {
     const name= nextProps.to.name.full
     if (name===prevState.value)
       return null;
-    return {suggestions:[], value: name}
+    return prevState
   }
 
   handleSuggestionsFetchRequested = debounce(({ value }) => {
@@ -148,7 +148,8 @@ class SearchUserField extends React.Component {
   };
 
   render() {
-    const { classes } = this.props;
+    const { classes , to } = this.props;
+    to.email= to.email || ''
 
     return (
       <Autosuggest

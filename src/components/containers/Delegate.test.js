@@ -4,8 +4,8 @@ import Delegate from './Delegate';
 import DelegateStore from '../../stores/DelegateStore'
 import db from '../../db.js'
 import SearchUserField from '../SearchUserField'
-import { ListItem }  from 'material-ui/List';
-import { AddCircle, RemoveCircle } from 'material-ui-icons';
+import { ListItem }  from '@material-ui/core/List';
+import { AddCircle, RemoveCircle } from '@material-ui/core-icons';
 const data=db()
 DelegateStore.add=function(){
   return new Promise((resolve,reject)=>{

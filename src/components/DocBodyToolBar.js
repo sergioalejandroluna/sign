@@ -1,12 +1,12 @@
 import React from 'react'
 import { AddRow,AddTable,AddColumn,
   RemoveColumn,RemoveRow,RemoveTable  } from '../img/'
-import { Grid, IconButton, Paper,Snackbar } from 'material-ui';
+import { Grid, IconButton, Paper,Snackbar } from '@material-ui/core';
 import { FormatBold, FormatItalic, Code,FormatUnderlined,
   FormatQuote, FormatListNumbered, 
   FormatListBulleted,InsertLink,
-} from 'material-ui-icons'
-import Tooltip from 'material-ui/Tooltip';
+} from '@material-ui/icons'
+import Tooltip from '@material-ui/core/Tooltip';
 
 const renderButton = (click, type, icon,help) => {
   const onClick = event => click(event, type)

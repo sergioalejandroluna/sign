@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 import { Logo } from '../img';
 import DateClick from './DateClick'
 import SearchUserField from './SearchUserField'
-import {Grid, TextField } from 'material-ui';
-import {  Done } from 'material-ui-icons';
+import {Grid, TextField } from '@material-ui/core';
+import {  Done } from '@material-ui/icons';
 
 class DocHeader extends React.Component{
 

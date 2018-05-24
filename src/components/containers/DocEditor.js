@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {  Paper, Grid, Snackbar} from 'material-ui';
+import {  Paper, Grid, Snackbar} from '@material-ui/core';
 import DocBody from '../DocBody';
 import DocHeader from '../DocHeader';
 import DocFooter from '../DocFooter';

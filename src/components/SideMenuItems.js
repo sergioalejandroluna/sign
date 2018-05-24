@@ -1,6 +1,6 @@
 import React from 'react';
-import { ListItem, ListItemIcon, ListItemText } from 'material-ui/List';
-import { Home, VpnKey, Person } from 'material-ui-icons';
+import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
+import { Home, VpnKey, Person } from '@material-ui/icons';
 import {  Link } from "react-router-dom";
 const AuthItems = () => {
   return(

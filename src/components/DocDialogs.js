@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Avatar from 'material-ui/Avatar';
-import List, { ListItem, ListItemAvatar, ListItemText } from 'material-ui/List';
-import Dialog, { DialogTitle } from 'material-ui/Dialog';
+import {Dialog, List, ListItem, ListItemAvatar, ListItemText,DialogTitle, Avatar} from '@material-ui/core/';
 
 
 export const ChooseAccount =(props)=> {

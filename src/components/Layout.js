@@ -1,9 +1,8 @@
 import React from 'react';
-import { withStyles } from 'material-ui/styles';
+import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
-import { List,Toolbar, AppBar, Drawer,Typography,Divider,IconButton  } from 'material-ui';
-import { Menu,ChevronLeft,ChevronRight } from 'material-ui-icons';
-import withWidth from 'material-ui/utils/withWidth';
+import { List,Toolbar, AppBar, Drawer,Typography,Divider,IconButton  } from '@material-ui/core';
+import { Menu,ChevronLeft,ChevronRight } from '@material-ui/icons';
 import SideMenuItems  from './SideMenuItems'
 import ProfileMenu  from './ProfileMenu'
 import UserStore from '../stores/UserStore'
@@ -160,5 +159,5 @@ class Layout extends React.Component {
 }
 
 
-export default withWidth()(withStyles(styles, { withTheme: true })(withRouter(Layout)));
+export default withStyles(styles, { withTheme: true })(withRouter(Layout));
 

@@ -1,17 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Button from 'material-ui/Button';
+import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
-import { withStyles } from 'material-ui/styles';
-import Table, {
+import { withStyles } from '@material-ui/core/styles';
+import  {
+  Table,
   TableHead,
   TableBody,
   TableCell,
   TableFooter,
   TablePagination,
   TableRow,
-} from 'material-ui/Table';
-import Paper from 'material-ui/Paper';
+} from '@material-ui/core';
+import Paper from '@material-ui/core/Paper';
 import ReadedCell from '../ReadedCell';
 import DocStore from '../../stores/DocStore';
 

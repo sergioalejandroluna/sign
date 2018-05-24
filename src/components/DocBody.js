@@ -4,7 +4,7 @@ import { Editor } from 'slate-react'
 import PasteLinkify from 'slate-paste-linkify'
 import PluginEditTable from 'slate-deep-table'
 import { isKeyHotkey } from 'is-hotkey'
-import { Grid,  withStyles  } from 'material-ui';
+import { Grid,  withStyles  } from '@material-ui/core';
 import { Value } from 'slate'
 import DocBodyToolBar from './DocBodyToolBar'
 const DEFAULT_NODE = 'paragraph'

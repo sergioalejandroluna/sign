@@ -5,7 +5,7 @@ import DocEditor from './containers/DocEditor';
 import { BrowserRouter } from 'react-router-dom'
 import Layout from './Layout';
 import ErrorBoundary from './ErrorBoundary';
-import { createMuiTheme,MuiThemeProvider } from 'material-ui/styles';
+import { createMuiTheme,MuiThemeProvider } from '@material-ui/core/styles';
 import PrivateRoute from './PrivateRoute'
 import Login from './Login'
 import NotFound from './NotFound'

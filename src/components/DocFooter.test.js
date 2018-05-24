@@ -1,5 +1,5 @@
 import React from 'react'
-import {Grid, IconButton } from 'material-ui';
+import {Grid, IconButton } from '@material-ui/core';
 import  DocFooter,{ Sign } from './DocFooter'
 import {shallow} from 'enzyme';
 import db from '../db'

@@ -1,7 +1,7 @@
 import React from 'react';
 import {mount} from 'enzyme';
 import DateClick  from './DateClick'
-import { TextField,Button } from 'material-ui';
+import { TextField,Button } from '@material-ui/core';
 const dateOpt={  year: 'numeric', month: 'long', day: 'numeric' };
 var value='1988-10-05'
 const beforeText= "Parral, Chih.,"

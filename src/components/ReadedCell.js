@@ -1,6 +1,6 @@
 import React from 'react';
-import  {TableCell} from 'material-ui/Table';
-import {  Done } from 'material-ui-icons';
+import  {TableCell} from '@material-ui/core/Table';
+import {  Done } from '@material-ui/icons';
 import DocStore from '../stores/DocStore'
 
 export class ReadedCell extends React.Component {

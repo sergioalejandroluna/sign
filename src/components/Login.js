@@ -1,7 +1,7 @@
 import React from 'react';
 import {Redirect} from 'react-router-dom';
 import UserStore from '../stores/UserStore'
-import { Button  } from 'material-ui';
+import { Button  } from '@material-ui/core';
 class Login extends React.Component {
   state = {
     redirectToReferrer: false

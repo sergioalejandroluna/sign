@@ -69,7 +69,6 @@
     "test_backend": "json-server --watch --port 3002 --routes db_routes.json src/db.js"
   },
   "devDependencies": {
-    "@material-ui/codemod": "^1.0.0",
     "babel-cli": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "enzyme": "^3.3.0",

@@ -1,6 +1,6 @@
 import React from 'react';
-import { Avatar, Menu,MenuItem, ListItemText} from 'material-ui';
-import { withStyles } from 'material-ui/styles';
+import { Avatar, Menu,MenuItem, ListItemText} from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
   primary: {
@@ -31,7 +31,7 @@ class ProfileMenu extends React.Component {
     const { classes } = this.props;
     const {  anchorEl } = this.state;
     const open = Boolean(anchorEl);
-        // in order to center the menu https://material-ui-next.com/demos/menus/#menulist-composition
+        // in order to center the menu https://@material-ui/core-next.com/demos/menus/#menulist-composition
     return (
       <div>
         <MenuItem  component="div" 

@@ -2,8 +2,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {render,shallow,mount} from 'enzyme';
 import DocTable  from './DocTable'
-import Table  from 'material-ui/Table';
-import Button from 'material-ui/Button';
+import Table  from '@material-ui/core/Table';
+import Button from '@material-ui/core/Button';
 import db from '../../db.js'
 const mockDocs=db().docs
 const mockFetch=()=>{

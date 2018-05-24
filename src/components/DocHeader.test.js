@@ -3,7 +3,7 @@ import DocHeader from './DocHeader'
 import {shallow} from 'enzyme';
 import DateClick from './DateClick.js';
 import { Logo } from '../img';
-import { TextField } from 'material-ui';
+import { TextField } from '@material-ui/core';
 import SearchUserField from './SearchUserField'
 import db from '../db.js'
 const doc=db().docs[1]

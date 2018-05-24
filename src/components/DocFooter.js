@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Grid, IconButton } from 'material-ui';
-import { SupervisorAccount } from 'material-ui-icons';
+import {Grid, IconButton } from '@material-ui/core';
+import { SupervisorAccount } from '@material-ui/icons';
 import {ChooseAccount} from './DocDialogs';
 import DelegateStore from "../stores/DelegateStore"
-import { withStyles } from 'material-ui/styles';
+import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
   sign:{
