@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@material-ui/core/Button';
 import { Link } from 'react-router-dom';
-import { withStyles } from '@material-ui/core/styles';
 import  {
   Table,
   TableHead,
@@ -16,18 +15,6 @@ import Paper from '@material-ui/core/Paper';
 import ReadedCell from '../ReadedCell';
 import DocStore from '../../stores/DocStore';
 
-const styles = theme => ({
-  root: {
-    width: '100%',
-    marginTop: theme.spacing.unit * 3,
-  },
-  table: {
-    minWidth: 500,
-  },
-  tableWrapper: {
-    overflowX: 'auto',
-  },
-});
 
 export class DocTable extends React.Component {
 
@@ -87,20 +74,20 @@ export class DocTable extends React.Component {
 
   render() {
     // console.log(this.state);
-    const { classes, fetch } = this.props;
+    const { fetch } = this.props;
     const { docs, rowsPerPage, page, count } = this.state;
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, count - page * rowsPerPage);
     const sentTable=fetch==='sent'
     const editable= fetch==='draft'
 
     return (
-      <Paper className={classes.root}>
-        <div className={classes.tableWrapper}>
+      <Paper >
+        <div >
           <Table>
             <TableHead>
               <TableRow>
                 <TableCell>
-                  <Button className="PaginationButton" component={Link} to={'/oficios/new'}  color="primary"> Nuevo </Button>
+                  <Button  component={Link} to={'/oficios/new'}  color="primary"> Nuevo </Button>
                 </TableCell>
                 <TableCell >Folio</TableCell>
                 <TableCell >De</TableCell>
@@ -114,7 +101,7 @@ export class DocTable extends React.Component {
                 return (
                   <TableRow key={d.id} className={d.new ? 'alert' : null }  >
                     <TableCell>
-                      <Button className="PaginationButton"  component={Link} to={'/oficios/'+d.id}   color="primary">
+                      <Button  component={Link} to={'/oficios/'+d.id}   color="primary">
                         { editable ? 'Editar' : 'Ver' } 
                       </Button>
                       { editable ? <Button onClick={()=>this.onDelete(d.id)} color="secondary" > Borrar </Button> : null}
@@ -123,7 +110,7 @@ export class DocTable extends React.Component {
                     <TableCell >{d.from}</TableCell>
                     <TableCell >{d.to}</TableCell>
                     <TableCell >{d.created_by}</TableCell>
-                    {sentTable ? <ReadedCell id={d.id} readed={d.readed} /> : null }
+                    {sentTable ? <ReadedCell id={d.id} readed={d.readed || false } /> : null }
                   </TableRow>
                 );
               })}
@@ -158,4 +145,4 @@ DocTable.propTypes = {
   fetch: PropTypes.string.isRequired,
 };
 
-export default withStyles(styles)(DocTable);
+export default DocTable;

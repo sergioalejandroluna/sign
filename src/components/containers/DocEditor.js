@@ -116,7 +116,7 @@ class  DocEditor extends React.Component{
           to={doc.to}
           onToChange={ this.onToChange}
           disabled={disabled}
-          readed={ !hideSend && doc.readed }
+          readed={ !hideSend && doc.readed===true }
         />
         <DocBody doc={doc} onChange={ this.onBodyChange } disabled={disabled} />
         <DocFooter address={doc.address} from={doc.from} created_by={doc.created_by}
