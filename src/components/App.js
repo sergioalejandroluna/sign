@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, Switch  } from 'react-router-dom';
-import HomePage from './HomePage';
 import DocEditor from './containers/DocEditor';
 import { BrowserRouter } from 'react-router-dom'
 import Layout from './Layout';
@@ -10,6 +9,10 @@ import PrivateRoute from './PrivateRoute'
 import Login from './Login'
 import NotFound from './NotFound'
 import Delegate from './containers/Delegate'
+import Inbox  from "./Inbox";
+import Drafts  from "./Drafts";
+import Sent  from "./Sent";
+import Sign  from "./Sign";
 
 const theme = createMuiTheme({
   palette: {
@@ -35,10 +38,13 @@ const App =()=> {
         <Layout> 
           <ErrorBoundary>
             <Switch>
-              <PrivateRoute path="/" exact component={HomePage}/>
-              <PrivateRoute path="/oficios" exact component={HomePage}/>
+              <PrivateRoute path="/" exact component={Inbox}/>
               <PrivateRoute path="/oficios/new" exact component={DocEditor}/>
               <PrivateRoute path="/oficios/:id?" component={DocEditor}/>
+              <PrivateRoute path="/recibidos"  component={Inbox}  />
+              <PrivateRoute path="/borradores"  component={Drafts}  />
+              <PrivateRoute path="/enviados"  component={Sent}  />
+              <PrivateRoute path="/enRevision"  component={Sign}  />
               <PrivateRoute path="/delegar" component={Delegate}/>
               <Route path="/login" component={Login}/>
               <Route path="*" component={NotFound}/>

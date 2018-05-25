@@ -54,7 +54,7 @@ class ProfileMenu extends React.Component {
           open={open}
           onClose={this.handleClose}
         >
-          <MenuItem onClick={this.logout}>Cerrar session</MenuItem>
+          <MenuItem onClick={this.logout}>Cerrar sesión</MenuItem>
         </Menu>
       </div>
     )

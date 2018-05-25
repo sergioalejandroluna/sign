@@ -1,16 +1,39 @@
 import React from 'react';
 import { ListItem, ListItemIcon, ListItemText } from '@material-ui/core';
-import { Home, VpnKey, Person } from '@material-ui/icons';
+import { VpnKey, Person, Inbox, Drafts, Send, Restore  } from '@material-ui/icons';
 import {  Link } from "react-router-dom";
+
 const AuthItems = () => {
   return(
     <div>
-      <ListItem component={Link} to='/' button>
+       <ListItem component={Link} to='/recibidos' button>
         <ListItemIcon>
-          <Home />
+          <Inbox />
         </ListItemIcon>
-        <ListItemText primary="Home" />
+        <ListItemText primary="Recibidos " />
       </ListItem>
+
+      <ListItem component={Link} to='/borradores' button>
+        <ListItemIcon>
+          <Drafts />
+        </ListItemIcon>
+        <ListItemText primary="Borradores " />
+      </ListItem>
+
+      <ListItem component={Link} to='/enviados' button>
+        <ListItemIcon>
+          <Send />
+        </ListItemIcon>
+        <ListItemText primary="Enviados " />
+      </ListItem>
+
+      <ListItem component={Link} to='/enRevision' button>
+        <ListItemIcon>
+          <Restore />
+        </ListItemIcon>
+        <ListItemText primary="En revisión " />
+      </ListItem>
+
       <ListItem component={Link} to='/delegar' button>
         <ListItemIcon>
           <Person />
