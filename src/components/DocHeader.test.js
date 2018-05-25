@@ -5,6 +5,7 @@ import DateClick from './DateClick.js';
 import { Logo } from '../img';
 import { TextField } from '@material-ui/core';
 import SearchUserField from './SearchUserField'
+import {  Done } from '@material-ui/icons';
 import db from '../db.js'
 const doc=db().docs[1]
 doc.to=db().users[1]
@@ -17,6 +18,7 @@ const wrapper= shallow(
     to={doc.to}
     onToChange={ (e)=>{}}
     disabled={true}
+    readed={false}
   />
 );
 it('should have a logo', function() {
@@ -30,4 +32,8 @@ it('should have a doc name', function() {
 })
 it('should have a Greeting', function() {
   expect(wrapper.find(SearchUserField).props().to).toBe(doc.to)
+})
+it('should show done icon when the target user read the document', function() {
+  wrapper.setProps({readed: true})
+  expect(wrapper.find(Done).length).toBe(1)
 })

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, IconButton,Avatar } from '@material-ui/core';
-import List, { ListItem, ListItemSecondaryAction, ListItemText } from '@material-ui/core/List';
+import { List, ListItem, ListItemSecondaryAction, ListItemText } from '@material-ui/core';
 import { AddCircle, RemoveCircle } from '@material-ui/icons';
 import SearchUserField from '../SearchUserField'
 import DelegateStore from '../../stores/DelegateStore'

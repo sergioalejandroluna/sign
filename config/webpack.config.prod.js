@@ -148,9 +148,19 @@ module.exports = {
             test: /\.(js|jsx|mjs)$/,
             include: paths.appSrc,
             loader: require.resolve('babel-loader'),
-            options: {
-              
-              compact: true,
+            query: {
+              plugins: [
+                [require('babel-plugin-transform-imports'), {
+                  "@material-ui/icons": {
+                    "transform": "@material-ui/icons/${member}",
+                    "preventFullImport": true
+                  },
+                  "lodash": {
+                    "transform": "lodash/${member}",
+                    "preventFullImport": true
+                  }
+                }]
+              ]
             },
           },
           // The notation here is somewhat confusing.
@@ -192,18 +202,18 @@ module.exports = {
                         // https://github.com/facebookincubator/create-react-app/issues/2677
                         ident: 'postcss',
                         plugins: () => [
-                          require('postcss-flexbugs-fixes'),
-                          autoprefixer({
-                            browsers: [
-                              '>1%',
-                              'last 4 versions',
-                              'Firefox ESR',
-                              'not ie < 9', // React doesn't support IE8 anyway
-                            ],
-                            flexbox: 'no-2009',
-                          }),
+                        require('postcss-flexbugs-fixes'),
+                        autoprefixer({
+                          browsers: [
+                            '>1%',
+                            'last 4 versions',
+                            'Firefox ESR',
+                            'not ie < 9', // React doesn't support IE8 anyway
+                          ],
+                          flexbox: 'no-2009',
+                        }),
                         ],
-                      },
+                        },
                     },
                   ],
                 },
