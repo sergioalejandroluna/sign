@@ -9,7 +9,6 @@ const paths= {
    "/delegar": "Delegar",
 }
 export default (path)=>{
-  console.log(path)
   const name =paths[path] || 'Update PathToName.js'
   return paths[path] 
 }

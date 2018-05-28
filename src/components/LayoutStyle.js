@@ -26,6 +26,7 @@ const styles = theme => ({
 	menuButton: {
 		marginLeft: 12,
 		marginRight: 36,
+    minHeight: 64,
 	},
 	hide: {
 		display: 'none',
@@ -35,6 +36,7 @@ const styles = theme => ({
 		width: drawerWidth,
     //if you remove this, the close/open animations gonna bounce around
     whiteSpace: 'nowrap',
+    overflow: 'hidden',
 		transition: theme.transitions.create('width', {
 			easing: theme.transitions.easing.sharp,
 			duration: theme.transitions.duration.enteringScreen,
@@ -64,7 +66,6 @@ const styles = theme => ({
 		flexGrow: 1,
 		width:'20%',
 		backgroundColor: theme.palette.background.default,
-		padding: theme.spacing.unit * 3,
 	},
 	flex: {
 		flex: 1,
