@@ -38,13 +38,14 @@ const App =()=> {
         <Layout> 
           <ErrorBoundary>
             <Switch>
+              // PLEASE update the PathToName.js file when you add/modify a route
               <PrivateRoute path="/" exact component={Inbox}/>
               <PrivateRoute path="/oficios/new" exact component={DocEditor}/>
               <PrivateRoute path="/oficios/:id?" component={DocEditor}/>
               <PrivateRoute path="/recibidos"  component={Inbox}  />
               <PrivateRoute path="/borradores"  component={Drafts}  />
               <PrivateRoute path="/enviados"  component={Sent}  />
-              <PrivateRoute path="/enRevision"  component={Sign}  />
+              <PrivateRoute path="/en-revision"  component={Sign}  />
               <PrivateRoute path="/delegar" component={Delegate}/>
               <Route path="/login" component={Login}/>
               <Route path="*" component={NotFound}/>

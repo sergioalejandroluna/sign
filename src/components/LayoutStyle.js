@@ -33,6 +33,8 @@ const styles = theme => ({
 	drawerPaper: {
 		position: 'fixed',
 		width: drawerWidth,
+    //if you remove this, the close/open animations gonna bounce around
+    whiteSpace: 'nowrap',
 		transition: theme.transitions.create('width', {
 			easing: theme.transitions.easing.sharp,
 			duration: theme.transitions.duration.enteringScreen,

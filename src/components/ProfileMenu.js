@@ -1,5 +1,5 @@
 import React from 'react';
-import { Avatar, Menu,MenuItem, ListItemText} from '@material-ui/core';
+import { Avatar, Menu, Hidden, MenuItem, ListItemText} from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
@@ -38,7 +38,7 @@ class ProfileMenu extends React.Component {
           onClick={this.handleMenu}
         >
           <Avatar src={this.props.info.photo} alt="photo"  /> 
-          <ListItemText disableTypography primary={ this.props.info.name } className={classes.primary}  />
+          <Hidden smDown ><ListItemText disableTypography primary={ this.props.info.name } className={classes.primary}  /></Hidden>
         </MenuItem>
         <Menu
           id="menu-profile"

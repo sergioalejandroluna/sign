@@ -1,11 +1,12 @@
 import React from 'react';
 import { withWidth, SwipeableDrawer, List, Divider  } from '@material-ui/core';
 import {  isWidthUp } from '@material-ui/core/withWidth';
+import SideMenuItems  from './SideMenuItems'
 import PropTypes from 'prop-types'
 import classNames from 'classnames';
 
 
-const LayoutDrawer=({classes,open,children,toggleOpen,width})=>{
+const LayoutDrawer=({classes,open,isAuth,toggleOpen,width})=>{
   const md=isWidthUp('md', width)
   let widthClass=classes.drawerPaperSm;
   if(md)
@@ -22,9 +23,11 @@ const LayoutDrawer=({classes,open,children,toggleOpen,width})=>{
       onOpen={  toggleOpen }
       onClose={  toggleOpen }
     >
-          { md ? <div className={classes.toolbar}></div> : null }
-          <Divider />
-          <List >{ children }</List>
+      { md ? <div className={classes.toolbar}></div> : null }
+      <Divider />
+      <List >
+        <SideMenuItems isAuth={isAuth} onClose={ md ? null : toggleOpen } />
+      </List>
     </SwipeableDrawer>
   ) ;
 }
