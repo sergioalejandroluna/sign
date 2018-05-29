@@ -127,6 +127,7 @@ class  DocEditor extends React.Component{
         <DocActionButtons onSend={this.onSend} disabled={disableSend} 
           canSend={canSend}
           hideSend={hideSend}
+          goBack={this.props.history.goBack}
         />
         <Snackbar
           open={snack}

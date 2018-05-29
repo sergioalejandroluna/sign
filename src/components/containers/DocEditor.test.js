@@ -23,7 +23,7 @@ DocStore.getDoc=(id)=>{
     resolve({data: mockDoc })
   })
 }
-const wrapper= shallow(<DocEditor  match={{params:{id:2}}}  disabled={false}  />);
+const wrapper= shallow(<DocEditor  match={{params:{id:2}}} history={{goBack:()=>{}}}  disabled={false}  />);
 wrapper.setState({doc:mockDoc,isLoaded:true,current_user: data.users[3]})
 it('should have a body', function() {
   expect(wrapper.find(DocBody).length).toBe(1);

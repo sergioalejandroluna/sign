@@ -1,7 +1,7 @@
 import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import classNames from 'classnames';
-import { List,Toolbar, AppBar, Typography,Divider,IconButton, Grid, Paper, Hidden  } from '@material-ui/core';
+import {Toolbar, AppBar, Typography,IconButton, Grid, Paper, Hidden  } from '@material-ui/core';
 import { Menu } from '@material-ui/icons';
 import ProfileMenu  from './ProfileMenu'
 import LayoutDrawer  from './LayoutDrawer'
@@ -30,7 +30,6 @@ class Layout extends React.Component {
 	};
 
 	componentDidMount(){
-    console.log(this.props)
 		const isAuth=UserStore.isAuthenticated
 		if (this.state.isAuth !== isAuth) {
 			this.setState({isAuth: isAuth});
@@ -72,11 +71,11 @@ class Layout extends React.Component {
           <div className={classes.toolbar} />   
           <Hidden smDown > <br/> </Hidden>
           <Grid container >
-            <Grid item lg={2} xl={3} md={1} sm={false} />
-            <Grid item lg={8} xl={6} md={10} sm={12} >
+            <Grid item lg={2} xl={2} md={1} sm={false} />
+            <Grid item lg={8} xl={8} md={10} sm={12} >
               <Paper>{this.props.children}</Paper>
             </Grid>
-            <Grid item lg={2} xl={3} md={1} sm={false} />
+            <Grid item lg={2} xl={2} md={1} sm={false} />
           </Grid>
         </main>
       </div>

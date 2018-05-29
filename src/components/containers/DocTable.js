@@ -12,6 +12,7 @@ import  {
   TableRow,
 } from '@material-ui/core';
 import Paper from '@material-ui/core/Paper';
+import FloatActions  from '../FloatActions'
 import ReadedCell from '../ReadedCell';
 import DocStore from '../../stores/DocStore';
 
@@ -87,7 +88,6 @@ export class DocTable extends React.Component {
             <TableHead>
               <TableRow>
                 <TableCell>
-                  <Button  component={Link} to={'/oficios/new'}  color="primary"> Nuevo </Button>
                 </TableCell>
                 <TableCell >Folio</TableCell>
                 <TableCell >De</TableCell>
@@ -136,6 +136,7 @@ export class DocTable extends React.Component {
             </TableFooter>
           </Table>
         </div>
+        <FloatActions />
       </Paper>
     );
   }

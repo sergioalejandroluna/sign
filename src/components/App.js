@@ -32,13 +32,13 @@ const theme = createMuiTheme({
 });
 
 const App =()=> {
+  // PLEASE update the PathToName.js file when you add/modify a route
   return(  
     <BrowserRouter>
       <MuiThemeProvider theme={theme}>
         <Layout> 
           <ErrorBoundary>
             <Switch>
-              // PLEASE update the PathToName.js file when you add/modify a route
               <PrivateRoute path="/" exact component={Inbox}/>
               <PrivateRoute path="/oficios/new" exact component={DocEditor}/>
               <PrivateRoute path="/oficios/:id?" component={DocEditor}/>

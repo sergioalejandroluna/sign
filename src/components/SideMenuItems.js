@@ -6,57 +6,62 @@ import {  Link } from "react-router-dom";
 import pathName from '../PathToName'
 
 const styles = theme => ({
-  selected:{
-    backgroundColor: theme.palette.primary.light,
+  default:{
+    backgroundColor: theme.palette.secondary.main,
   } 
 })
 
-
-const AuthItems = ({onClose,classes}) => {
-  const setProps = l => {
+class AuthItems extends React.Component  {
+  setProps = l => {
     const props={to: l}
-    if (window.location.pathname===l)
-      props.className= classes.selected
+    let currPath=window.location.pathname
+    if (currPath==='/')
+      currPath='/recibidos'
+    if (currPath===l)
+      props.className= this.props.classes.default
     return props
   }
-  return(
-    <div onClick={ onClose} >
-      <ListItem component={Link} {...setProps('/recibidos')}  button>
-        <ListItemIcon>
-          <Inbox />
-        </ListItemIcon>
-        <ListItemText primary={pathName('/recibidos')} />
-      </ListItem>
+  render() {
+    const {onClose} = this.props
+    return(
+      <div onClick={ onClose} >
+        <ListItem component={Link} {...this.setProps('/recibidos')}  button>
+          <ListItemIcon>
+            <Inbox />
+          </ListItemIcon>
+          <ListItemText primary={pathName('/recibidos')} />
+        </ListItem>
 
-      <ListItem component={Link} {...setProps('/borradores')} button>
-        <ListItemIcon>
-          <Drafts />
-        </ListItemIcon>
-        <ListItemText primary={pathName('/borradores')} />
-      </ListItem>
+        <ListItem component={Link} {...this.setProps('/borradores')} button>
+          <ListItemIcon>
+            <Drafts />
+          </ListItemIcon>
+          <ListItemText primary={pathName('/borradores')} />
+        </ListItem>
 
-      <ListItem component={Link} {...setProps('/enviados')}  button>
-        <ListItemIcon>
-          <Send />
-        </ListItemIcon>
-        <ListItemText primary={pathName('/enviados')} />
-      </ListItem>
+        <ListItem component={Link} {...this.setProps('/enviados')}  button>
+          <ListItemIcon>
+            <Send />
+          </ListItemIcon>
+          <ListItemText primary={pathName('/enviados')} />
+        </ListItem>
 
-      <ListItem component={Link} {...setProps('/en-revision')} button>
-        <ListItemIcon>
-          <Restore />
-        </ListItemIcon>
-        <ListItemText primary={pathName('/en-revision')} />
-      </ListItem>
+        <ListItem component={Link} {...this.setProps('/en-revision')} button>
+          <ListItemIcon>
+            <Restore />
+          </ListItemIcon>
+          <ListItemText primary={pathName('/en-revision')} />
+        </ListItem>
 
-      <ListItem component={Link} {...setProps('/delegar')} button>
-        <ListItemIcon>
-          <Person />
-        </ListItemIcon>
-        <ListItemText primary={pathName('/delegar')} />
-      </ListItem>
-    </div>
-  )
+        <ListItem component={Link} {...this.setProps('/delegar')} button>
+          <ListItemIcon>
+            <Person />
+          </ListItemIcon>
+          <ListItemText primary={pathName('/delegar')} />
+        </ListItem>
+      </div>
+    )
+  }
 };
 
 

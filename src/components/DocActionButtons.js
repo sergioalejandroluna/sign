@@ -2,20 +2,17 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import {Grid } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import { Link } from 'react-router-dom';
-
-
 
 class  DocActionButtons extends React.Component{
   shouldComponentUpdate(nextProps, nextState) {
     return true
   }
   render(){
-    const { onSend, disabled, canSend, hideSend }= this.props
+    const { onSend, disabled, canSend, hideSend, goBack }= this.props
     return (
       <Grid container >
         <Grid item  >
-          <Button component={Link} to='/oficios' variant='raised' color='primary' className="back"  >
+          <Button onClick={goBack} variant='raised' color='primary' className="back"  >
             Volver
           </Button>
         </Grid>
@@ -34,5 +31,6 @@ DocActionButtons.propTypes={
   disabled: PropTypes.bool.isRequired,
   canSend: PropTypes.bool.isRequired,
   hideSend: PropTypes.bool.isRequired,
+  goBack: PropTypes.func.isRequired,
 }
 export default DocActionButtons;
