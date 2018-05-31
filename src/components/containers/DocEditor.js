@@ -1,12 +1,12 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {  Paper, Grid, Snackbar} from '@material-ui/core';
+import { Grid, Snackbar} from '@material-ui/core';
 import DocBody from '../DocBody';
 import DocHeader from '../DocHeader';
 import DocFooter from '../DocFooter';
 import DocActionButtons from '../DocActionButtons';
 import DocStore from '../../stores/DocStore';
-import { debounce } from 'lodash'
+import { throttle } from 'lodash'
 
 const style={paddingTop:'40px',
   padding:'40px',
@@ -15,7 +15,9 @@ const style={paddingTop:'40px',
 class  DocEditor extends React.Component{
   state={doc:{},isLoaded:false,
     snack: false,
+    valid: false,
   }
+
   componentDidMount(){
     const id=this.props.match.params.id 
     DocStore.getDoc(id).then(r=>{
@@ -37,6 +39,7 @@ class  DocEditor extends React.Component{
   }
 
   componentWillUnmount(){
+    this.save.cancel()
     if (this.subs!==undefined){
       this.subs.unsubscribe();
     }
@@ -46,149 +49,133 @@ class  DocEditor extends React.Component{
     if(!doc.readed && doc.sent && this.subs===undefined)
       this.subs=DocStore.getReadedChannel(doc.id, (data)=>{
         this.setState((prevState)=>{
-          const newState={...prevState}
-          newState.doc={...prevState.doc}
-          newState.doc.readed=data
-          return newState;
+          return {...prevState, doc:{...prevState.doc, readed: data}};
         })
       });
   }
 
   shouldComponentUpdate(nextProps, nextState) {
     if (!this.state.isLoaded) return true;
-    const nextBodDiff=this.state.doc.body.valid!==nextState.doc.body.valid
-    return  this.state.doc.date!==nextState.doc.date || this.state.snack!==nextState.snack ||
-      this.state.doc.folio!==nextState.doc.folio || this.state.doc.from.id!==nextState.doc.from.id || 
-      this.state.doc.to.id!==nextState.doc.to.id || this.state.doc.readed!==nextState.doc.readed || nextBodDiff
+    const ns=nextState
+    const ts=this.state
+    return ns.valid!==ts.valid || ns.doc.to.id!==ts.doc.to.id || ns.doc.from.id!==ts.doc.from.id
+
   }
-
-
-  save=debounce(()=>{
-    const doc=this.state.doc
-    DocStore.save(doc).then(r=>{
-      this.setState((prevState)=>{
-        const newState={...prevState}
-        newState.doc={...prevState.doc}
-        newState.doc.id=r.data.id
-        newState.doc.folio=r.data.folio
-        return newState;
-      })
-    })
-
-  },500)
 
   render(){
-    return (
-      <Paper>
-        {this.renderDoc()}
-      </Paper>
-    )
-  }
-
-  renderDoc(){
     if (!this.state.isLoaded)
       return (
-        <div>
-          <Grid container space={24} style={style} />
           <Snackbar
             open={this.state.error!==undefined}
             message={this.state.error}
             anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
           />
-        </div>
       );
-    const { doc, snack  }=this.state;
+    const { doc, snack, valid  }=this.state;
     // you can only send when the current user and the documents from, are the same 
     const canSend=doc.from.email===DocStore.email()
     // disabled when the docs was sent or teh current already requested a sign
     const disabled= doc.sent || (doc.signed && !canSend)
     // you shall not send empty body documents 
-    const disableSend= !doc.body.valid || disabled
+    const disableSend= !valid || disabled || !doc.to.id
     // if the docs is to the current users, dont show send button
     const hideSend=doc.to.email===DocStore.email() && doc.sent
 
     return (
-      <Grid container  style={style} >
-        <DocHeader 
-          onDateChange={ (e)=>this.changeDocField('date',e.target.value) } 
-          date={doc.date}
-          folio={doc.folio}
-          to={doc.to}
-          onToChange={ this.onToChange}
-          disabled={disabled}
-          readed={ !hideSend && doc.readed===true }
-        />
-        <DocBody doc={doc} onChange={ this.onBodyChange } disabled={disabled} />
-        <DocFooter address={doc.address} from={doc.from} created_by={doc.created_by}
-          onSwitchFrom={this.onSwitchFrom} 
-          disabled={disabled}
-          showSign={doc.sent}
-        />
-        <DocActionButtons onSend={this.onSend} disabled={disableSend} 
-          canSend={canSend}
-          hideSend={hideSend}
-          goBack={this.props.history.goBack}
-        />
-        <Snackbar
-          open={snack}
-          message="Folio enviado con exito"
-          anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
-          onClose={()=>{ this.setState({snack: false}) }}
-        />
-      </Grid>
+      <div>
+        <Grid container  style={style} >
+          <DocHeader 
+            onDateChange={ this.onDateChange } 
+            date={doc.date}
+            folio={doc.folio}
+            to={doc.to}
+            onToChange={ this.onToChange}
+            disabled={disabled}
+            readed={ !hideSend && doc.readed===true }
+          />
+          <DocBody 
+            body={doc.body} 
+            files={ doc.files } 
+            onChange={ this.onBodyChange } 
+            disabled={disabled} 
+            onFileUpload={this.onFileUpload} 
+            isValid={this.isBodyValid}
+          />
+          <DocFooter address={doc.address} from={doc.from} created_by={doc.created_by}
+            onSwitchFrom={this.onSwitchFrom} 
+            disabled={disabled}
+            showSign={doc.sent}
+          />
+          <DocActionButtons onSend={this.onSend} disabled={disableSend} 
+            canSend={canSend}
+            hideSend={hideSend}
+            goBack={this.props.history.goBack}
+          />
+          <Snackbar
+            open={snack}
+            message="Folio enviado con exito"
+            anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
+            onClose={()=>{ this.setState({snack: false}) }}
+          />
+        </Grid>
+      </div>
     )
   }
 
+  isBodyValid=v=>{
+    this.setState({valid: v})
+  }
 
-  onToChange=(value)=>{
-    this.setState((prevState)=>{
-      const newState={...prevState, doc: { ...prevState.doc, to: {...value} } }
-      return newState
+  onFileUpload=(e)=>{
+    const file=e.target.files[0]
+    const doc_id= this.state.doc.id
+    DocStore.uploadFile(doc_id,file).then(r=>{
+      this.setState(ps=>{
+        return {...ps, doc: { ...ps.doc, files: r.data } }
+      })
     })
-    this.save()
+  }
+
+  onToChange=(user)=>{
+    this.updateDoc({to_id:user.id}, {to:user})
   }
 
   onBodyChange=(value)=>{
-    this.setState((prevState)=>{
-      const newState={...prevState, doc: { ...prevState.doc } }
-      newState.doc.body=value
-      newState.doc.body.valid= value.document.text.length>50 
-      return newState
-    })
-    this.save()
+    this.updateDoc({body: value})
   }
 
-  changeDocField=(field,value)=>{
-    this.setState((prevState)=>{
-      const newState={...prevState, doc: { ...prevState.doc } }
-      newState.doc[field]=value
-      return newState
-    })
-    this.save()
+  onDateChange=(value)=>{
+    this.updateDoc({date: value})
   }
 
   onSwitchFrom=(user)=>{
-    this.setState((prevState)=>{
-      const newState={...prevState, doc: { ...prevState.doc } }
-      newState.doc.from=user
-      newState.doc.address=user.address
-      return newState
-    })
-    this.save()
+    console.log(user.address)
+    this.updateDoc({from_id: user.id, address_id: user.address.id},{ from: user, address: user.address })
   }
+
+  updateDoc=(shallow, rich)=>{
+    rich= rich || shallow
+    this.setState((prevState)=>{
+      return {...prevState, doc: { ...prevState.doc, ...rich}};
+    })
+    this.save(shallow);
+  }
+
+  save=throttle(new_fields=>{
+    if (this.state.doc.id===undefined) new_fields=this.state.doc 
+    DocStore.save({...new_fields, id: this.state.doc.id}).then(r=>{
+      this.setState((prevState)=>{
+        return {...prevState, doc: { ...prevState.doc, ...r.data}};
+      })
+    })
+  },500)
 
   onSend=()=>{
     const doc= this.state.doc
     DocStore.send_or_sign(doc).then((r)=>{
       this.setState((prevState)=>{
-        const newState={...prevState}
-        newState.doc.sent=r.data.sent
-        newState.doc.signed=r.data.signed
-        newState.snack=true
-        this.addWSCheckReaded(r.data)
-        return newState
+        return {...prevState, doc:r.data, snack:true}
       })
-
     })
   }
 }

@@ -37,6 +37,18 @@ class DocStore extends BaseStore{
     }) 
   }
 
+  uploadFile(doc_id,file){
+    if (file) {
+      const data = new FormData();
+      data.append('file', file);
+      return this.axios.put(`/docs/${doc_id}/add_file`,data, 
+        {onUploadProgress: e=>{
+          const percentCompleted = Math.round( (e.loaded * 100) / e.total );
+          console.log(percentCompleted)
+        }} );
+    }
+  }
+
   getDoc(id){
     if (id===undefined)
       return this.axios.get('/docs/new')
@@ -52,12 +64,10 @@ class DocStore extends BaseStore{
   }
 
   save(doc){
-    if(doc.to.id===null || doc.folio===''){
-      return new Promise((resolve,reject)=>{
-        resolve({data: doc })
-      })}
-    if (doc.id===undefined){
-      return this.addDoc(doc) 
+    if (doc.id===undefined || doc.id===null){
+      const {from, to, address, created_by, date, body} = doc
+      return this.addDoc({from_id: from.id, to_id: to.id,
+        address_id: address.id, created_by_id: created_by.id, date: date, body: body}) 
     }else{
       return this.setDoc(doc)
     }

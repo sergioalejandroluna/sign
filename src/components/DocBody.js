@@ -7,6 +7,7 @@ import { isKeyHotkey } from 'is-hotkey'
 import { Grid,  withStyles  } from '@material-ui/core';
 import { Value } from 'slate'
 import DocBodyToolBar from './DocBodyToolBar'
+import AttachThings from './AttachThings'
 const DEFAULT_NODE = 'paragraph'
 const isBoldHotkey = isKeyHotkey('mod+b')
 const isItalicHotkey = isKeyHotkey('mod+i')
@@ -46,12 +47,14 @@ class DocBody extends React.Component {
 
   constructor(props){
     super(props)
-    let val= props.doc.body;
+    let val= props.body;
     if (!(val instanceof Value))
-      val=Value.fromJSON(props.doc.body)
+      val=Value.fromJSON(props.body)
     this.state = {
       value: val,
-      showToolbar:false
+      showToolbar:false,
+      openUpload: false,
+
     }
     this.plugins = [
       PasteLinkify({
@@ -72,11 +75,17 @@ class DocBody extends React.Component {
     return value.blocks.some(node => node.type === type)
   }
 
-
+  //slatejs triggers a change event in the first render, we don't want that 
+  // sadly i wasn't  able to find an api to avoid that
+  mods=0;
   onChange = ({ value }) => {
     this.setState({ value })
-    
-    if (!this.props.disabled) this.props.onChange(value)
+
+    if (!this.props.disabled  && this.mods>0 ) 
+      this.props.onChange(value)
+    this.mods++;
+    const valid= value.document.text.length>50
+    this.props.isValid(valid);
   }
 
 
@@ -186,18 +195,26 @@ class DocBody extends React.Component {
 
   }
 
+  toggleUpload = (e,t) => {
+    this.setState(ps=>{
+      return {...ps, openUpload: !ps.openUpload}
+    })
+  }
+
   render() {
-    const { value } = this.state;
+    const { value,openUpload  } = this.state;
     const isInTable = tablePlugin.utils.isSelectionInTable(value);
     const isInEditor=document.activeElement.dataset.slateEditor==='true'
+    const {classes, disabled, onFileUpload, files  }=this.props 
     return (
-      <Grid item lg={12} className={this.props.classes.root}  >
+      <Grid item lg={12} className={classes.root}  >
         <DocBodyToolBar 
           onClickBlock={this.onClickBlock}
           onClickMark={this.onClickMark}
           onClickTable={this.onClickTable}
           isInTable={isInTable}
           isInEditor={isInEditor}
+          onUpload={this.toggleUpload}
         />
         <Editor
           placeholder="Cuerpo del documento"
@@ -207,8 +224,9 @@ class DocBody extends React.Component {
           renderNode={this.renderNode}
           renderMark={this.renderMark}
           plugins={this.plugins}
-          readOnly={this.props.disabled}
+          readOnly={disabled}
         />
+        <AttachThings open={openUpload} onClose={this.toggleUpload} onChange={onFileUpload} files={files} />
       </Grid>
     )
   }
@@ -294,6 +312,12 @@ class DocBody extends React.Component {
 }
 
 DocBody.propTypes={
-  doc: PropTypes.object.isRequired,
+  body: PropTypes.object.isRequired,
+  files: PropTypes.array.isRequired,
+  disabled: PropTypes.bool.isRequired,
+  onChange: PropTypes.func.isRequired,
+  isValid: PropTypes.func.isRequired,
+  onFileUpload: PropTypes.func.isRequired,
+
 }
 export default withStyles(styles, { withTheme: true })(DocBody);

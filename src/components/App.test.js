@@ -17,7 +17,7 @@ it('should have the layout', function() {
   expect(wrapper.find(Layout).length).toBe(1);
 });
 it('should have 8  private routes', function() {
-  //remember to update all the related path across all the project 
+  //remember to update all the related paths across all the project 
   const wrapper= shallow(<App />);
   expect(wrapper.find(PrivateRoute).length).toBe(8);
 });

@@ -5,6 +5,7 @@ import { Grid, IconButton, Paper,Snackbar } from '@material-ui/core';
 import { FormatBold, FormatItalic, Code,FormatUnderlined,
   FormatQuote, FormatListNumbered, 
   FormatListBulleted,InsertLink,
+  Attachment
 } from '@material-ui/icons'
 import Tooltip from '@material-ui/core/Tooltip';
 
@@ -21,13 +22,12 @@ const renderButton = (click, type, icon,help) => {
 
 class DocBodyToolBar extends React.Component {
 
-
   shouldComponentUpdate(nextProps, nextState) {
     return this.props.isInTable!==nextProps.isInTable || this.props.isInEditor!==nextProps.isInEditor
   }
 
   render(){
-    const {isInTable,  onClickBlock, onClickMark, onClickTable, isInEditor} =this.props
+    const {isInTable,  onClickBlock, onClickMark, onClickTable, onUpload, isInEditor} =this.props
     return (
       <Snackbar open={isInEditor} >
         <Paper>
@@ -48,6 +48,7 @@ class DocBodyToolBar extends React.Component {
             {renderButton(onClickTable,'insert-table',<AddTable />,'Agregar tabla')}
             {renderButton(onClickBlock,'numbered-list',<FormatListNumbered />,'Agregar lista')}
             {renderButton(onClickBlock,'bulleted-list',<FormatListBulleted />,'Agregar lista')}
+            {renderButton(onUpload,'Attachment',<Attachment />,'Adjuntar archivo')}
           </Grid>
         </Paper>
       </Snackbar>

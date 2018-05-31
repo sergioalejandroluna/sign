@@ -1,6 +1,10 @@
 .bold {
     font-weight: bold !important;
 }
+/* this thing sould only be used with a very good reason(ie upload inputs) */
+.hidden {
+    display:none;
+}
 tr.alert{
   background-color: #FFEB3B;
 }

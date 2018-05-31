@@ -4,7 +4,11 @@ import PropTypes from 'prop-types'
 const dateOpt={  year: 'numeric', month: 'long', day: 'numeric' };
 class DateClick extends React.Component{
 
-  state={editing:false}
+  constructor(props){
+    super(props)
+    this.state={editing:false, value: props.value}
+  }
+
 
   setEditing=e=>{
     if (this.props.disabled)
@@ -22,7 +26,7 @@ class DateClick extends React.Component{
   }
 
   mxDateString=()=>{
-    let event=new Date(Date.parse(this.props.value+" 00:00"))
+    let event=new Date(Date.parse(this.state.value+" 00:00"))
     return event.toLocaleDateString('es-MX', dateOpt)
   }
 
@@ -30,13 +34,19 @@ class DateClick extends React.Component{
     return this.props.beforeText+this.mxDateString()
   }
 
+  onChange=(e)=>{
+    const value=e.target.value
+    this.setState({value: value})
+    this.props.onChange(value)
+  }
+
   render() {
     const editing=this.state.editing
     return(
       <TextField 
         type={editing ? 'date' : 'text'}
-        value={editing ? this.props.value : this.finalText()}
-        onChange={this.props.onChange}
+        value={editing ? this.state.value : this.finalText()}
+        onChange={this.onChange}
         onBlur={ this.setReading}
         onClick={this.setEditing}
         className="align-right"
