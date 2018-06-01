@@ -37,16 +37,38 @@ class DocStore extends BaseStore{
     }) 
   }
 
-  uploadFile(doc_id,file){
-    if (file) {
-      const data = new FormData();
-      data.append('file', file);
-      return this.axios.put(`/docs/${doc_id}/add_file`,data, 
-        {onUploadProgress: e=>{
-          const percentCompleted = Math.round( (e.loaded * 100) / e.total );
-          console.log(percentCompleted)
-        }} );
+  uploadFile(doc_id,files){
+    const data = new FormData();
+    for (let x = 0; x < files.length; x++) {
+      data.append("files[]", files[x]);
     }
+
+    return this.axios.put(`/docs/${doc_id}/add_file`,data, 
+      {onUploadProgress: e=>{
+        const percentCompleted = Math.round( (e.loaded * 100) / e.total );
+        console.log(percentCompleted)
+      }, 
+        //time out about 3 hours 
+        timeout:10000000
+      } );
+  }
+
+  deleteFile(doc_id, f){
+    return this.axios.put(`/docs/${doc_id}/remove_file`,{name: f.split('/').pop() } );
+
+  }
+
+  downloadAttacment(f){
+    this.axios.get(f,{responseType: 'blob'}).then(r => {
+      const url = window.URL.createObjectURL(new Blob([r.data], {type:r.data.type}));
+      const link = document.createElement('a');
+      link.href = url;
+      link.setAttribute('download', f.split('/').pop());
+      document.body.appendChild(link);
+      link.click();
+      window.URL.revokeObjectURL(url);
+      link.remove();
+    });
   }
 
   getDoc(id){

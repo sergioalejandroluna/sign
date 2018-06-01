@@ -58,8 +58,7 @@ class  DocEditor extends React.Component{
     if (!this.state.isLoaded) return true;
     const ns=nextState
     const ts=this.state
-    return ns.valid!==ts.valid || ns.doc.to.id!==ts.doc.to.id || ns.doc.from.id!==ts.doc.from.id
-
+    return ns.valid!==ts.valid || ns.doc.to.id!==ts.doc.to.id || ns.doc.from.id!==ts.doc.from.id || ns.doc.files.length!==ts.doc.files.length
   }
 
   render(){
@@ -99,6 +98,7 @@ class  DocEditor extends React.Component{
             onChange={ this.onBodyChange } 
             disabled={disabled} 
             onFileUpload={this.onFileUpload} 
+            onDeleteFile={this.onDeleteFile} 
             isValid={this.isBodyValid}
           />
           <DocFooter address={doc.address} from={doc.from} created_by={doc.created_by}
@@ -126,10 +126,19 @@ class  DocEditor extends React.Component{
     this.setState({valid: v})
   }
 
-  onFileUpload=(e)=>{
-    const file=e.target.files[0]
+  onDeleteFile=(f)=>{
     const doc_id= this.state.doc.id
-    DocStore.uploadFile(doc_id,file).then(r=>{
+    DocStore.deleteFile(doc_id,f).then(r=>{
+      this.setState(ps=>{
+        return {...ps, doc: { ...ps.doc, files: r.data } }
+      })
+    })
+  }
+
+  onFileUpload=(e)=>{
+    const files=e.target.files
+    const doc_id= this.state.doc.id
+    DocStore.uploadFile(doc_id,files).then(r=>{
       this.setState(ps=>{
         return {...ps, doc: { ...ps.doc, files: r.data } }
       })
@@ -149,7 +158,6 @@ class  DocEditor extends React.Component{
   }
 
   onSwitchFrom=(user)=>{
-    console.log(user.address)
     this.updateDoc({from_id: user.id, address_id: user.address.id},{ from: user, address: user.address })
   }
 

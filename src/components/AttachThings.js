@@ -1,10 +1,18 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Avatar, Chip } from '@material-ui/core'
-import { Face } from '@material-ui/icons'
+import { Chip, Avatar, Grid } from '@material-ui/core'
+import DocStore from '../stores/DocStore'
+import { withStyles } from '@material-ui/core/styles';
 
-const dotName=f=>{
-  return f.split('/').pop().split('.')
+const fileInfo=f=>{
+  const name=f.split('/').pop() 
+  return name.split('.')
+}
+
+const styles={
+  root:{
+    paddingTop: 8 
+  }
 }
 
 class AttachThings extends React.Component {
@@ -13,10 +21,10 @@ class AttachThings extends React.Component {
     super(props);
     this.input = React.createRef();
   }
-  // shouldComponentUpdate(nextProps, nextState) {
-  //   const tprops=this.props
-  //   return tprops.open!==nextProps.open || tprops.files!==nextProps.files 
-  // }
+  shouldComponentUpdate(nextProps, nextState) {
+    const tprops=this.props
+    return tprops.open!==nextProps.open || tprops.files.length!==nextProps.files.length
+  }
 
   componentDidUpdate(prevProps, prevState, snapshot){
     if (this.props.open ){
@@ -26,33 +34,37 @@ class AttachThings extends React.Component {
   }
 
   render(){
-    const {files}=this.props
+    const {files, classes, onDelete}=this.props
     return (
-      <div>
+      <Grid container spacing={8} className={classes.root} >
         {files.map((f,i)=>{
-          const name=dotName(f)
+          const info=fileInfo(f)
           return(
-            <Chip
-              key={i}
-              avatar={
-                <Avatar>
-                  { name[1] }
-                </Avatar>
-              }
-              label={name[0]}
-            /> 
+            <Grid item  key={i} >
+              <Chip
+                avatar={
+                  <Avatar >
+                    {info[1]}
+                  </Avatar>
+                }
+                onClick={e=>{ DocStore.downloadAttacment(f) }}
+                label={info[0]}
+                onDelete={e=>{ onDelete(f) }}
+              /> 
+            </Grid>
           )
 
         }) }
-        <input type='file' className='hidden'  ref={this.input} onChange={this.props.onChange} />
-      </div>
+        <input type='file' className='hidden'  ref={this.input} onChange={this.props.onChange} multiple />
+      </Grid>
     );
   }
 }
 
-export default AttachThings;
+export default withStyles(styles)(AttachThings);
 AttachThings.propTypes={
   open: PropTypes.bool.isRequired,
   files: PropTypes.array.isRequired,
   onClose: PropTypes.func.isRequired,
+  onDelete: PropTypes.func.isRequired,
 }

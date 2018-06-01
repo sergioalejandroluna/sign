@@ -18,6 +18,7 @@ const styles = theme => ({
     border: '1px solid '+theme.palette.grey[400],
     marginTop: '20px',
     marginBottom: '20px',
+    padding: 12,
   },
   menu:{
     position: 'fixed',
@@ -226,7 +227,7 @@ class DocBody extends React.Component {
           plugins={this.plugins}
           readOnly={disabled}
         />
-        <AttachThings open={openUpload} onClose={this.toggleUpload} onChange={onFileUpload} files={files} />
+        <AttachThings open={openUpload} onClose={this.toggleUpload} onChange={onFileUpload} files={files} onDelete={this.props.onDeleteFile} />
       </Grid>
     )
   }
@@ -318,6 +319,6 @@ DocBody.propTypes={
   onChange: PropTypes.func.isRequired,
   isValid: PropTypes.func.isRequired,
   onFileUpload: PropTypes.func.isRequired,
-
+  onDeleteFile: PropTypes.func.isRequired,
 }
 export default withStyles(styles, { withTheme: true })(DocBody);
