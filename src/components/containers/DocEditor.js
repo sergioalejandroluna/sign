@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Grid, Snackbar} from '@material-ui/core';
+import withSnack from '../withSnack'
 import DocBody from '../DocBody';
 import DocHeader from '../DocHeader';
 import DocFooter from '../DocFooter';
@@ -14,7 +14,6 @@ const style={paddingTop:'40px',
   width: 'auto'}
 class  DocEditor extends React.Component{
   state={doc:{},isLoaded:false,
-    snack: false,
     valid: false,
   }
 
@@ -26,13 +25,13 @@ class  DocEditor extends React.Component{
     },e=>{
       switch( e.response.status){
         case 403:
-          this.setState({error: 'Acceso denegado'});
+          this.props.snack('Acceso denegado')
           break;
         case 404:
-          this.setState({error: 'No encontrado'});
+          this.props.snack('No encontrado')
           break;
         default:
-          this.setState({error: 'Error '})
+          this.props.snack('Error')
           console.error(e.message)
       }
     });
@@ -63,14 +62,8 @@ class  DocEditor extends React.Component{
 
   render(){
     if (!this.state.isLoaded)
-      return (
-          <Snackbar
-            open={this.state.error!==undefined}
-            message={this.state.error}
-            anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
-          />
-      );
-    const { doc, snack, valid  }=this.state;
+      return null;
+    const { doc,  valid  }=this.state;
     // you can only send when the current user and the documents from, are the same 
     const canSend=doc.from.email===DocStore.email()
     // disabled when the docs was sent or teh current already requested a sign
@@ -81,8 +74,7 @@ class  DocEditor extends React.Component{
     const hideSend=doc.to.email===DocStore.email() && doc.sent
 
     return (
-      <div>
-        <Grid container  style={style} >
+      <div style={style}>
           <DocHeader 
             onDateChange={ this.onDateChange } 
             date={doc.date}
@@ -111,13 +103,6 @@ class  DocEditor extends React.Component{
             hideSend={hideSend}
             goBack={this.props.history.goBack}
           />
-          <Snackbar
-            open={snack}
-            message="Folio enviado con exito"
-            anchorOrigin={{vertical: 'bottom', horizontal: 'left'}}
-            onClose={()=>{ this.setState({snack: false}) }}
-          />
-        </Grid>
       </div>
     )
   }
@@ -182,7 +167,8 @@ class  DocEditor extends React.Component{
     const doc= this.state.doc
     DocStore.send_or_sign(doc).then((r)=>{
       this.setState((prevState)=>{
-        return {...prevState, doc:r.data, snack:true}
+        this.props.snack('Folio enviado con exito')
+        return {...prevState, doc:r.data}
       })
     })
   }
@@ -190,4 +176,4 @@ class  DocEditor extends React.Component{
 DocEditor.propTypes={
   match: PropTypes.object.isRequired,
 }
-export default DocEditor;
+export default withSnack(DocEditor);
