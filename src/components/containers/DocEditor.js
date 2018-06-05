@@ -120,10 +120,10 @@ class  DocEditor extends React.Component{
     })
   }
 
-  onFileUpload=(e)=>{
+  onFileUpload=(e, onProgress)=>{
     const files=e.target.files
     const doc_id= this.state.doc.id
-    DocStore.uploadFile(doc_id,files).then(r=>{
+    DocStore.uploadFile(doc_id,files,onProgress).then(r=>{
       this.setState(ps=>{
         return {...ps, doc: { ...ps.doc, files: r.data } }
       })
