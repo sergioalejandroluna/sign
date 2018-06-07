@@ -204,7 +204,6 @@ class DocBody extends React.Component {
     const { value, openUpload } = this.state;
     const isInTable = tablePlugin.utils.isSelectionInTable(value);
     const isInEditor = document.activeElement.dataset.slateEditor === "true";
-    console.log(document.activeElement);
     const { classes, disabled, onFileUpload, files } = this.props;
     return (
       <Grid item lg={12} className={classes.root}>
