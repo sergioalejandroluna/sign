@@ -6,7 +6,7 @@ import DocHeader from "../DocHeader";
 import DocFooter from "../DocFooter";
 import DocActionButtons from "../DocActionButtons";
 import DocStore from "../../stores/DocStore";
-import { throttle } from "lodash";
+import { debounce } from "lodash";
 
 const style = {
   paddingTop: "40px",
@@ -152,6 +152,7 @@ class DocEditor extends React.Component {
   };
 
   onBodyChange = value => {
+    console.log(value);
     this.updateDoc({ body: value });
   };
 
@@ -174,7 +175,7 @@ class DocEditor extends React.Component {
     this.save(shallow);
   };
 
-  save = throttle(new_fields => {
+  save = debounce(new_fields => {
     if (this.state.doc.id === undefined) new_fields = this.state.doc;
     DocStore.save({ ...new_fields, id: this.state.doc.id }).then(r => {
       this.setState(prevState => {

@@ -1,22 +1,21 @@
-var {Value} = require('slate');
-const initialBody = Value.fromJSON({
+const initialBody = {
   document: {
     nodes: [
       {
-        object: 'block',
-        type: 'paragraph',
+        object: "block",
+        type: "paragraph",
         nodes: [
           {
-            object: 'text',
+            object: "text",
             leaves: [
               {
-                text: '',
-              },
-            ],
-          },
-        ],
-      },
-    ],
-  },
-})
-module.exports= {  initialBody }
+                text: ""
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+};
+module.exports = { initialBody };

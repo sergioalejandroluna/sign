@@ -8,6 +8,7 @@ import { Grid, withStyles } from "@material-ui/core";
 import { Value } from "slate";
 import DocBodyToolBar from "./DocBodyToolBar";
 import AttachThings from "./AttachThings";
+import { initialBody } from "../stores/initialState";
 const DEFAULT_NODE = "paragraph";
 const isBoldHotkey = isKeyHotkey("mod+b");
 const isItalicHotkey = isKeyHotkey("mod+i");
@@ -47,8 +48,7 @@ const tablePlugin = PluginEditTable();
 class DocBody extends React.Component {
   constructor(props) {
     super(props);
-    let val = props.body;
-    if (!(val instanceof Value)) val = Value.fromJSON(props.body);
+    let val = Value.fromJSON(JSON.parse(props.body) || initialBody);
     this.state = {
       value: val,
       showToolbar: false,
@@ -79,11 +79,11 @@ class DocBody extends React.Component {
   mods = 0;
   onChange = ({ value }) => {
     this.setState({ value });
-
-    if (!this.props.disabled && this.mods > 0) this.props.onChange(value);
-    this.mods++;
     const valid = value.document.text.length > 50;
     this.props.isValid(valid);
+    if (!this.props.disabled && this.mods > 0)
+      this.props.onChange(JSON.stringify(value.toJSON()));
+    this.mods++;
   };
 
   onKeyDown = (event, change) => {
@@ -318,7 +318,6 @@ class DocBody extends React.Component {
 }
 
 DocBody.propTypes = {
-  body: PropTypes.object.isRequired,
   files: PropTypes.array.isRequired,
   disabled: PropTypes.bool.isRequired,
   onChange: PropTypes.func.isRequired,
