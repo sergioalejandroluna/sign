@@ -84,7 +84,7 @@ export class DocTable extends React.Component {
     const editable = fetch === "draft";
 
     return (
-      <Paper>
+      <React.Fragment>
         <div>
           <Table>
             <TableHead>
@@ -151,7 +151,7 @@ export class DocTable extends React.Component {
           </Table>
         </div>
         <FloatActions />
-      </Paper>
+      </React.Fragment>
     );
   }
 }

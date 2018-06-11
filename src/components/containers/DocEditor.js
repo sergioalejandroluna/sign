@@ -8,12 +8,6 @@ import DocActionButtons from "../DocActionButtons";
 import DocStore from "../../stores/DocStore";
 import { debounce } from "lodash";
 
-const style = {
-  paddingTop: "40px",
-  padding: "40px",
-  margin: "0px",
-  width: "auto"
-};
 class DocEditor extends React.Component {
   state = {
     doc: {},
@@ -86,7 +80,7 @@ class DocEditor extends React.Component {
     const hideSend = doc.to.email === DocStore.email() && doc.sent;
 
     return (
-      <div style={style}>
+      <React.Fragment>
         <DocHeader
           onDateChange={this.onDateChange}
           date={doc.date}
@@ -120,7 +114,7 @@ class DocEditor extends React.Component {
           hideSend={hideSend}
           goBack={this.props.history.goBack}
         />
-      </div>
+      </React.Fragment>
     );
   }
 
