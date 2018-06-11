@@ -152,7 +152,6 @@ class DocEditor extends React.Component {
   };
 
   onBodyChange = value => {
-    console.log(value);
     this.updateDoc({ body: value });
   };
 

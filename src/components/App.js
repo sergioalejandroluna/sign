@@ -10,6 +10,7 @@ import PrivateRoute from "./PrivateRoute";
 import Login from "./Login";
 import NotFound from "./NotFound";
 import Delegate from "./containers/Delegate";
+import UserGroups from "./containers/UserGroups";
 import Inbox from "./Inbox";
 import Drafts from "./Drafts";
 import Sent from "./Sent";
@@ -48,6 +49,7 @@ const App = () => {
               <PrivateRoute path="/enviados" component={Sent} />
               <PrivateRoute path="/en-revision" component={Sign} />
               <PrivateRoute path="/delegar" component={Delegate} />
+              <PrivateRoute path="/grupos" component={UserGroups} />
               <Route path="/login" component={Login} />
               <Route path="*" component={NotFound} />
             </Switch>
