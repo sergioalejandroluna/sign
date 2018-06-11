@@ -90,13 +90,13 @@ class Layout extends React.Component {
         <main className={classes.content}>
           <div className={classes.toolbar} />
           <Hidden smDown>
-            {" "}
-            <br />{" "}
+            <br />
           </Hidden>
           <Grid container>
             <Grid item lg={2} xl={2} md={1} sm={false} />
             <Grid item lg={8} xl={8} md={10} sm={12}>
               <Paper className={classes.rootPaper}>{this.props.children}</Paper>
+              <br />
             </Grid>
             <Grid item lg={2} xl={2} md={1} sm={false} />
           </Grid>
