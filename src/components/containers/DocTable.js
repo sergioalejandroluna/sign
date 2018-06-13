@@ -11,7 +11,6 @@ import {
   TablePagination,
   TableRow
 } from "@material-ui/core";
-import Paper from "@material-ui/core/Paper";
 import FloatActions from "../FloatActions";
 import ReadedCell from "../ReadedCell";
 import DocStore from "../../stores/DocStore";
@@ -81,7 +80,6 @@ export class DocTable extends React.Component {
     const emptyRows =
       rowsPerPage - Math.min(rowsPerPage, count - page * rowsPerPage);
     const sentTable = fetch === "sent";
-    const editable = fetch === "draft";
 
     return (
       <React.Fragment>
@@ -107,9 +105,9 @@ export class DocTable extends React.Component {
                         to={"/oficios/" + d.id}
                         color="primary"
                       >
-                        {editable ? "Editar" : "Ver"}
+                        {d.sent ? "Ver" : "Editar"}
                       </Button>
-                      {editable ? (
+                      {!d.sent ? (
                         <Button
                           onClick={() => this.onDelete(d.id)}
                           color="secondary"

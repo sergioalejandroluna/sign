@@ -215,6 +215,7 @@ const docs = [
     from: randomUser().name.full,
     body: initialBody,
     created_by: randomUser().name.full,
+    sent: false,
     files: []
   },
   {
@@ -225,6 +226,7 @@ const docs = [
     from: randomUser().name.full,
     body: initialBody,
     created_by: randomUser().name.full,
+    sent: false,
     files: []
   },
   {
@@ -235,6 +237,7 @@ const docs = [
     from: randomUser().name.full,
     body: initialBody,
     created_by: randomUser().name.full,
+    sent: true,
     files: []
   },
   {
@@ -245,8 +248,15 @@ const docs = [
     from: randomUser().name.full,
     body: initialBody,
     created_by: randomUser().name.full,
+    sent: false,
     files: []
   }
+];
+const user_groups = [
+  { short_name: "First group", long_name: "Long desc of the 1 group", id: 1 },
+  { short_name: "second group", long_name: "Long desc of the 2 group", id: 2 },
+  { short_name: "third group", long_name: "Long desc of the 3 group", id: 3 },
+  { short_name: "fourth group", long_name: "Long desc of the 4 group", id: 4 }
 ];
 module.exports = () => {
   return {
@@ -254,6 +264,7 @@ module.exports = () => {
     login_user: login_user,
     docs: docs,
     addresses: addresses,
-    new_doc: newDoc()
+    new_doc: newDoc(),
+    user_groups: user_groups
   };
 };
