@@ -1,14 +1,19 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Autosuggest from 'react-autosuggest';
-import match from 'autosuggest-highlight/match';
-import parse from 'autosuggest-highlight/parse';
-import TextField from '@material-ui/core/TextField';
-import Paper from '@material-ui/core/Paper';
-import { MenuItem, InputAdornment, ListItemText, Avatar } from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
-import { debounce, find } from 'lodash'
-import UserStore from '../stores/UserStore';
+import React from "react";
+import PropTypes from "prop-types";
+import Autosuggest from "react-autosuggest";
+import match from "autosuggest-highlight/match";
+import parse from "autosuggest-highlight/parse";
+import TextField from "@material-ui/core/TextField";
+import Paper from "@material-ui/core/Paper";
+import {
+  MenuItem,
+  InputAdornment,
+  ListItemText,
+  Avatar
+} from "@material-ui/core";
+import { withStyles } from "@material-ui/core/styles";
+import { debounce, find } from "lodash";
+import UserStore from "../stores/UserStore";
 
 function renderInput(inputProps) {
   const { classes, ref, ...other } = inputProps;
@@ -19,24 +24,24 @@ function renderInput(inputProps) {
       inputRef={ref}
       InputProps={{
         classes: {
-          input: classes.input,
+          input: classes.input
         },
-        ...other,
+        ...other
       }}
     />
   );
 }
 
 function renderSuggestion(suggestion, { query, isHighlighted }) {
-  const fullName=suggestion.name.full
+  const fullName = suggestion.name.full;
   const matches = match(fullName, query);
   const parts = parse(fullName, matches);
 
   return (
     <MenuItem selected={isHighlighted} component="div">
-   <Avatar src={suggestion.photo} alt="photo" /> 
-      <ListItemText 
-        primary={parts.map((part,i) => {
+      <Avatar src={suggestion.photo} alt="photo" />
+      <ListItemText
+        primary={parts.map((part, i) => {
           return part.highlight ? (
             <span key={String(i)} style={{ fontWeight: 500 }}>
               {part.text}
@@ -46,8 +51,9 @@ function renderSuggestion(suggestion, { query, isHighlighted }) {
               {part.text}
             </strong>
           );
-      })}
-     secondary={suggestion.email} />
+        })}
+        secondary={suggestion.email}
+      />
     </MenuItem>
   );
 }
@@ -63,79 +69,76 @@ function renderSuggestionsContainer(options) {
 }
 
 function getSuggestionValue(guy) {
-  return guy.name.full
+  return guy.name.full;
 }
 
 const styles = theme => ({
   container: {
     flexGrow: 1,
-    position: 'relative',
+    position: "relative"
   },
   suggestionsContainerOpen: {
-    position: 'absolute',
+    position: "absolute",
     zIndex: 1,
     marginTop: theme.spacing.unit,
     left: 0,
-    right: 0,
+    right: 0
   },
   suggestion: {
-    display: 'block',
+    display: "block"
   },
   suggestionsList: {
     margin: 0,
     padding: 0,
-    listStyleType: 'none',
+    listStyleType: "none"
   },
-  adornment:{
-    whiteSpace: 'nowrap',
+  adornment: {
+    whiteSpace: "nowrap"
   }
 });
 
 class SearchUserField extends React.Component {
-
-  constructor(props){
-    super(props)
+  constructor(props) {
+    super(props);
     this.state = {
       value: props.to.name.full,
-      suggestions: [],
+      suggestions: []
     };
   }
 
-  static getDerivedStateFromProps(nextProps, prevState){
-    const name= nextProps.to.name.full
-    if (name===prevState.value)
-      return null;
-    return prevState
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const name = nextProps.to.name.full;
+    if (name === prevState.value) return null;
+    return prevState;
   }
 
   handleSuggestionsFetchRequested = debounce(({ value }) => {
-    UserStore.search(value).then(r=>{
+    UserStore.search(value).then(r => {
       this.setState({
-        suggestions: r.data,
+        suggestions: r.data
       });
-    })
-  },500);
+    });
+  }, 500);
 
-  onBlur=()=>{
-    let full=find(this.state.psugges,{ name:{full:this.state.value} })
-    if(full===undefined){
-      full=find(this.state.suggestions,{ name:{full:this.state.value} })
-      if(full===undefined)
-        this.setState({value:''})
+  onBlur = () => {
+    let full = find(this.state.psugges, { name: { full: this.state.value } });
+    if (full === undefined) {
+      full = find(this.state.suggestions, { name: { full: this.state.value } });
+      if (full === undefined) this.setState({ value: "" });
     }
-  }
+  };
 
   handleSuggestionsClearRequested = () => {
-    this.setState((prev)=>{
-      prev.psugges=prev.suggestions
-      prev.suggestions=[]
-      return prev
+    this.setState(prev => {
+      prev.psugges = prev.suggestions;
+      prev.suggestions = [];
+      return prev;
     });
   };
 
   handleChange = (event, { newValue }) => {
     this.setState({
-      value: newValue,
+      value: newValue
     });
   };
 
@@ -148,8 +151,8 @@ class SearchUserField extends React.Component {
   };
 
   render() {
-    const { classes , to } = this.props;
-    to.email= to.email || ''
+    const { classes, to } = this.props;
+    to.email = to.email || "";
 
     return (
       <Autosuggest
@@ -157,8 +160,7 @@ class SearchUserField extends React.Component {
           container: classes.container,
           suggestionsContainerOpen: classes.suggestionsContainerOpen,
           suggestionsList: classes.suggestionsList,
-          suggestion: classes.suggestion,
-
+          suggestion: classes.suggestion
         }}
         renderInputComponent={renderInput}
         suggestions={this.state.suggestions}
@@ -170,17 +172,27 @@ class SearchUserField extends React.Component {
         renderSuggestion={renderSuggestion}
         inputProps={{
           classes,
-          placeholder: 'Buscar persona',
+          placeholder: "Buscar Usuario",
           value: this.state.value,
           onChange: this.handleChange,
           onBlur: this.onBlur,
           disabled: this.props.disabled,
-          startAdornment: <InputAdornment classes={{ root: classes.adornment }} position="start">
-            <b>{this.props.to.name.title}</b>
-          </InputAdornment>,
-          endAdornment: <InputAdornment classes={{ root: classes.adornment }} position="end">
-            {this.props.to.email}
-          </InputAdornment>
+          startAdornment: (
+            <InputAdornment
+              classes={{ root: classes.adornment }}
+              position="start"
+            >
+              <b>{this.props.to.name.title}</b>
+            </InputAdornment>
+          ),
+          endAdornment: (
+            <InputAdornment
+              classes={{ root: classes.adornment }}
+              position="end"
+            >
+              {this.props.to.email}
+            </InputAdornment>
+          )
         }}
       />
     );
@@ -189,7 +201,7 @@ class SearchUserField extends React.Component {
 
 SearchUserField.propTypes = {
   to: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(SearchUserField);
