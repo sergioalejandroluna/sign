@@ -115,7 +115,5 @@ class UserGroups extends React.Component {
   }
 }
 
-UserGroups.propTypes = {
-  match: PropTypes.object.isRequired
-};
+UserGroups.propTypes = {};
 export default UserGroups;
