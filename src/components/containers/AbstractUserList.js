@@ -12,9 +12,6 @@ import SearchUserField from "../SearchUserField";
 class AbstractUserList extends React.Component {
   emptyUser = { name: { full: "", title: "" }, email: "" };
   constructor(props) {
-    if (new.target === AbstractUserList) {
-      throw new TypeError("Cannot construct Abstract instances directly");
-    }
     super(props);
     if (this.getStore === undefined) {
       throw new TypeError("Must override getStore");
