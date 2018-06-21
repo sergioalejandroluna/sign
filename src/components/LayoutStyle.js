@@ -15,6 +15,9 @@ const styles = theme => {
     },
     appBar: {
       position: "fixed",
+      "@media print": {
+        display: "none"
+      },
       zIndex: theme.zIndex.drawer + 1,
       transition: theme.transitions.create(["width", "margin"], {
         easing: theme.transitions.easing.sharp,
@@ -37,6 +40,9 @@ const styles = theme => {
       display: "none"
     },
     drawerPaper: {
+      "@media print": {
+        display: "none"
+      },
       position: "fixed",
       width: drawerWidth,
       //if you remove this, the close/open animations gonna bounce around
