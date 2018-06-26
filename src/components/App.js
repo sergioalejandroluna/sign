@@ -15,6 +15,7 @@ import Inbox from "./Inbox";
 import Drafts from "./Drafts";
 import Sent from "./Sent";
 import Sign from "./Sign";
+import SearchResults  from "./SearchResults";
 
 const theme = createMuiTheme({
   palette: {
@@ -50,6 +51,7 @@ const App = () => {
               <PrivateRoute path="/en-revision" component={Sign} />
               <PrivateRoute path="/delegar" component={Delegate} />
               <PrivateRoute path="/grupos" component={UserGroups} />
+              <PrivateRoute path="/busqueda" component={SearchResults}/>
               <Route path="/login" component={Login} />
               <Route path="*" component={NotFound} />
             </Switch>
