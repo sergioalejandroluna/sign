@@ -1,5 +1,8 @@
 import BaseStore from "./BaseStore";
 import { delay } from "lodash";
+import { Value } from "slate";
+import { initialBody } from "../stores/initialState";
+
 class DocStore extends BaseStore {
   fetch(type = "inbox", per = 5, page = 1) {
     const params = {};
@@ -107,7 +110,7 @@ class DocStore extends BaseStore {
         address_id: address.id,
         created_by_id: created_by.id,
         date: date,
-        body: body
+        body: body || JSON.stringify(initialBody)
       });
     } else {
       return this.setDoc(doc);
