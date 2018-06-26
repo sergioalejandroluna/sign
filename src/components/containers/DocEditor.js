@@ -181,7 +181,7 @@ class DocEditor extends React.Component {
     const doc = this.state.doc;
     DocStore.send_or_sign(doc).then(r => {
       this.setState(prevState => {
-        this.props.snack("Folio enviado con exito");
+        this.props.snack("Folio enviado con éxito");
         return { ...prevState, doc: r.data };
       });
     });

@@ -4,7 +4,7 @@ import { Value } from "slate";
 import { initialBody } from "../stores/initialState";
 
 class DocStore extends BaseStore {
-  fetch(type = "inbox", per = 5, page = 1) {
+  fetch(type = "inbox", per = 5, page = 1, q='') {
     const params = {};
     switch (type) {
       case "inbox":
@@ -18,6 +18,9 @@ class DocStore extends BaseStore {
         break;
       case "signed":
         params.signed = 1;
+        break;
+      case 'all':
+        params.q = q
         break;
       default:
         break;
