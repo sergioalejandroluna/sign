@@ -70,7 +70,7 @@ class Layout extends React.Component {
 
                 </IconButton>
 
-                <Typography variant="title" color="inherit" style={{paddingTop: 19}} noWrap className={classes.flex}>
+                <Typography variant="title" color="inherit" style={{paddingTop: 11}} noWrap className={classes.flex}>
                   {pathName(this.props.location.pathname)}
                 </Typography>
 
