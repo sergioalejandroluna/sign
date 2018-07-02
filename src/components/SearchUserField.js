@@ -38,8 +38,13 @@ function renderSuggestion(suggestion, { query, isHighlighted }) {
   const parts = parse(fullName, matches);
 
   return (
+    //if there is no photo the assumtion  is a group, when is a user the server MUST return an url
     <MenuItem selected={isHighlighted} component="div">
-      <Avatar src={suggestion.photo} alt="photo" />
+      {suggestion.photo ? (
+        <Avatar src={suggestion.photo} alt="photo" />
+      ) : (
+        <Avatar>GP</Avatar>
+      )}
       <ListItemText
         primary={parts.map((part, i) => {
           return part.highlight ? (
@@ -105,15 +110,13 @@ class SearchUserField extends React.Component {
       suggestions: []
     };
   }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const name = nextProps.to.name.full;
-    if (name === prevState.value) return null;
-    return prevState;
+  componentDidUpdate(prevProps) {
+    if (prevProps.to !== this.props.to)
+      this.setState({ value: this.props.to.name.full });
   }
 
   handleSuggestionsFetchRequested = debounce(({ value }) => {
-    UserStore.search(value).then(r => {
+    UserStore.search(value, this.props.includeGroups).then(r => {
       this.setState({
         suggestions: r.data
       });
@@ -198,10 +201,12 @@ class SearchUserField extends React.Component {
     );
   }
 }
+SearchUserField.defaultProps = { includeGroups: false };
 
 SearchUserField.propTypes = {
   to: PropTypes.object.isRequired,
-  onChange: PropTypes.func.isRequired
+  onChange: PropTypes.func.isRequired,
+  includeGroups: PropTypes.bool.isRequired
 };
 
 export default withStyles(styles)(SearchUserField);

@@ -60,7 +60,7 @@ class DocEditor extends React.Component {
     return (
       ns.valid !== ts.valid ||
       ns.doc.sent !== ts.doc.sent ||
-      ns.doc.to.id !== ts.doc.to.id ||
+      ns.doc.to !== ts.doc.to ||
       ns.doc.signed !== ts.doc.signed ||
       ns.doc.from.id !== ts.doc.from.id ||
       ns.doc.files.length !== ts.doc.files.length
@@ -141,8 +141,9 @@ class DocEditor extends React.Component {
     });
   };
 
-  onToChange = user => {
-    this.updateDoc({ to_id: user.id }, { to: user });
+  onToChange = to => {
+    if (to.group) this.updateDoc({ user_group_id: to.id, to_id: null, to: to });
+    else this.updateDoc({ to_id: to.id, user_group_id: null, to: to });
   };
 
   onBodyChange = value => {
@@ -154,23 +155,20 @@ class DocEditor extends React.Component {
   };
 
   onSwitchFrom = user => {
-    this.updateDoc(
-      { from_id: user.id, address_id: user.address.id },
-      { from: user, address: user.address }
-    );
+    this.updateDoc({ from_id: user.id, address_id: user.address.id });
   };
 
-  updateDoc = (shallow, rich) => {
-    rich = rich || shallow;
+  updateDoc = shallow => {
     this.setState(prevState => {
-      return { ...prevState, doc: { ...prevState.doc, ...rich } };
+      const ns = { ...prevState, doc: { ...prevState.doc, ...shallow } };
+      if (shallow.id) this.save(shallow);
+      else this.save(ns.doc);
+      return ns;
     });
-    this.save(shallow);
   };
 
-  save = debounce(new_fields => {
-    if (this.state.doc.id === undefined) new_fields = this.state.doc;
-    DocStore.save({ ...new_fields, id: this.state.doc.id }).then(r => {
+  save = debounce(new_data => {
+    DocStore.save(new_data).then(r => {
       this.setState(prevState => {
         return { ...prevState, doc: { ...prevState.doc, ...r.data } };
       });

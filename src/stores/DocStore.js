@@ -1,10 +1,9 @@
 import BaseStore from "./BaseStore";
 import { delay } from "lodash";
-import { Value } from "slate";
 import { initialBody } from "../stores/initialState";
 
 class DocStore extends BaseStore {
-  fetch(type = "inbox", per = 5, page = 1, q='') {
+  fetch(type = "inbox", per = 5, page = 1, q = "") {
     const params = {};
     switch (type) {
       case "inbox":
@@ -19,8 +18,8 @@ class DocStore extends BaseStore {
       case "signed":
         params.signed = 1;
         break;
-      case 'all':
-        params.q = q
+      case "all":
+        params.q = q;
         break;
       default:
         break;
@@ -106,14 +105,23 @@ class DocStore extends BaseStore {
 
   save(doc) {
     if (doc.id === undefined || doc.id === null) {
-      const { from, to, address, created_by, date, body } = doc;
+      const {
+        from,
+        to_id,
+        address,
+        created_by,
+        date,
+        body,
+        user_group_id
+      } = doc;
       return this.addDoc({
         from_id: from.id,
-        to_id: to.id,
+        to_id: to_id,
+        user_group_id: user_group_id,
         address_id: address.id,
         created_by_id: created_by.id,
         date: date,
-        body: body || JSON.stringify(initialBody)
+        body: body ? JSON.stringify(body) : body
       });
     } else {
       return this.setDoc(doc);
