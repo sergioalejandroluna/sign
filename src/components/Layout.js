@@ -55,10 +55,9 @@ class Layout extends React.Component {
                   justify={'space-between'}
                   direction={'row'}
                   alignItems={'center'}
-                  align-conten={'stretch'}
             >
 
-              <Grid item sm={4} md={4} lg={3}>
+              <Grid item sm={4} md={3} lg={3}>
 
                 <IconButton
                   style={{float: 'left'}}
@@ -77,7 +76,7 @@ class Layout extends React.Component {
 
               </Grid>
 
-              <Grid item xs={1} sm={6} md={6} lg={6}>
+              <Grid item xs={1} sm={5} md={5} lg={6}>
                 <SearchBar
                   isAuth={this.state.isAuth}
                   onChange={() => {
@@ -86,13 +85,18 @@ class Layout extends React.Component {
                   }}
                   style={{
                     margin: '0 auto',
-                    maxWidth: 800
+                    maxWidth: 800,
+                    textAlign: 'right',
                   }}
                 />
               </Grid>
 
-              <Grid item sm={2} md={1} lg={2}>
-                <ProfileMenu isAuth={this.state.isAuth} signout={this.signout} info={UserStore.info()}/>
+              <Grid item sm={2} md={3} lg={3}
+                    style={{float: 'right'}}
+                    alignItems={'right'}
+                    justify={'right'}
+              >
+                <ProfileMenu isAuth={this.state.isAuth} signout={this.signout} info={UserStore.info()} />
               </Grid>
 
             </Grid>

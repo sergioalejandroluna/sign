@@ -1,6 +1,6 @@
-import React from 'react';
-import { Avatar, Menu, Hidden, MenuItem, ListItemText} from '@material-ui/core';
-import { withStyles } from '@material-ui/core/styles';
+import React from 'react'
+import { Avatar, Hidden, ListItemText, Menu, MenuItem } from '@material-ui/core'
+import { withStyles } from '@material-ui/core/styles'
 
 const styles = theme => ({
   primary: {
@@ -33,9 +33,9 @@ class ProfileMenu extends React.Component {
     const open = Boolean(anchorEl);
         // in order to center the menu https://@material-ui/core-next.com/demos/menus/#menulist-composition
     return (
-      <div>
-        <MenuItem  component="div" 
-          onClick={this.handleMenu}
+      <div style={{float: 'right'}}>
+        <MenuItem component="div"
+                  onClick={this.handleMenu}
         >
           <Avatar src={this.props.info.photo} alt="photo"  /> 
           <Hidden smDown ><ListItemText disableTypography primary={ this.props.info.name } className={classes.primary}  /></Hidden>

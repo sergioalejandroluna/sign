@@ -1,10 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Grid, IconButton } from '@material-ui/core';
-import { SupervisorAccount } from '@material-ui/icons';
-import {ChooseAccount} from './DocDialogs';
-import DelegateStore from "../stores/DelegateStore"
-import { withStyles } from '@material-ui/core/styles';
+import { Grid, IconButton } from '@material-ui/core'
+import { SupervisorAccount } from '@material-ui/icons'
+import { ChooseAccount } from './DocDialogs'
+import DelegateStore from '../stores/DelegateStore'
+import { withStyles } from '@material-ui/core/styles'
 
 const styles = theme => ({
   sign:{
@@ -93,12 +93,12 @@ class  DocFooter extends React.Component{
               </Grid>
             </Grid>
             <Grid container justify="flex-end"  >
-              <Grid item  >
-                <Grid item className='bold' >Dirección Administrativa</Grid>
-                <Grid item >{ address.street }</Grid>
-                <Grid item >{ address.colony }</Grid>
-                <Grid item >{ address.city }</Grid>
-                <Grid item >{ address.zip }</Grid>
+              <Grid item>
+                <Grid item className='bold'>Dirección Administrativa</Grid>
+                <Grid item>{ address.street }</Grid>
+                <Grid item>{ address.colony }</Grid>
+                <Grid item>C.P.{ address.zip }, { address.city }</Grid>
+                <Grid item>Tel. 52(614) 4392525 Ext. 2024</Grid>
               </Grid>
             </Grid>
             {same_dude(from,created_by)}
