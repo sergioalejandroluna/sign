@@ -1,11 +1,19 @@
-import React from 'react'
-import PropTypes from 'prop-types'
-import Button from '@material-ui/core/Button'
-import { Link } from 'react-router-dom'
-import { Table, TableBody, TableCell, TableFooter, TableHead, TablePagination, TableRow } from '@material-ui/core'
-import FloatActions from '../FloatActions'
-import ReadedCell from '../ReadedCell'
-import DocStore from '../../stores/DocStore'
+import React from "react";
+import PropTypes from "prop-types";
+import Button from "@material-ui/core/Button";
+import { Link } from "react-router-dom";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableFooter,
+  TableHead,
+  TablePagination,
+  TableRow
+} from "@material-ui/core";
+import FloatActions from "../FloatActions";
+import ReadCell from "../ReadCell";
+import DocStore from "../../stores/DocStore";
 
 export class DocTable extends React.Component {
   state = {
@@ -14,21 +22,31 @@ export class DocTable extends React.Component {
     page: 0,
     rowsPerPage: 5,
     count: 0
-  }
+  };
 
   componentDidMount() {
-    DocStore.fetch(this.props.fetch,'','',this.props.q).then(r => {
-      this.setState({ docs: r.data.docs, count: r.data.total, isLoaded: true, q:'' });
+    DocStore.fetch(this.props.fetch, "", "", this.props.q).then(r => {
+      this.setState({
+        docs: r.data.docs,
+        count: r.data.total,
+        isLoaded: true,
+        q: ""
+      });
     });
     if (this.props.fetch === "inbox")
       this.subs = DocStore.getInboxChannel(this.onNewInbox);
   }
 
-  componentDidUpdate (prevProps) {
+  componentDidUpdate(prevProps) {
     if (this.props.q !== prevProps.q)
-      DocStore.fetch(this.props.fetch, '', '', this.props.q).then(r => {
-        this.setState({docs: r.data.docs, count: r.data.total, isLoaded: true, q: ''})
-      })
+      DocStore.fetch(this.props.fetch, "", "", this.props.q).then(r => {
+        this.setState({
+          docs: r.data.docs,
+          count: r.data.total,
+          isLoaded: true,
+          q: ""
+        });
+      });
   }
 
   onNewInbox = data => {
@@ -120,7 +138,7 @@ export class DocTable extends React.Component {
                     <TableCell>{d.to}</TableCell>
                     <TableCell>{d.created_by}</TableCell>
                     {sentTable ? (
-                      <ReadedCell id={d.id} readed={d.readed || false} />
+                      <ReadCell id={d.id} read={d.read || false} />
                     ) : null}
                   </TableRow>
                 );

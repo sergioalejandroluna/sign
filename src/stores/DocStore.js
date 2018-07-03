@@ -29,9 +29,9 @@ class DocStore extends BaseStore {
     return this.axios.get("/docs", { params: params }).catch(this.error);
   }
 
-  getReadedChannel(id, onMessage) {
+  getReadChannel(id, onMessage) {
     return this.cable().subscriptions.create(
-      { channel: "DocReadedChannel", id: id },
+      { channel: "DocReadChannel", id: id },
       {
         received: onMessage
       }

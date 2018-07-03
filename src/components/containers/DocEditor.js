@@ -20,7 +20,7 @@ class DocEditor extends React.Component {
     DocStore.getDoc(id).then(
       r => {
         this.setState({ doc: r.data, isLoaded: true });
-        this.addWSCheckReaded(r.data);
+        this.addWSCheckRead(r.data);
       },
       e => {
         switch (e.response.status) {
@@ -44,11 +44,11 @@ class DocEditor extends React.Component {
     }
   }
 
-  addWSCheckReaded = doc => {
-    if (!doc.readed && doc.sent && this.subs === undefined)
-      this.subs = DocStore.getReadedChannel(doc.id, data => {
+  addWSCheckRead = doc => {
+    if (!doc.read && doc.sent && this.subs === undefined)
+      this.subs = DocStore.getReadChannel(doc.id, data => {
         this.setState(prevState => {
-          return { ...prevState, doc: { ...prevState.doc, readed: data } };
+          return { ...prevState, doc: { ...prevState.doc, read: data } };
         });
       });
   };
@@ -88,7 +88,7 @@ class DocEditor extends React.Component {
           to={doc.to}
           onToChange={this.onToChange}
           disabled={disabled}
-          readed={!hideSend && doc.readed === true}
+          read={!hideSend && doc.read === true}
         />
         <DocBody
           body={doc.body}
@@ -155,7 +155,12 @@ class DocEditor extends React.Component {
   };
 
   onSwitchFrom = user => {
-    this.updateDoc({ from_id: user.id, address_id: user.address.id });
+    this.updateDoc({
+      from_id: user.id,
+      address_id: user.address.id,
+      from: user,
+      address: user.address
+    });
   };
 
   updateDoc = shallow => {

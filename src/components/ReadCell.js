@@ -4,15 +4,15 @@ import PropTypes from "prop-types";
 import { Done } from "@material-ui/icons";
 import DocStore from "../stores/DocStore";
 // check if the document has been reded with websockets
-export class ReadedCell extends React.Component {
+export class ReadCell extends React.Component {
   state = {
-    readed: this.props.readed
+    read: this.props.read
   };
 
   componentDidMount() {
-    //just subs when the document hasnt been readed
-    if (!this.state.readed) {
-      this.subs = DocStore.getReadedChannel(this.props.id, this.onReaded);
+    //just subs when the document hasnt been read
+    if (!this.state.read) {
+      this.subs = DocStore.getReadChannel(this.props.id, this.onRead);
     }
   }
   componentWillUnmount() {
@@ -21,13 +21,13 @@ export class ReadedCell extends React.Component {
     }
   }
 
-  onReaded = data => {
-    this.setState({ readed: data });
+  onRead = data => {
+    this.setState({ read: data });
   };
 
   render() {
-    const { readed } = this.state;
-    if (readed)
+    const { read } = this.state;
+    if (read)
       return (
         <TableCell>
           <Done />
@@ -36,8 +36,8 @@ export class ReadedCell extends React.Component {
     else return <TableCell />;
   }
 }
-ReadedCell.propTypes = {
-  readed: PropTypes.bool.isRequired,
+ReadCell.propTypes = {
+  read: PropTypes.bool.isRequired,
   id: PropTypes.number.isRequired
 };
-export default ReadedCell;
+export default ReadCell;

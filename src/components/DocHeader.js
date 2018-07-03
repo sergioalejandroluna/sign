@@ -16,7 +16,7 @@ class DocHeader extends React.Component {
       tprops.date !== nextProps.date ||
       tprops.folio !== nextProps.folio ||
       tprops.to !== nextProps.to ||
-      tprops.readed !== nextProps.readed ||
+      tprops.read !== nextProps.read ||
       this.state.modal !== nextState.modal
     );
   }
@@ -47,7 +47,7 @@ class DocHeader extends React.Component {
       to,
       date,
       folio,
-      readed
+      read
     } = this.props;
     return (
       <Grid container spacing={0} alignItems="flex-end">
@@ -113,7 +113,7 @@ class DocHeader extends React.Component {
           <Grid item lg={3}>
             <Grid container justify="flex-end" alignItems="center">
               <Grid item>
-                {readed ? (
+                {read ? (
                   <Done style={{ fontSize: 36 }} titleAccess="Visto" />
                 ) : null}
               </Grid>
@@ -131,7 +131,7 @@ DocHeader.propTypes = {
   to: PropTypes.object.isRequired,
   onToChange: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,
-  readed: PropTypes.bool.isRequired
+  read: PropTypes.bool.isRequired
 };
 
 export default DocHeader;

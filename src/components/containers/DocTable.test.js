@@ -1,6 +1,5 @@
 import React from "react";
-import ReadedCell from "../ReadedCell";
-import PropTypes from "prop-types";
+import ReadCell from "../ReadCell";
 import { render, shallow, mount } from "enzyme";
 import DocTable from "./DocTable";
 import { Table, Button, TableFooter } from "@material-ui/core";
@@ -37,10 +36,10 @@ it("it should NOT have  delete button when is NOT draft ", function() {
     return r.props().children.trim();
   };
   let labels = [];
-  labels=labels.concat(wrapper.find(Button).map(getLabels))
+  labels = labels.concat(wrapper.find(Button).map(getLabels));
   expect(labels).not.toEqual(["Borrar", "Borrar", "Ver", "Borrar"]);
 });
-it("it should have  readed column when is sent  ", function() {
+it("it should have  read column when is sent  ", function() {
   wrapper.setProps({ fetch: "sent" });
-  expect(wrapper.find(ReadedCell).length > 0).toBe(true);
+  expect(wrapper.find(ReadCell).length > 0).toBe(true);
 });
