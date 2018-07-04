@@ -34,7 +34,7 @@ const styles = theme => {
     menuButton: {
       marginLeft: 12,
       marginRight: 36,
-      minHeight: 64
+      minHeight: 48
     },
     hide: {
       display: "none"
