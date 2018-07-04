@@ -93,8 +93,6 @@ class Layout extends React.Component {
 
               <Grid item sm={2} md={3} lg={3}
                     style={{float: 'right'}}
-                    alignItems={'right'}
-                    justify={'right'}
               >
                 <ProfileMenu isAuth={this.state.isAuth} signout={this.signout} info={UserStore.info()} />
               </Grid>

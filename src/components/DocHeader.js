@@ -52,15 +52,15 @@ class DocHeader extends React.Component {
     } = this.props;
     return (
       <Grid container spacing={0} alignItems="flex-end">
-        <Grid item lg={1}>
+        <Grid item sm={1} md={1} lg={1}>
           <Grid container justify="flex-start">
             <img src={Logo} alt="logo" className="logo-doc" />
           </Grid>
         </Grid>
-        <Grid item lg={11}>
+        <Grid item sm={11} md={11} lg={11}>
           <Grid container direction="column" alignItems="flex-end">
             <Grid container justify="flex-end">
-              <Grid item lg={3}>
+              <Grid item sm={5} md={5} lg={5}>
                 <DateClick
                   value={date}
                   onChange={onDateChange}

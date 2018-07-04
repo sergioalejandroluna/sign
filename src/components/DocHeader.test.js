@@ -19,7 +19,7 @@ const wrapper = shallow(
     onToChange={e => {}}
     disabled={true}
     read={false}
-    sent={true}
+    sent={false}
   />
 );
 it("should have a logo", function() {
@@ -34,16 +34,15 @@ it("should have a doc name", function() {
 it("should have a Greeting", function() {
   expect(wrapper.find(SearchUserField).props().to).toBe(doc.to);
 });
+it("should not show any icon when the document is not send yet ", function() {
+  expect(wrapper.find(Done).length).toBe(0);
+  expect(wrapper.find(DoneAll).length).toBe(0);
+});
 it("should show done All icon when the target user read the document", function() {
-  wrapper.setProps({ read: true });
+  wrapper.setProps({ read: true, sent: true });
   expect(wrapper.find(DoneAll).length).toBe(1);
 });
 it("should show done  icon when the target user has not read the document", function() {
-  wrapper.setProps({ read: false });
+  wrapper.setProps({ read: false, sent: true });
   expect(wrapper.find(Done).length).toBe(1);
-});
-it("should not show any icon when the document is not send yet ", function() {
-  wrapper.setProps({ sent: false });
-  expect(wrapper.find(Done).length).toBe(0);
-  expect(wrapper.find(DoneAll).length).toBe(0);
 });
