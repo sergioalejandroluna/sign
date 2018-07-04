@@ -1,10 +1,10 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Grid, IconButton } from "@material-ui/core";
-import { SupervisorAccount } from "@material-ui/icons";
-import { ChooseAccount } from "./DocDialogs";
-import DelegateStore from "../stores/DelegateStore";
-import { withStyles } from "@material-ui/core/styles";
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Grid, IconButton } from '@material-ui/core'
+import { SupervisorAccount } from '@material-ui/icons'
+import { ChooseAccount } from './DocDialogs'
+import DelegateStore from '../stores/DelegateStore'
+import { withStyles } from '@material-ui/core/styles'
 
 const styles = theme => ({
   sign: {
@@ -107,7 +107,7 @@ class DocFooter extends React.Component {
             <Grid item>
               C.P.{address.zip}, {address.city}
             </Grid>
-            <Grid item>Tel. 52(614) 4392525 Ext. 2024</Grid>
+            <Grid item>Tel. {(address.telephone) ? address.telephone : '6144512356'}</Grid>
           </Grid>
         </Grid>
         {same_dude(from, created_by)}

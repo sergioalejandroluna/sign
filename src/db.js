@@ -4,25 +4,29 @@ const addresses = [
     street: "Calle larga #1212",
     colony: "Centro",
     city: "Chihuahua,Chihuahua",
-    zip: "31124"
+    zip: "31124",
+    telephone:"6141821212"
   },
   {
     street: "Calle corta #1212",
     colony: "Centro",
     city: "Jurez,Chihuahua",
-    zip: "31124"
+    zip: "31124",
+    telephone:"6141821212"
   },
   {
     street: "Calle mediana #1212",
     colony: "Centro",
     city: "Juarez,Chihuahua",
-    zip: "31124"
+    zip: "31124",
+    telephone:"6141821212"
   },
   {
     street: "Calle algodon #1212",
     colony: "Centro",
     city: "Meoqui,Chihuahua",
-    zip: "31124"
+    zip: "31124",
+    telephone:"6141821212"
   }
 ];
 const users = [

@@ -42,10 +42,13 @@ it('should have a colony', function() {
   expect(wrapper.find(Grid).get(13).props.children).toBe(address.colony)
 })
 it('should have a city', function() {
-  expect(wrapper.find(Grid).get(14).props.children).toBe(address.city)
+  expect(wrapper.find(Grid).get(14).props.children[3]).toBe(address.city)
 })
-it('should have a city', function() {
-  expect(wrapper.find(Grid).get(15).props.children).toBe(address.zip)
+it('should have a zip code', function() {
+  expect(wrapper.find(Grid).get(14).props.children[1]).toBe(address.zip)
+})
+it('should have telephone number', function() {
+  expect(wrapper.find(Grid).get(15).props.children[1]).toBe(address.telephone)
 })
 it('should have an from email ', function() {
   expect(wrapper.find(Grid).get(8).props.children).toBe(from.email)
@@ -57,7 +60,7 @@ it('should hide a created by email when the from an create by are the same ', fu
   wrapper.setProps({from: from, created_by: from })
   expect(wrapper.find(Grid).get(17)).toBe(null)
 })
-it('should hide switch user button when it doenst have users ', function() {
+it('should hide switch user button when it does not have users ', function() {
   wrapper.setState({users:[] })
   expect(wrapper.find(IconButton).length).toBe(0)
 })
