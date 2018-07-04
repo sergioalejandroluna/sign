@@ -47,7 +47,8 @@ class DocHeader extends React.Component {
       to,
       date,
       folio,
-      read
+      read,
+      sent
     } = this.props;
     return (
       <Grid container spacing={0} alignItems="flex-end">
@@ -113,13 +114,15 @@ class DocHeader extends React.Component {
           <Grid item lg={3}>
             <Grid container justify="flex-end" alignItems="center">
               <Grid item>
-                <IconButton onClick={this.openGroupModal}>
-                  {read ? (
-                    <DoneAll style={{ fontSize: 36 }} titleAccess="Visto" />
-                  ) : (
-                    <Done style={{ fontSize: 36 }} titleAccess="Entregado" />
-                  )}
-                </IconButton>
+                {sent === true ? (
+                  <IconButton onClick={this.openGroupModal}>
+                    {read ? (
+                      <DoneAll style={{ fontSize: 36 }} titleAccess="Visto" />
+                    ) : (
+                      <Done style={{ fontSize: 36 }} titleAccess="Entregado" />
+                    )}
+                  </IconButton>
+                ) : null}
               </Grid>
             </Grid>
           </Grid>
@@ -135,7 +138,8 @@ DocHeader.propTypes = {
   to: PropTypes.object.isRequired,
   onToChange: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,
-  read: PropTypes.bool.isRequired
+  read: PropTypes.bool.isRequired,
+  sent: PropTypes.bool.isRequired
 };
 
 export default DocHeader;

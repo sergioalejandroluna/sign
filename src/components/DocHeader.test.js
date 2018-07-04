@@ -19,6 +19,7 @@ const wrapper = shallow(
     onToChange={e => {}}
     disabled={true}
     read={false}
+    sent={true}
   />
 );
 it("should have a logo", function() {
@@ -40,4 +41,9 @@ it("should show done All icon when the target user read the document", function(
 it("should show done  icon when the target user has not read the document", function() {
   wrapper.setProps({ read: false });
   expect(wrapper.find(Done).length).toBe(1);
+});
+it("should not show any icon when the document is not send yet ", function() {
+  wrapper.setProps({ sent: false });
+  expect(wrapper.find(Done).length).toBe(0);
+  expect(wrapper.find(DoneAll).length).toBe(0);
 });
