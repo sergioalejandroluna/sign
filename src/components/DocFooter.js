@@ -107,7 +107,8 @@ class DocFooter extends React.Component {
             <Grid item>
               C.P.{address.zip}, {address.city}
             </Grid>
-            <Grid item>Tel. {(address.telephone) ? address.telephone : '6144512356'}</Grid>
+            <Grid item>Tel. {address.telephone.number}</Grid>
+            <Grid item>Ext. {address.telephone.ext}</Grid>
           </Grid>
         </Grid>
         {same_dude(from, created_by)}

@@ -48,13 +48,16 @@ it('should have a zip code', function() {
   expect(wrapper.find(Grid).get(14).props.children[1]).toBe(address.zip)
 })
 it('should have telephone number', function() {
-  expect(wrapper.find(Grid).get(15).props.children[1]).toBe(address.telephone)
+  expect(wrapper.find(Grid).get(15).props.children[1]).toBe(address.telephone.number)
+})
+it('should have telephone ext', function() {
+  expect(wrapper.find(Grid).get(16).props.children[1]).toBe(address.telephone.ext)
 })
 it('should have an from email ', function() {
   expect(wrapper.find(Grid).get(8).props.children).toBe(from.email)
 })
 it('should have a created by email ', function() {
-  expect(wrapper.find(Grid).get(18).props.children).toBe(created_by.email)
+  expect(wrapper.find(Grid).get(19).props.children).toBe(created_by.email)
 })
 it('should hide a created by email when the from an create by are the same ', function() {
   wrapper.setProps({from: from, created_by: from })
