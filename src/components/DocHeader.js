@@ -4,7 +4,7 @@ import { Logo } from "../img";
 import DateClick from "./DateClick";
 import SearchUserField from "./SearchUserField";
 import { Grid, TextField, IconButton } from "@material-ui/core";
-import { Done, Group } from "@material-ui/icons";
+import { Done, Group, DoneAll } from "@material-ui/icons";
 import UserGroupDetail from "./UserGroupDetail";
 
 class DocHeader extends React.Component {
@@ -21,12 +21,12 @@ class DocHeader extends React.Component {
     );
   }
 
-  openModal = e => {
-    this.setState({ modal: true });
+  openGroupModal = e => {
+    this.setState({ groupModal: true });
   };
 
-  closeModal = e => {
-    this.setState({ modal: false });
+  closeGroupModal = e => {
+    this.setState({ groupModal: false });
   };
 
   onGroupChange = group => {
@@ -94,7 +94,7 @@ class DocHeader extends React.Component {
           <Grid item lg={1}>
             {to.group && !disabled ? (
               <React.Fragment>
-                <IconButton onClick={this.openModal}>
+                <IconButton onClick={this.openGroupModal}>
                   <Group />
                 </IconButton>
                 <UserGroupDetail
@@ -105,7 +105,7 @@ class DocHeader extends React.Component {
                   }}
                   onChange={this.onGroupChange}
                   open={this.state.modal}
-                  onClose={this.closeModal}
+                  onClose={this.closeGroupModal}
                 />
               </React.Fragment>
             ) : null}
@@ -113,9 +113,13 @@ class DocHeader extends React.Component {
           <Grid item lg={3}>
             <Grid container justify="flex-end" alignItems="center">
               <Grid item>
-                {read ? (
-                  <Done style={{ fontSize: 36 }} titleAccess="Visto" />
-                ) : null}
+                <IconButton onClick={this.openGroupModal}>
+                  {read ? (
+                    <DoneAll style={{ fontSize: 36 }} titleAccess="Visto" />
+                  ) : (
+                    <Done style={{ fontSize: 36 }} titleAccess="Entregado" />
+                  )}
+                </IconButton>
               </Grid>
             </Grid>
           </Grid>

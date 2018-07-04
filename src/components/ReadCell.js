@@ -1,7 +1,7 @@
 import React from "react";
 import { TableCell } from "@material-ui/core";
 import PropTypes from "prop-types";
-import { Done } from "@material-ui/icons";
+import { DoneAll } from "@material-ui/icons";
 import DocStore from "../stores/DocStore";
 // check if the document has been reded with websockets
 export class ReadCell extends React.Component {
@@ -30,7 +30,7 @@ export class ReadCell extends React.Component {
     if (read)
       return (
         <TableCell>
-          <Done />
+          <DoneAll titleAccess="Visto" />
         </TableCell>
       );
     else return <TableCell />;

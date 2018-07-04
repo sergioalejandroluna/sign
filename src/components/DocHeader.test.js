@@ -5,7 +5,7 @@ import DateClick from "./DateClick.js";
 import { Logo } from "../img";
 import { TextField } from "@material-ui/core";
 import SearchUserField from "./SearchUserField";
-import { Done } from "@material-ui/icons";
+import { DoneAll, Done } from "@material-ui/icons";
 import db from "../db.js";
 const doc = db().docs[1];
 doc.to = db().users[1];
@@ -33,7 +33,11 @@ it("should have a doc name", function() {
 it("should have a Greeting", function() {
   expect(wrapper.find(SearchUserField).props().to).toBe(doc.to);
 });
-it("should show done icon when the target user read the document", function() {
+it("should show done All icon when the target user read the document", function() {
   wrapper.setProps({ read: true });
+  expect(wrapper.find(DoneAll).length).toBe(1);
+});
+it("should show done  icon when the target user has not read the document", function() {
+  wrapper.setProps({ read: false });
   expect(wrapper.find(Done).length).toBe(1);
 });
