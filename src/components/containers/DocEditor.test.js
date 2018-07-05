@@ -15,6 +15,7 @@ mockDoc.created_by = data.users[2];
 mockDoc.address = data.addresses[1];
 mockDoc.sent = false;
 mockDoc.signed = false;
+mockDoc.readDetail = [];
 DocStore.getDoc = id => {
   return new Promise(resolve => {
     resolve({ data: mockDoc });

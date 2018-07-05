@@ -6,9 +6,13 @@ import SearchUserField from "./SearchUserField";
 import { Grid, TextField, IconButton } from "@material-ui/core";
 import { Done, Group, DoneAll } from "@material-ui/icons";
 import UserGroupDetail from "./UserGroupDetail";
+import { ReadDetailDialog } from "./DocDialogs";
 
 class DocHeader extends React.Component {
-  state = { modal: false };
+  state = {
+    groupModal: false,
+    readModal: false
+  };
   shouldComponentUpdate(nextProps, nextState) {
     const tprops = this.props;
     return (
@@ -17,7 +21,8 @@ class DocHeader extends React.Component {
       tprops.folio !== nextProps.folio ||
       tprops.to !== nextProps.to ||
       tprops.read !== nextProps.read ||
-      this.state.modal !== nextState.modal
+      this.state.readModal !== nextState.readModal ||
+      this.state.groupModal !== nextState.groupModal
     );
   }
 
@@ -27,6 +32,13 @@ class DocHeader extends React.Component {
 
   closeGroupModal = e => {
     this.setState({ groupModal: false });
+  };
+  openReadModal = e => {
+    this.setState({ readModal: true });
+  };
+
+  closeReadModal = e => {
+    this.setState({ readModal: false });
   };
 
   onGroupChange = group => {
@@ -48,7 +60,8 @@ class DocHeader extends React.Component {
       date,
       folio,
       read,
-      sent
+      sent,
+      readDetail
     } = this.props;
     return (
       <Grid container spacing={0} alignItems="flex-end">
@@ -115,13 +128,23 @@ class DocHeader extends React.Component {
             <Grid container justify="flex-end" alignItems="center">
               <Grid item>
                 {sent === true ? (
-                  <IconButton onClick={this.openGroupModal}>
-                    {read ? (
-                      <DoneAll style={{ fontSize: 36 }} titleAccess="Visto" />
-                    ) : (
-                      <Done style={{ fontSize: 36 }} titleAccess="Entregado" />
-                    )}
-                  </IconButton>
+                  <React.Fragment>
+                    <IconButton onClick={this.openReadModal}>
+                      {read ? (
+                        <DoneAll style={{ fontSize: 36 }} titleAccess="Visto" />
+                      ) : (
+                        <Done
+                          style={{ fontSize: 36 }}
+                          titleAccess="Entregado"
+                        />
+                      )}
+                    </IconButton>
+                    <ReadDetailDialog
+                      open={this.state.readModal}
+                      onClose={this.closeReadModal}
+                      detail={readDetail}
+                    />
+                  </React.Fragment>
                 ) : null}
               </Grid>
             </Grid>
@@ -139,7 +162,8 @@ DocHeader.propTypes = {
   onToChange: PropTypes.func.isRequired,
   disabled: PropTypes.bool.isRequired,
   read: PropTypes.bool.isRequired,
-  sent: PropTypes.bool.isRequired
+  sent: PropTypes.bool.isRequired,
+  readDetail: PropTypes.array.isRequired
 };
 
 export default DocHeader;

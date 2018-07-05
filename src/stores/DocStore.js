@@ -1,6 +1,5 @@
 import BaseStore from "./BaseStore";
 import { delay } from "lodash";
-import { initialBody } from "../stores/initialState";
 
 class DocStore extends BaseStore {
   fetch(type = "inbox", per = 5, page = 1, q = "") {

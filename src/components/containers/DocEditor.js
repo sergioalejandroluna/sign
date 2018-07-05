@@ -90,6 +90,7 @@ class DocEditor extends React.Component {
           disabled={disabled}
           read={!hideSend && doc.read === true}
           sent={doc.sent}
+          readDetail={doc.readDetail}
         />
         <DocBody
           body={doc.body}

@@ -20,6 +20,7 @@ const wrapper = shallow(
     disabled={true}
     read={false}
     sent={false}
+    readDetail={[]}
   />
 );
 it("should have a logo", function() {
