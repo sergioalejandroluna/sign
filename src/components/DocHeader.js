@@ -118,7 +118,7 @@ class DocHeader extends React.Component {
                     long_name: to.job_title
                   }}
                   onChange={this.onGroupChange}
-                  open={this.state.modal}
+                  open={this.state.groupModal}
                   onClose={this.closeGroupModal}
                 />
               </React.Fragment>
