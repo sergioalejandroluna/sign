@@ -48,7 +48,8 @@ class DocEditor extends React.Component {
     if (!doc.read && doc.sent && this.subs === undefined)
       this.subs = DocStore.getReadChannel(doc.id, data => {
         this.setState(prevState => {
-          return { ...prevState, doc: { ...prevState.doc, read: data } };
+          //data is supposed to be like  {read: true, read_detail:[ ]}
+          return { ...prevState, doc: { ...prevState.doc, ...data } };
         });
       });
   };
@@ -60,6 +61,7 @@ class DocEditor extends React.Component {
     return (
       ns.valid !== ts.valid ||
       ns.doc.sent !== ts.doc.sent ||
+      ns.doc.readDetail !== ts.doc.readDetail ||
       ns.doc.to !== ts.doc.to ||
       ns.doc.signed !== ts.doc.signed ||
       ns.doc.from.id !== ts.doc.from.id ||

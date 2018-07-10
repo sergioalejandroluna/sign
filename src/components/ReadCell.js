@@ -22,7 +22,7 @@ export class ReadCell extends React.Component {
   }
 
   onRead = data => {
-    this.setState({ read: data });
+    this.setState({ read: data.read });
   };
 
   render() {

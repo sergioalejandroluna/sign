@@ -9,8 +9,7 @@ import {
   ListItemText,
   DialogTitle,
   Avatar,
-  ListItemSecondaryAction,
-  IconButton
+  ListItemSecondaryAction
 } from "@material-ui/core/";
 
 export const ChooseAccount = props => {
