@@ -58,3 +58,20 @@ p {
  margin-top:0px;
  margin-bottom:3px;
 }
+
+@media print {
+    html{
+        width: 100% !important;
+        height: 90% !important;
+    }
+    img.logo-doc{
+        height: 4cm !important;
+    }
+     div, div:before {
+        border-bottom:none !important;
+        box-shadow: none !important;
+    }
+    button{
+        display: none !important;
+    }
+}

@@ -21,7 +21,7 @@ const wrapper = shallow(
     read={false}
     sent={false}
   />
-);
+).dive();
 it("should have a logo", function() {
   expect(wrapper.find("img").props().src).toBe(Logo);
 });

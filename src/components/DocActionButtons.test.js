@@ -1,9 +1,9 @@
 import React from 'react'
 import DocActionButtons from './DocActionButtons.js'
-import {Grid } from '@material-ui/core';
-import {shallow} from 'enzyme';
-import Button from '@material-ui/core/Button';
-const wrapper= shallow(<DocActionButtons onSend={()=>{}} disabled={false} canSend={true} hideSend={false} goBack={()=>{}} />);
+import { shallow } from 'enzyme'
+import Button from '@material-ui/core/Button'
+
+const wrapper= shallow(<DocActionButtons  onSend={()=>{}} disabled={false} canSend={true} hideSend={false} goBack={()=>{}} />);
 it('should have a back button', function() {
   expect(wrapper.find(Button).get(0).props.children).toBe('Volver')
 });

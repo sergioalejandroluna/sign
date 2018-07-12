@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import {Grid } from '@material-ui/core';
-import Button from '@material-ui/core/Button';
+import { Grid } from '@material-ui/core'
+import Button from '@material-ui/core/Button'
 
 class  DocActionButtons extends React.Component{
   shouldComponentUpdate(nextProps, nextState) {

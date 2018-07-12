@@ -19,7 +19,11 @@ const styles = theme => ({
     border: "1px solid " + theme.palette.grey[400],
     marginTop: "20px",
     marginBottom: "20px",
-    padding: 12
+    padding: 12,
+    "@media print":{
+      border: 'none',
+      marginLeft: '-10px'
+    }
   },
   menu: {
     position: "fixed",

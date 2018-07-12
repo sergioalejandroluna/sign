@@ -11,7 +11,11 @@ const styles = theme => {
       zIndex: 1,
       overflow: "hidden",
       position: "relative",
-      display: "flex"
+      display: "flex",
+        '@media print':{
+          border: 'none',
+          boxShadow: 'none'
+        }
     },
     appBar: {
       position: "fixed",
@@ -81,7 +85,12 @@ const styles = theme => {
     rootPaper: rootPaper,
     flex: {
       flex: 1
+    },
+    '@media print':{
+      border: 'none',
+      boxShadow: 'none'
     }
+
   };
 };
 export default styles;

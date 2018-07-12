@@ -1,11 +1,21 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { Logo } from "../img";
-import DateClick from "./DateClick";
-import SearchUserField from "./SearchUserField";
-import { Grid, TextField, IconButton } from "@material-ui/core";
-import { Done, Group, DoneAll } from "@material-ui/icons";
-import UserGroupDetail from "./UserGroupDetail";
+import React from 'react'
+import PropTypes from 'prop-types'
+import { Logo } from '../img'
+import DateClick from './DateClick'
+import SearchUserField from './SearchUserField'
+import { Grid, IconButton, TextField } from '@material-ui/core'
+import { Done, DoneAll, Group } from '@material-ui/icons'
+import UserGroupDetail from './UserGroupDetail'
+import { withStyles } from '@material-ui/core/styles'
+
+const styles = {
+  root: {
+    '@media print': {
+      marginTop: '-5em',
+      border: 'none',
+    }
+  },
+}
 
 class DocHeader extends React.Component {
   state = { modal: false };
@@ -41,6 +51,7 @@ class DocHeader extends React.Component {
 
   render() {
     const {
+      classes,
       onDateChange,
       onToChange,
       disabled,
@@ -51,16 +62,16 @@ class DocHeader extends React.Component {
       sent
     } = this.props;
     return (
-      <Grid container spacing={0} alignItems="flex-end">
+      <Grid container spacing={0} alignItems="flex-end" className={classes.root}>
         <Grid item sm={1} md={1} lg={1}>
           <Grid container justify="flex-start">
             <img src={Logo} alt="logo" className="logo-doc" />
           </Grid>
         </Grid>
         <Grid item sm={11} md={11} lg={11}>
-          <Grid container direction="column" alignItems="flex-end">
-            <Grid container justify="flex-end">
-              <Grid item sm={5} md={5} lg={5}>
+          <Grid container direction="column" alignItems="flex-end"  >
+            <Grid container justify="flex-end"  >
+              <Grid item sm={5} md={5} lg={5} >
                 <DateClick
                   value={date}
                   onChange={onDateChange}
@@ -142,4 +153,4 @@ DocHeader.propTypes = {
   sent: PropTypes.bool.isRequired
 };
 
-export default DocHeader;
+export default withStyles(styles)(DocHeader);
