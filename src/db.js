@@ -7,7 +7,7 @@ const addresses = [
     zip: "31124",
     telephone: {
       number: "6141821212",
-      ext:"4512"
+      ext: "4512"
     }
   },
   {
@@ -17,7 +17,7 @@ const addresses = [
     zip: "31124",
     telephone: {
       number: "6141821212",
-      ext:"4512"
+      ext: "4512"
     }
   },
   {
@@ -27,7 +27,7 @@ const addresses = [
     zip: "31124",
     telephone: {
       number: "6141821212",
-      ext:"4512"
+      ext: "4512"
     }
   },
   {
@@ -37,7 +37,7 @@ const addresses = [
     zip: "31124",
     telephone: {
       number: "6141821212",
-      ext:"4512"
+      ext: "4512"
     }
   }
 ];
@@ -232,6 +232,7 @@ const docs = [
     body: initialBody,
     created_by: randomUser().name.full,
     sent: false,
+    readDetail: [],
     files: []
   },
   {
@@ -243,6 +244,7 @@ const docs = [
     body: initialBody,
     created_by: randomUser().name.full,
     sent: false,
+    readDetail: [],
     files: []
   },
   {
@@ -254,6 +256,7 @@ const docs = [
     body: initialBody,
     created_by: randomUser().name.full,
     sent: true,
+    readDetail: [],
     files: []
   },
   {
@@ -265,6 +268,7 @@ const docs = [
     body: initialBody,
     created_by: randomUser().name.full,
     sent: false,
+    readDetail: [],
     files: []
   }
 ];
