@@ -2,6 +2,9 @@ import React from 'react';
 import {Redirect} from 'react-router-dom';
 import UserStore from '../stores/UserStore'
 import { Button  } from '@material-ui/core';
+import styles from './LayoutStyle'
+import { withStyles } from '@material-ui/core/styles'
+import { Logo } from '../img';
 class Login extends React.Component {
   state = {
     redirectToReferrer: false
@@ -10,7 +13,7 @@ class Login extends React.Component {
   componentDidMount(){
     UserStore.fetchLoginUser(window.location.search).then((auth)=>{
       if (this.unmounted) return;
-      this.setState({redirectToReferrer: auth}) 
+      this.setState({redirectToReferrer: auth})
     })
   }
   componentWillUnmount(){
@@ -21,9 +24,9 @@ class Login extends React.Component {
     UserStore.authenticate()
   }
   render() {
-    const { from } = this.props.location.state || { from: { pathname: UserStore.popLocal('from') || '/' } } 
+    const { from } = this.props.location.state || { from: { pathname: UserStore.popLocal('from') || '/' } }
     const { redirectToReferrer } = this.state
-
+    const { classes } = this.props;
     if (redirectToReferrer === true) {
       return (<Redirect to={from} />)
     }
@@ -31,11 +34,14 @@ class Login extends React.Component {
 
     return (
       <div>
-        <p>Favor de autenticarte para continuar</p>
-        <Button color='primary' onClick={this.login}>Log in con google(Me falta estilo)</Button>
-        <div><b>Falta texto exlpique solo personal de la uach entra con su cuenta de google</b></div>
+        <img src={Logo} alt="logo"  width="100px" />
+        <p className={classes.login_header}>Acceder</p>
+        <p className={classes.login_subheader}>Usa tu cuenta de Google</p>
+        <Button className={classes.login_button} color="primary" variant="raised" onClick={this.login}>Iniciar sesión</Button>
+        <p className={classes.login_footer}>Uso exclusivo del personal de la UACH con correo de <strong>Google.</strong></p>
       </div>
     )
   }
 }
-export default Login;
+//export default Login;
+export default withStyles(styles, { withTheme: true })(Login);

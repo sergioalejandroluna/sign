@@ -111,14 +111,23 @@ class Layout extends React.Component {
           <Hidden smDown>
             <br />
           </Hidden>
-          <Grid container>
+          {this.state.isAuth ? (
+            <Grid container>
             <Grid item lg={2} xl={2} md={1} sm={false} />
             <Grid item lg={8} xl={8} md={10} sm={12}>
               <Paper className={classes.rootPaper}>{this.props.children}</Paper>
               <br />
             </Grid>
             <Grid item lg={2} xl={2} md={1} sm={false} />
+            </Grid>
+        ) : (
+            <Grid container>
+            <Grid item className={classes.login_content}>
+            <Paper className={classes.rootPaper}>{this.props.children}</Paper>
+            <br />
+            </Grid>
           </Grid>
+          )}
         </main>
       </div>
     );
