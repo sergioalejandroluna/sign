@@ -10,13 +10,13 @@ class  DocActionButtons extends React.Component{
   render(){
     const { onSend, disabled, canSend, hideSend, goBack }= this.props
     return (
-      <Grid container >
+      <Grid container>
         <Grid item  >
           <Button onClick={goBack} variant='raised' color='primary' className="back"  >
             Volver
           </Button>
         </Grid>
-        <Grid item  >
+        <Grid item style={{marginLeft:'.5em'}} >
           {hideSend ? null : <Button  variant='raised' color='primary' onClick={onSend} disabled={disabled} >
             { canSend ?  'Firmar y enviar' : 'Solicitar firma' }
           </Button>}

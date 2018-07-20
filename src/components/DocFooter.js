@@ -25,7 +25,7 @@ function same_dude(from, created_by) {
   return (
     <Grid item>
       <Grid item>Creado por: </Grid>
-      <Grid item>{created_by.email}</Grid>
+      <Grid item style={{marginBottom: '1em'}} >{created_by.email}</Grid>
     </Grid>
   );
 }
